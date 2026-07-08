@@ -13,9 +13,9 @@ BeginPackage["Taggar`SimplicialHomology`"];
 
 SimplicialComplex;
 SubComplexQ;
-SimplicialComplexJoin;
-SimplicialComplexCone;
-SimplicialComplexSuspension;
+SimplicialJoin;
+SimplicialCone;
+SimplicialSuspension;
 BettiNumber;
 HomologyGroup;
 
@@ -36,7 +36,7 @@ If[\[Not] AssociationQ @ $SimplicialCache,
 
 
 (* ::Text:: *)
-(*Each simplicial complex is to have a hash ID:*)
+(*Each simplicial complex is to have a hash ID corresponding to the facet data:*)
 
 
 SimplicialComplexUUID[sc_] := First[sc]["UUID"]
@@ -173,7 +173,7 @@ SimplicialComplex /: sc_SimplicialComplex["Properties"] :=
 
 
 NormaliseSimplex[x : _List] := Sort @ x
-NormaliseSimplex[Simplex[x_]] := Sort @ x
+NormaliseSimplex[Simplex[x_List]] := Sort @ x
 
 
 (* ::Text:: *)
@@ -182,7 +182,7 @@ NormaliseSimplex[Simplex[x_]] := Sort @ x
 
 SimplicialComplex[data : { (_List | _Simplex) ... }] :=
 	With[
-		{norm = NormaliseSimplex /@ data},
+		{norm = DeleteDuplicates[NormaliseSimplex /@ data]},
 		SimplicialComplex[<|"Facets" -> norm, "UUID" -> Hash[norm, "SHA256"]|>]]
 
 
@@ -192,7 +192,7 @@ SimplicialComplex[data : { (_List | _Simplex) ... }] :=
 
 SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion), opts : OptionsPattern[]] :=
 	SimplicialComplex[
-		Flatten[MeshCells[reg]] /.
+		Flatten[MeshCells[reg, All]] /.
 			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]},
 		opts]
 
@@ -323,7 +323,7 @@ SimplicialComplex["ZieglerBall"] :=
 SimplicialComplex /:
 	MakeBoxes[sc_SimplicialComplex?SimplicialComplexQ, form_] :=
 		Module[
-			{smallQ = sc["FacetCount"] <= 100, largeicon},
+			{smallQ = sc["FacetCount"] <= 1000, largeicon},
 			
 			largeicon = Graphics3D[
 				{Opacity[.6], MeshRegion[{{0, 0, 0}, {2, 0, 0}, {2, 2, 0},
@@ -460,39 +460,39 @@ SimplexJoin[s1_List, s2_List] :=
 
 
 ClearAll[SimplicialComplexJoin];
-SimplicialComplexJoin::usage =
-	"SimplicialComplexJoin[sc1, sc2, ...] constructs the join product of given simplicial complexes.";
-SimplicialComplexJoin[sc_?SimplicialComplexQ] :=
+SimplicialJoin::usage =
+	"SimplicialJoin[sc1, sc2, ...] constructs the join product of given simplicial complexes.";
+SimplicialJoin[sc_?SimplicialComplexQ] :=
 	sc
-SimplicialComplexJoin[sc1_?SimplicialComplexQ, sc2_?SimplicialComplexQ] :=
+SimplicialJoin[sc1_?SimplicialComplexQ, sc2_?SimplicialComplexQ] :=
 	SimplicialComplex[
 		Flatten[Table[
 			SimplexJoin[x, y], {x, sc1["Facets"]},
 				{y, sc2["Facets"]}], 1]]
-SimplicialComplexJoin[
+SimplicialJoin[
 	sc1_?SimplicialComplexQ,
 	sc2_?SimplicialComplexQ,
 	scs__?SimplicialComplexQ
 ] :=
 	Fold[
-		SimplicialComplexJoin,
-		SimplicialComplexJoin[sc1, sc2],
+		SimplicialJoin,
+		SimplicialJoin[sc1, sc2],
         {scs}]
 
 
-ClearAll[SimplicialComplexCone];
-SimplicialComplexCone::usage =
-	"SimplicialComplexCone[sc] returns the cone of the simplicial complex sc.";
-SimplicialComplexCone[sc_?SimplicialComplexQ] :=
-	SimplicialComplexJoin[
+ClearAll[SimplicialCone];
+SimplicialCone::usage =
+	"SimplicialCone[sc] returns the cone of the simplicial complex sc.";
+SimplicialCone[sc_?SimplicialComplexQ] :=
+	SimplicialJoin[
 		sc, SimplicialComplex["Point"]]
 
 
-ClearAll[SimplicialComplexSuspension];
-SimplicialComplexSuspension::usage =
-	"SimplicialComplexSuspension[sc] returns the suspension of the simplicial complex sc.";
-SimplicialComplexSuspension[sc_?SimplicialComplexQ] :=
-	SimplicialComplexJoin[
+ClearAll[SimplicialSuspension];
+SimplicialSuspension::usage =
+	"SimplicialSuspension[sc] returns the suspension of the simplicial complex sc.";
+SimplicialSuspension[sc_?SimplicialComplexQ] :=
+	SimplicialJoin[
 		sc, SimplicialComplex[{"Circle", 0}]]
 
 
@@ -506,7 +506,9 @@ SubComplexQ[
     sc1_?SimplicialComplexQ,
     sc2_?SimplicialComplexQ
 ] :=
-	And @@ (AnyTrue[sc1["Facets"], SubsetQ[#, #] &] & /@ sc2["Facets"])
+	AllTrue[
+		sc2["Facets"],
+		AnyTrue[sc1["Facets"], SubsetQ[#, #2] &]]
 
 
 (* ::Subsection:: *)

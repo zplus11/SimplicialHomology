@@ -1,2 +1,97 @@
 # Simplicial Homology
 
+<span style="float:left;padding-right:10"><img src="Media/headline.png" width="100"></span>is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
+
+Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology groups, Euler characteristic and f-vectors, joins, cones, suspensions, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram Language.
+
+# Installation
+
+tbd
+
+# Usage
+
+Import the package by running
+
+```mathematica
+In[1]:= <<Taggar`SimplicialHomology`
+```
+
+Create a simplicial complex using facets as follows:
+
+```mathematica
+In[2]:= S1 = SimplicialComplex[{{1, 2}, {2, 3}, {3, 1}}];
+```
+
+or using one of the named objects:
+
+```mathematica
+In[3]:= torus = SimplicialComplex["torus"];
+```
+
+Calculate its homology groups as follows:
+
+```mathematica
+In[4]:= HomologyGroup[torus]
+Out[4]= <|0 -> Integers, 1 -> Superscript[Integers,2], 2 -> Integers|>
+```
+
+or Betti numbers:
+
+```mathematica
+In[5]:= BettiNumber[S1]
+Out[5]= <|0 -> 1, 1 -> 1|>
+```
+
+Calculate cone, suspension, or join of spaces:
+
+```mathematica
+In[6]:= SimplicialCone[torus]
+In[7]:= SimplicialSuspension[S1]
+In[8]:= SimplicialJoin[S1, torus]
+```
+
+# Disclaimer
+
+This is a pre-release. Basic functionality is there but much remains to be implemented, in particular
+
+- simplicial maps
+- automorphism groups
+- Stars, links, and related local constructions
+- wedge, products
+- and more along with optimisation
+
+# Version log
+
+**Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins.
+
+# Contributions
+
+are more than welcome. Open an issue to discuss!
+
+# References
+
+[1] Munkres, J. R. Elements of Algebraic Topology, Addison Wesley Publishing Company, 1984.
+
+[2] Hatcher A., Algebraic Topology, Cambridge University Press, Cambridge, 2002.
+W. Kühnel and T. F. Banchoff, The 9-vertex complex projective plane, Math. Intelligencer 5 (1983), no. 3, 11-22. doi:10.1007/BF03026567
+
+[3] M. Hachimori. http://infoshako.sk.tsukuba.ac.jp/~hachi/math/library/dunce_hat_eng.html.
+
+[4] Anders Björner and Frank H. Lutz, Simplicial manifolds, bistellar flips and a 16-vertex triangulation of the Poincaré homology 3-sphere, Experiment. Math. 9 (2000), no. 2, 275-289.
+
+[5] U. Brehm and W. Kuhnel, 15-vertex triangulations of an 8-manifold, Math. Annalen 294 (1992), no. 1, 167-193.
+
+[6] M. E. Rudin. An unshellable triangulation of a tetrahedron. Bull. Amer. Math. Soc. 64 (1958), 90-91.
+
+[7] Frank H. Lutz, Császár's Torus, Electronic Geometry Model No. 2001.02.069 (2002). http://www.eg-models.de/models/Classical_Models/2001.02.069/_direct_link.html.
+
+[8] G. M. Ziegler. Shelling polyhedral 3-balls and 4-polytopes. Discrete Comput. Geom. 19 (1998), 159-174. doi:10.1007/PL00009339
+
+[9] https://doc.sagemath.org/html/en/reference/topology/sage/topology/simplicial_complex.html
+
+[10] https://doc.sagemath.org/html/en/reference/topology/sage/topology/simplicial_complex_examples.html
+
+[11] https://doc.sagemath.org/html/en/reference/references/index.html
+
+
+

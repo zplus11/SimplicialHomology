@@ -1,0 +1,2285 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    108558,       2277]
+NotebookOptionsPosition[     96225,       2009]
+NotebookOutlinePosition[     97022,       2035]
+CellTagsIndexPosition[     96942,       2030]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["BettiNumber", "ObjectName",
+ CellID->282454930,ExpressionUUID->"1a73a83c-31a7-e54f-b038-fdd7c79fc98d"],
+
+Cell[TextData[{
+ Cell["   ", "ModInfo",ExpressionUUID->"e4c329dc-9634-974e-8f5a-0acf4b6e53e4"],
+ Cell[BoxData[
+  RowBox[{
+   ButtonBox["BettiNumber",
+    BaseStyle->"Link",
+    ButtonData->"paclet:TaggarSimplicialHomology/ref/BettiNumber"], "[", 
+   RowBox[{
+    RowBox[{
+     ButtonBox["SimplicialComplex",
+      BaseStyle->"Link",
+      ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"], "[",
+      "\[Ellipsis]", "]"}], ",", 
+    StyleBox["n", "TI"]}], "]"}]], "InlineFormula",ExpressionUUID->
+  "356071b9-c63e-f24a-bf97-ebf7ce6f0211"],
+ "\[LineSeparator]computes the ",
+ Cell[BoxData[
+  StyleBox["n", "TI"]], "InlineFormula",ExpressionUUID->
+  "055f8321-5d31-d24f-895b-a451701a3549"],
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["\[Null]", "th"], TraditionalForm]],ExpressionUUID->
+  "7500e194-8ef7-9142-8fa3-ddc2e6583335"],
+ " Betti number of the given ",
+ Cell[BoxData[
+  ButtonBox["SimplicialComplex",
+   BaseStyle->"Link",
+   ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"]], 
+  "InlineFormula",ExpressionUUID->"eb74df82-e28e-cb40-8763-b14d9b96717c"],
+ ".\n",
+ Cell["   ", "ModInfo",ExpressionUUID->"a9c11cfd-eee2-a84f-b7dd-20d2d2f2a083"],
+ Cell[BoxData[
+  RowBox[{
+   ButtonBox["BettiNumber",
+    BaseStyle->"Link",
+    ButtonData->"paclet:Taggar/SimplicialHomology/ref/BettiNumber"], "[", 
+   RowBox[{
+    ButtonBox["SimplicialComplex",
+     BaseStyle->"Link",
+     ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"], "[",
+     "\[Ellipsis]", "]"}], "]"}]], "InlineFormula",ExpressionUUID->
+  "9cf1561a-cad1-d44b-ae85-713cc6e61de9"],
+ "\[LineSeparator]computes all Betti numbers of the given ",
+ Cell[BoxData[
+  ButtonBox["SimplicialComplex",
+   BaseStyle->"Link",
+   ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"]], 
+  "InlineFormula",ExpressionUUID->"fcccdc61-7fc8-4040-90b6-622b85ebb15b"],
+ "."
+}], "Usage",
+ CellChangeTimes->{{3.9925117770786076`*^9, 3.992511829604889*^9}, {
+  3.9925127857983932`*^9, 3.9925128145472984`*^9}},
+ CellID->450786222,ExpressionUUID->"1973f6d4-bfe1-914d-9307-0f880b0b7b16"],
+
+Cell["The following options can be given: ", "Notes",
+ CellID->13345911,ExpressionUUID->"959a0af8-a064-2f49-bc9e-2ba5d95dfbc5"],
+
+Cell[BoxData[GridBox[{
+   {Cell["      ", "ModInfo",ExpressionUUID->
+     "e07b0afc-7aa9-a044-9755-a2f8f3cac79e"], "\"\<Reduced\>\"", 
+    ButtonBox["False",
+     BaseStyle->"Link"], Cell[
+    "whether to calculate reduced homology", "TableText",ExpressionUUID->
+     "4dca70e5-0d74-6d46-b85b-1ad0d2f6a2bb"]},
+   {Cell["      ", "ModInfo",ExpressionUUID->
+     "560b26ac-9c03-eb4f-ac00-d489facb3d49"], "\"\<Coefficients\>\"", 
+    ButtonBox["Integers",
+     BaseStyle->"Link"], Cell[
+    "coefficients over which to calculate homology", "TableText",
+     ExpressionUUID->"17f61348-03d2-a94f-a5f5-cb7257e9f542"]}
+  }]], "3ColumnTableMod",
+ CellID->541313514,ExpressionUUID->"baee1f36-6bcc-b244-b82e-d5f6e8899e23"],
+
+Cell["\"Coefficients\" option takes the following values:", "Notes",
+ CellChangeTimes->{{3.992505031935339*^9, 3.9925050394984074`*^9}},
+ CellID->569306411,ExpressionUUID->"52545c44-6bc3-9a4c-89b5-f705cbe48b18"],
+
+Cell[BoxData[GridBox[{
+   {Cell["      ", "ModInfo",ExpressionUUID->
+     "2cfe85ce-691b-a44f-a958-e1024afe5e80"], Cell[TextData[Cell[BoxData[
+     ButtonBox["Integers",
+      BaseStyle->"Link"]], "InlineFormula",ExpressionUUID->
+     "3650ca81-0c72-bf47-9200-77205473d17e"]], "TableText",ExpressionUUID->
+     "e0add8bf-776f-334e-8136-76994c5306ff"], Cell[
+    "integers", "TableText",ExpressionUUID->
+     "da466b64-8a50-da44-9dca-7657cb294fa3"]},
+   {Cell["      ", "ModInfo",ExpressionUUID->
+     "c75a262d-c73c-a046-adad-1e60595a5b61"], Cell[TextData[Cell[BoxData[
+     ButtonBox["Rationals",
+      BaseStyle->"Link"]], "InlineFormula",ExpressionUUID->
+     "1dd75fae-a447-2d46-b83a-379534ac8867"]], "TableText",ExpressionUUID->
+     "d213109e-8cc2-b342-b26b-3f31a522cc36"], Cell[
+    "rational numbers", "TableText",ExpressionUUID->
+     "b79549b1-bf58-534a-a782-c9a91696084a"]},
+   {Cell["      ", "ModInfo",ExpressionUUID->
+     "24f573be-3d4f-7a4b-a1d6-b4ffc7e30fe7"], Cell[TextData[Cell[BoxData[
+     StyleBox["p", "TI"]], "InlineFormula",ExpressionUUID->
+     "010d6699-53a8-1a47-bc5f-85ce7e422d77"]], "TableText",ExpressionUUID->
+     "6e110c7e-fe54-874d-b9dd-0e4a0ba58c1b"], Cell[TextData[{
+     "elements of finite field ",
+     Cell[BoxData[
+      StyleBox["p", "TI"]], "InlineFormula",ExpressionUUID->
+      "fe73bfb9-2d3f-0c4d-b92c-374d791a8f98"]
+    }], "TableText",ExpressionUUID->"d38a3d1e-3795-bd45-be68-7264d8d93aa2"]}
+  }]], "2ColumnTableMod",
+ CellChangeTimes->{{3.9925050488315945`*^9, 3.9925051215572414`*^9}},
+ CellID->1155054,ExpressionUUID->"f443d503-654a-734f-8caf-afc5696f7366"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "See Also",
+ Cell[BoxData[
+  TemplateBox[{"SeeAlso", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Insert links to any related reference (function) pages.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "0dba5273-1cbe-8444-a38f-8058c95d051f"]
+}], "SeeAlsoSection",
+ CellID->279388949,ExpressionUUID->"1f58bfff-11e2-934e-a0c1-f230cc708020"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["SimplicialComplex",
+   BaseStyle->"Link",
+   ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"]], 
+  "InlineSeeAlsoFunction",
+  TaggingRules->{"PageType" -> "Function"},ExpressionUUID->
+  "e67ff922-73db-8f4c-a382-5962702285f9"],
+ StyleBox[" \[FilledVerySmallSquare] ", "InlineSeparator"],
+ Cell[BoxData[
+  ButtonBox["HomologyGroup",
+   BaseStyle->"Link",
+   ButtonData->"paclet:Taggar/SimplicialHomology/ref/HomologyGroup"]], 
+  "InlineSeeAlsoFunction",
+  TaggingRules->{"PageType" -> "Function"},
+  CellTags->"a0ecdaa5-d373-4be7-b9fb-32c8d8829881",ExpressionUUID->
+  "847cf117-03f7-f64f-a52d-00635952fbe5"],
+ Cell[BoxData[
+  RowBox[{
+  Cell[TextData[StyleBox[
+   " \[FilledVerySmallSquare] ", "InlineSeparator"]],ExpressionUUID->
+    "1b54d960-fa72-004e-9d09-d8fb5a298ea9"], 
+   DynamicModuleBox[{$CellContext`nbobj$$ = NotebookObject[
+    "ae4c33da-d69d-f542-941b-abe68b8a8107", 
+     "4036bfa4-e3ec-aa42-a768-bc7cc711ee65"], $CellContext`cellobj$$ = 
+    CellObject[
+    "c1079023-d4f8-8140-9435-9be9974fe36f", 
+     "578cf2ff-e615-3f42-bbf0-cdbd09d4630f"]}, 
+    TemplateBox[{
+      GraphicsBox[{{
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         CircleBox[{0, 0}]}, {
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         LineBox[{{0, 0.62}, {0, -0.62}}]}, {
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         LineBox[{{-0.62, 0}, {0.62, 0}}]}}, 
+       ImagePadding -> {{1., 1.}, {2.4, 1.}}, ImageSize -> 16, 
+       PlotRange -> {{-1.06, 1.06}, {-1.06, 1.06}}, 
+       BaselinePosition -> (Center -> 
+        Center)], $CellContext`nbobj$$, $CellContext`cellobj$$},
+     "InlineListingAddButton"],
+    Initialization:>($CellContext`nbobj$$ = 
+      EvaluationNotebook[]; $CellContext`cellobj$$ = EvaluationCell[])]}]], 
+  "InlineListingAddButton",ExpressionUUID->
+  "c1079023-d4f8-8140-9435-9be9974fe36f"]
+}], "SeeAlso",
+ CellChangeTimes->{{3.992511917259243*^9, 3.992511957855137*^9}},
+ CellID->546481379,ExpressionUUID->"f7d1c6d6-595a-7c46-a162-ea1da38bff4d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tech Notes",
+ Cell[BoxData[
+  TemplateBox[{"TechNotes", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell["Insert links to related tech notes.", "MoreInfoText"], BaseStyle -> 
+       "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "e73cb4a0-1614-164e-b3a9-ac8668fc9664"]
+}], "TechNotesSection",
+ CellID->602100821,ExpressionUUID->"43d1adcb-c818-394c-8750-167dd9ce88ba"],
+
+Cell["XXXX", "Tutorials",
+ CellID->173808674,ExpressionUUID->"79439be6-6b1e-8846-961f-020d82f75c03"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Related Guides", "MoreAboutSection",
+ CellID->52586460,ExpressionUUID->"8c9b3622-d936-164a-98a8-686a7d4a2ab3"],
+
+Cell["XXXX", "MoreAbout",
+ CellID->256678261,ExpressionUUID->"5d0407bf-db53-694d-8202-6adaeb2ad3eb"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Related Links",
+ Cell[BoxData[
+  TemplateBox[{"RelatedLinks", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Insert links to any related page, including web pages.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "39fbd46b-f7a9-c74b-928b-1f80422a748f"]
+}], "RelatedLinksSection",
+ CellID->338387264,ExpressionUUID->"c548b3a4-8bb2-4144-8f89-be7d0425c2a6"],
+
+Cell["XXXX", "RelatedLinks",
+ CellID->316972676,ExpressionUUID->"5fe3f429-b547-af4f-9964-eb96fdb7ac3a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Examples Initialization",
+ Cell[BoxData[
+  TemplateBox[{"ExamplesInitialization", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Input that is to be evaluated before any examples are run, e.g. \
+Needs[\[Ellipsis]].", "MoreInfoText"], BaseStyle -> "IFrameBox"]], 
+     "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "aef0741c-c082-e949-9697-6646bfa75bb3"]
+}], "ExamplesInitializationSection",
+ CellID->12579307,ExpressionUUID->"a8702dab-9787-544a-ab27-3d9a3ff91ec9"],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<Taggar`SimplicialHomology`\>\"", 
+  "]"}]], "ExampleInitialization",
+ CellID->272730597,ExpressionUUID->"4903818e-b390-5b4d-855d-fefad01056ce"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",
+ CellID->530870,ExpressionUUID->"aea5f488-c800-784c-84d3-7d137017e25e"],
+
+Cell["Calculate betti numbers of a space:", "ExampleText",
+ CellChangeTimes->{{3.9924879530705166`*^9, 3.9924879626653767`*^9}, {
+  3.992512010307602*^9, 3.992512012712406*^9}},
+ CellID->222771919,ExpressionUUID->"528e395f-ac8a-534e-a7e8-1ec55722bfb3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}], ",", "0"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9924879636415176`*^9, 3.992487977747978*^9}, {
+  3.992512014589712*^9, 3.9925120160931644`*^9}},
+ CellLabel->"In[3]:=",
+ CellID->557890103,ExpressionUUID->"9d525abf-3f91-c94c-8229-51d76b1787ef"],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{3.9924879783610516`*^9, 3.992505131015978*^9, 
+  3.9925120175814075`*^9},
+ CellLabel->"Out[3]=",
+ CellID->269341203,ExpressionUUID->"04c3e15b-0ba5-fe45-9569-9bf6abfd8b56"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}], ",", "1"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.9924883059080677`*^9, 3.992488312240507*^9}, {
+  3.992512019349228*^9, 3.992512021172529*^9}},
+ CellLabel->"In[4]:=",
+ CellID->480778305,ExpressionUUID->"218f003e-8684-c848-bcd1-ebd151f2599b"],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{3.992488312657671*^9, 3.9925051319091225`*^9, 
+  3.9925120215952225`*^9},
+ CellLabel->"Out[4]=",
+ CellID->153384735,ExpressionUUID->"bb1fc41f-c6de-b344-9f82-0bd3ed58f437"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\t", "ExampleDelimiter",ExpressionUUID->
+   "8b33471d-9c6b-cf40-836d-e72b57f8b46a"],
+  $Line = 0; Null]], "ExampleDelimiter",
+ CellID->260805044,ExpressionUUID->"0dfc6613-c40e-ec40-bf63-10f4c96ac8e7"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  SuperscriptBox["0", "th"]], "InlineFormula",ExpressionUUID->
+  "f51264f7-8389-2740-9566-e1fa2e8161b4"],
+ " Betti number of two disjoint points demonstrating the number of connected \
+components:"
+}], "ExampleText",
+ CellChangeTimes->{{3.9924882979111347`*^9, 3.992488326077648*^9}, {
+  3.992505141228901*^9, 3.992505149542059*^9}, {3.992512053334503*^9, 
+  3.9925120573194847`*^9}},
+ CellID->112485116,ExpressionUUID->"af5b659e-1ecd-bb45-b8b5-49d301a7f956"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", "1", "}"}], ",", 
+      RowBox[{"{", "2", "}"}]}], "}"}], "]"}], ",", "0"}], "]"}]], "Input",
+ CellChangeTimes->{{3.992488330817137*^9, 3.9924883430157413`*^9}, {
+  3.9925120623220234`*^9, 3.992512063354576*^9}},
+ CellLabel->"In[6]:=",
+ CellID->20573954,ExpressionUUID->"52e6d4d1-4c69-8e48-bbb1-b9109a076a80"],
+
+Cell[BoxData["2"], "Output",
+ CellChangeTimes->{3.9924883435089893`*^9, 3.992505136034569*^9, 
+  3.992512063825939*^9},
+ CellLabel->"Out[6]=",
+ CellID->557744937,ExpressionUUID->"d197393a-2532-7c4b-a86a-0e9bb85ff7c5"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\t", "ExampleDelimiter",ExpressionUUID->
+   "5d780085-88e6-0b41-98de-5ab43d35c448"],
+  $Line = 0; Null]], "ExampleDelimiter",
+ CellID->322869468,ExpressionUUID->"40210d0e-fc84-b445-9236-b6675a330518"],
+
+Cell["Their reduced Betti number:", "ExampleText",
+ CellChangeTimes->{{3.992488366516384*^9, 3.992488371298231*^9}, {
+  3.99251207359877*^9, 3.9925120752148647`*^9}},
+ CellID->140693888,ExpressionUUID->"b55d7a58-9f02-7b49-bc38-60017037d5de"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", "1", "}"}], ",", 
+      RowBox[{"{", "2", "}"}]}], "}"}], "]"}], ",", "0", ",", 
+   RowBox[{"\"\<Reduced\>\"", "->", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.99248837635256*^9, 3.992488379660532*^9}, {
+  3.992512076717041*^9, 3.992512077863079*^9}},
+ CellLabel->"In[7]:=",
+ CellID->254747810,ExpressionUUID->"b2985961-4ed2-6842-9b00-6f3da9d3b1d5"],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{3.992488380128105*^9, 3.9925051530468445`*^9, 
+  3.9925120783506927`*^9},
+ CellLabel->"Out[7]=",
+ CellID->32484414,ExpressionUUID->"7b61f345-fa55-c049-af80-20f08622a589"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "More Examples",
+ Cell[BoxData[
+  TemplateBox[{"MoreExamples", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell["Extended examples in standardized sections.", "MoreInfoText"], 
+       BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "7e227a3c-e946-5a49-a574-5a827cffe602"]
+}], "ExtendedExamplesSection",
+ CellTags->"ExtendedExamples",
+ CellID->520356629,ExpressionUUID->"bff3ff6d-494e-8746-82c2-e180bce88ad6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Scope", "ExampleSection",ExpressionUUID->
+   "3f5526b7-c31b-384c-b163-982c4d462431"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->300292749,ExpressionUUID->"9180a340-021f-c042-bf2a-48a717dc4d52"],
+
+Cell["Calculate all Betti numbers of a space:", "ExampleText",
+ CellChangeTimes->{{3.992488348861044*^9, 3.9924883553776855`*^9}, 
+   3.992488386454916*^9, {3.992512122502083*^9, 3.99251213491074*^9}},
+ CellID->164578164,ExpressionUUID->"a30a7681-169a-e445-847c-aaa49d8e5473"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{"SimplicialComplex", "[", "\"\<Torus\>\"", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9924883872523994`*^9, 3.9924883975172234`*^9}, {
+  3.9925121365318336`*^9, 3.9925121377890053`*^9}},
+ CellLabel->"In[9]:=",
+ CellID->51602072,ExpressionUUID->"28912e7e-743e-a843-82dc-0e59c5b97ad9"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "1"}], ",", 
+   RowBox[{"1", "\[Rule]", "2"}], ",", 
+   RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{{3.9924883906788177`*^9, 3.992488397900812*^9}, 
+   3.9925051619631596`*^9, 3.992512138180111*^9},
+ CellLabel->"Out[9]=",
+ CellID->66733585,ExpressionUUID->"cf58c973-6bac-0b46-af9c-0b49adafa8e0"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Generalizations & Extensions", "ExampleSection",ExpressionUUID->
+   "391dfc93-7c76-b641-b0cb-da692b6c499d"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->13046121,ExpressionUUID->"e92eb6c9-3311-5f4f-a6a0-87d6a1caa049"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Options", "ExampleSection",ExpressionUUID->
+   "f99cd085-a461-1345-b23a-78888cf53bf9"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->457087979,ExpressionUUID->"a5f4635a-ab82-4b4d-9610-afd8c042da3c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\"Reduced\"", "ExampleSubsection",ExpressionUUID->
+   "45e0337b-787e-e644-bc19-916bfeb3d133"],
+  $Line = 0; Null]], "ExampleSubsection",
+ CellID->292229927,ExpressionUUID->"e456c566-af1a-5543-8546-2922460f96aa"],
+
+Cell["By default, ordinary homology is calculated:", "ExampleText",
+ CellChangeTimes->{{3.9924886946580105`*^9, 3.992488702437685*^9}},
+ CellID->656888161,ExpressionUUID->"0e2e917f-d914-814a-93f0-13068c9f1760"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{"SimplicialComplex", "[", 
+   RowBox[{"{", 
+    RowBox[{"\"\<Circle\>\"", ",", "2"}], "}"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.992488703427536*^9, 3.992488712001217*^9}, {
+  3.9925121662609863`*^9, 3.9925121675646534`*^9}},
+ CellLabel->"In[10]:=",
+ CellID->19647287,ExpressionUUID->"76b245e6-54e4-9244-86a5-03025c407ab1"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "1"}], ",", 
+   RowBox[{"1", "\[Rule]", "0"}], ",", 
+   RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9924887129708138`*^9, 3.9925051656855545`*^9, 
+  3.9925121680837097`*^9},
+ CellLabel->"Out[10]=",
+ CellID->587633916,ExpressionUUID->"8fef446a-b368-b94b-ae92-4ef37e5dbc32"]
+}, Open  ]],
+
+Cell["Obtain reduced homology:", "ExampleText",
+ CellChangeTimes->{{3.992488714659218*^9, 3.9924887240850887`*^9}},
+ CellID->512607999,ExpressionUUID->"604ccf56-bcba-6f48-b30f-e9cbcfc4eb90"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", 
+    RowBox[{"{", 
+     RowBox[{"\"\<Circle\>\"", ",", "2"}], "}"}], "]"}], ",", 
+   RowBox[{"\"\<Reduced\>\"", "->", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.992488729078827*^9, 3.9924887321922035`*^9}, {
+  3.992512169856228*^9, 3.9925121714362373`*^9}},
+ CellLabel->"In[11]:=",
+ CellID->51901616,ExpressionUUID->"0acb6dcf-f1d3-5e4f-9e66-bc9ab5a77bf1"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "0"}], ",", 
+   RowBox[{"1", "\[Rule]", "0"}], ",", 
+   RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.992488732771263*^9, 3.99250516653397*^9, 
+  3.992512172989052*^9},
+ CellLabel->"Out[11]=",
+ CellID->586436484,ExpressionUUID->"64951bdf-fd26-014f-ae1f-3ccce13d2d4f"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\"Coefficients\"", "ExampleSubsection",ExpressionUUID->
+   "cde55875-86fe-0e4b-94f0-e63571ef3e3a"],
+  $Line = 0; Null]], "ExampleSubsection",
+ CellID->93341587,ExpressionUUID->"b8136aaa-98f9-0041-bd2b-0b44b8d042d2"],
+
+Cell["By default, homology is computed over the integers:", "ExampleText",
+ CellChangeTimes->{{3.9925052370480385`*^9, 3.992505245081091*^9}},
+ CellID->135722546,ExpressionUUID->"e0e2eef3-5198-cd41-b6ca-9664d23a7be3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{"SimplicialComplex", "[", "\"\<RealProjectivePlane\>\"", "]"}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.992505280896534*^9, 3.9925052902102833`*^9}, {
+  3.9925121775595207`*^9, 3.9925121789719086`*^9}},
+ CellLabel->"In[12]:=",
+ CellID->89910818,ExpressionUUID->"3931d5cb-ba91-0447-802c-86086c0870c5"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "1"}], ",", 
+   RowBox[{"1", "\[Rule]", "0"}], ",", 
+   RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9925052907776318`*^9, 3.992512179630247*^9},
+ CellLabel->"Out[12]=",
+ CellID->377099900,ExpressionUUID->"0b0bc586-8ba1-9849-a7fe-762edc9ca290"]
+}, Open  ]],
+
+Cell["Calculate over elements of a finite field:", "ExampleText",
+ CellChangeTimes->{{3.992505294011614*^9, 3.9925053046459846`*^9}, {
+  3.9925122107316723`*^9, 3.992512210904051*^9}},
+ CellID->55035650,ExpressionUUID->"1ec54ed3-8da2-6b4d-a469-75e278ffe29c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", "\"\<RealProjectivePlane\>\"", "]"}], ",", 
+   RowBox[{"\"\<Coefficients\>\"", "->", "2"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.9925053223512897`*^9, 3.9925053274781837`*^9}, {
+  3.9925121864704456`*^9, 3.992512187947235*^9}},
+ CellLabel->"In[14]:=",
+ CellID->97271922,ExpressionUUID->"df759529-67b2-e642-be7e-d369bcc6467e"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "1"}], ",", 
+   RowBox[{"1", "\[Rule]", "1"}], ",", 
+   RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9925053278256836`*^9, 3.9925121884316864`*^9},
+ CellLabel->"Out[14]=",
+ CellID->257466130,ExpressionUUID->"b72c3d35-a06c-824a-b1f3-f2453848d044"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Applications", "ExampleSection",ExpressionUUID->
+   "23c1f31b-15d6-4e4c-8411-10928232571f"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->9323932,ExpressionUUID->"94905646-f8be-7e49-89ed-3bebe7f9e031"],
+
+Cell["Take the Utah teapot:", "ExampleText",
+ CellChangeTimes->{{3.9925122237564526`*^9, 3.992512248478733*^9}},
+ CellID->123401369,ExpressionUUID->"8468675a-95b3-8248-a720-7f53efb7d982"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ResourceData", "[", 
+  RowBox[{"\"\<Utah Teapot\>\"", ",", "\"\<MeshRegion\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.9925122311382008`*^9, 3.9925122392271347`*^9}},
+ CellLabel->"In[44]:=",
+ CellID->79944413,ExpressionUUID->"3eda7ade-0b88-694c-9ba8-b1bfdb868dfd"],
+
+Cell[BoxData[
+ Graphics3DBox[
+  TagBox[
+   DynamicModuleBox[{Typeset`mesh = {
+    MeshRegion, {Boxed -> False, Lighting -> {{"Ambient", 
+         GrayLevel[0.45]}, {"Directional", 
+         GrayLevel[0.3], 
+         ImageScaled[{2, 0, 2}]}, {"Directional", 
+         GrayLevel[0.33], 
+         ImageScaled[{2, 2, 2}]}, {"Directional", 
+         GrayLevel[0.3], 
+         ImageScaled[{0, 2, 2}]}}, ViewPoint -> {1.3, -2.4, 2.}, 
+      ViewVertical -> {0., 0., 1.}, 
+      Method -> {
+       "EliminateUnusedCoordinates" -> True, "DeleteDuplicateCoordinates" -> 
+        Automatic, "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+        Identity, "CheckOrientation" -> Automatic, "CoplanarityTolerance" -> 
+        Automatic, "CheckIntersections" -> Automatic, "BoundaryNesting" -> 
+        Automatic, "SeparateBoundaries" -> Automatic, "TJunction" -> 
+        Automatic, "PropagateMarkers" -> True, "ZeroTest" -> Automatic}}}}, 
+    TagBox[GraphicsComplex3DBox[CompressedData["
+1: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
+SedW9/no5BDEC+Pv6jwbDs8NYf7TVfV+3BsY7x4YtM+PD4cgvymm7E3UX4L+
+6JcEv9BfCf6inhL0RP0l6I9+SfQL9JGgD+opQU/UX4L+qIPkOsR1k6Ab6iy5
+zuw5lYiWUr2JM2vYcxUxYKX6XpzdQNy98dkCyvf+sUOYx32zeA29v1Ki6jAl
+rZXijr+t+s3sOw9ivNk/n/qWHX2J1uVkv9SK+c2MHE+b33tRnbt75LXiPC0Z
+PqBbV1AP9tZ5LN6VZaoPb1tP3HhoAp2X7bVj1X1ywrVfUb5Lamg+jpehzivd
+c77CeKfnU2r/9nS/YvOJtis9wymMu89lqPNN3zuI2zsXfEifXzb0qD8f4t7k
+a/Mpb6/9qh/OHH4K42P1rfpn9xmnML/37h/U91ckwscNntOW/Zzina+ji0PA
+Y682/z0PuZNW0aaLj/Wrdl1+9FEm8VGCj1gnVO+aOunkQZ1gHVK8pg4pv1+H
+6JcEv9Bfif5CPUisB9Bfgv7olwS/0F8J/qKeMon+yNEv5O6TfZnvxl2tKs+Q
+F9Q8hefQz61oV3kyx1N+uz2b6seeFlV55t/VjvHmkPPUvXpiHvNX5F2onp9H
+7ufjCsXNkctP+XW3gD4f0EflCc9q8+tFPZc6cI36vczhR9pZ/Nvp6vcsmavZ
+uM7G29W45WO06zXX56v1vlX3JuWd+7U634uJNK7bGFlEn/+xp/q9zy8vb8d4
+e9Cl6l4xaBJf74wrgt8nsnHjz/9vm0Y86MeJPgbrisdvndemi4/Ftenyoy8S
+fEEfJfiIvkvwHXWWoDP6IsEX9FGCj6ibBN1QZwk6oy8SfEEddPUfjKvTGbkR
+Xhs8B6WX+cnbJ/0+wPlMg7h1e5b6Xho/TtW5z92S2arfLLyO+luQxxxQp77n
+n319OcY7rS3qfHRFNB/jRVNP4s6hmz/DeG/uJcSNEamrWHzw/DYSWYXxAbfq
+IgUY76bPb8R12SsuVc8Zz31Wne86yuh5UsCdF1LVfOq+WIzczX5X9dFZ5kfI
+g3HFj9I/ZnnCYTauFe1O93lj3/PE7fn9ckPAvfKrlT4/vHEJcmezo74HchZ+
+hDw+7ozwx8iNwW0NOj3NY3sbdHpan46s1/nlXWnU6/wy/5W+T1cP1tRv9urq
+IebTXtQhnr90HudBHYpN+3U6uz02Neh88Voub9D5GNs/9Trf3ekb9+v0NMet
+a9Dp7957QYPOr9i6WP54HtBHJtFHJtEf41F/jEd/MR79xXgB+wXjBewXjEc9
+ZRL9kaNfyAXsC5YH9JRJ9EeOfiEXUP+MQz9hekI/wfViv8J47FfML+iHGI/9
+EOOxbzDdoM8w3aAvsXjoA7he7BvIsc8gtzI/PMTq9sh9dP5zvh9L3Or4ks45
+AXefflN9L4z7fBVyu+gZNc/KlnXI4/V2Q/oG5LF+2ITjGmapOp/k9VX80bWU
+P+DOghXq/jRzYzFy9wY1H2/J49uQx+s5K2sH49HQUTbujAfV3y387WV13vxH
+L5pnwL17XqP5OD/+9Q7kzpTFpI/5v967kQfjGt3sPchj82jGcePn0oveUufZ
+Uw/Tc8H431mNzKDncOaQuaWMf99HPae9Oq0CeTCu2B3hfwf4wtUNOl/s63bv
+1fnonvOrOp3v5i2f1erqxP5E5UnU3y52qnV+2fl7KnT+xvrRHl09eKkbanU6
+m1Mb9uh8cS/bX6rz0ewhdup8F92qa3R6Wk8M263T31y3aLvOr87nmTp/UU+Z
+RH/k6BfjsI9YHtBTJtGfcfALuYD9ghz1lEn0R45+IRewL1ge0FMm0R85+sU4
+1D9y7EuoG/Yx5Nj3WDz0GdQH+xLTDfoYi4e+wXSDPoMc+xKLhz6A68W+wfSE
+PqPVzX+ZKaUnQ/8HNAOj3Q==
+      "], 
+      {RGBColor[0.465719011680535, 0.7656186418234469, 0.8836254737685788], 
+       EdgeForm[RGBColor[
+       0.465719011680535, 0.7656186418234469, 0.8836254737685788]], 
+       TagBox[Polygon3DBox[CompressedData["
+1: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
+7DJjXbtk99oly2iXrJ5dZqxvl6yBXbLMdska2mXGRnbJGtsly2GXrIl/s2ti
+h5nTjB1mLjN2hrnNmtll19TcLlkLu2Qt7ZK1tsuuqY1dsrZ2ydrZJeuQXNxL
+dbRL1skuWWe7ZOww8zgjO8ziZuwwS5ixMyxp1s0uMz5il6y7XbIedsl62mXG
+XnbJetsl62OXrK9dZuxnl6y/XbIBdsnYYZZyRnaYVc3YYVYzY2dY3WywXWZ8
+3C7ZELtkQ+2SDbPLjMPtko2wSzbSLtkou8w42i7ZGLtkY+2SscOs4YzsMBua
+scNsZMZ9aWz2pF1mnGCX7Cm7ZE3tkk20y4yT7JJNtkvWyi7ZFLvMONUu2TS7
+ZO3tks3wb3ZN7DA7mLHD7GjGzrCT2Ry77Jrm2iWbZ5dsvl2yhXbZNS2yS7bY
+LtkSu2TL7C5N4u5zodlyu2TP2iVjh9nZGdlh9jVjh9nPjJ1hf7MVdplxpV2y
+VXbJXrJLttouM66xS7bWLtk6u2Tr7TLjBrtkG+2SvWyXjB3mAGdkhznKjB3m
+aDN2hmPMNtllxs12ybbYJdtql2ybXWbcbpdsh12ynXbJdtllxt12yfbYJXvD
+Lhk7zLHOyA5zihk7zKlm3JdpZnvtMuM+u2T77ZLNtkt2wC4zHrRLdsgu2QK7
+ZIftMuMRu2RH7ZIttUvGDpO9ILs+dpjvmbHD/MCMneFxs1N22fWdtkt2xi7Z
+Wbtkn9j9OIk7zFNmn9ol+8wu2RfJxb3gl3bJvrJL9rVdMnaYJ5yRHeY3Zuww
+vzVj3u/NfrDLjD/aJTtn90fn/c7sJ7vM+LNdsl/s/uy858x+tcuM5+2S/Wb3
+vGf7xewP/2bXd8Gzkv3pWcn+8qxk/9hl18e/uP5hxg7zghk7wz/N2GHSZdfH
+DpMuGTvMxIydYWrG7pMu/0xerU+WwS5ZRrtk7DC/dkZ2mJyVjB3mebPfPSsZ
+O0y6zJhZn4wdZiazv+2SZfU8zJjNLll2u9mcN4tZDrvMmNMuWS67OT1bdjN2
+mOwF2fWxw8xrxg4znxk7wxvNCtpl11fILllhu2RF7JIVtcuur5hdsuJ2yUrY
+JSuVXtwL3mKXrLRdslvtkrHDzO+M7DBvN2OHeacZ85Y1K2eXGcvbJatgt7zz
+ljGraJcZK9klq2y3kvNWMKtilxmr2iWrZreqZ6tsVsO/2fXd5VnJanpWsrs9
+K9k9dtn11bZLVscuWV27ZPXssuurb5esgV2yhnbJGttlP3ifXbImdsnut0v2
+gGdlxgc9K1lTz/qg81Yza2aXGZvbJWtht7nzNjVraZcZW9kla223lfO2MGtj
+lxnb2iVrZ7etZ2ttxg6T/w5m98UOs5MZO8wuZuwYu5p1t8vuq4ddsp52yXrZ
+JeuTXtyT9bVL1s8uWX+7ZOwwu/lNdpgDzdhhDjJjxzjYbKhdvjnMLtlwu2Qj
+7JKNtMs3R9klG22XbIxdMnaYQ/wmO8xxZuwwx5uxY5xgNsku35xsl2yKXbKp
+dsmm2eWb0+2SzbBLNtMuGTvMiX6THeYsM3aYc8z4feaZzbfLNxfYJVtod4G/
+z1yzRXb55mK7ZEvsLva3XGi2zL/ZNT3jb0u23N+W7Fl/W7Ln7bJresEu2Yt2
+yVbYJVtll13TS3bJVtslW2OXbJ1d9lPr7ZJtsEu20S4ZO8z+zsgOc6QZO8xR
+ZuwMR5u9bpcZN9kl22yXbItdsq12mXGbXbLtdsl22CXbaZcZd9kl222XbI9d
+MnaYY5yRHeY0M3aY083YGc4w22uXGffZJdtvl+yAXbKDdpnxkF2yw3bJjtgl
+O2qXGd+xS3bMLtm7dsnYYc50RnaYi8zYYS42474sMfvQLjMet0v2kV2y5+yS
+nbDLjCftkp2yS7bSLtlpu8x4xi7ZWbtka+2S/Q/NvuW2
+         "]],
+        Annotation[#, "Geometry"]& ]}],
+     MouseAppearanceTag["LinkHand"]],
+    AllowKernelInitialization->False],
+   "MeshGraphics3D",
+   AutoDelete->True,
+   Editable->False,
+   Selectable->False],
+  Boxed->False,
+  DefaultBaseStyle->{
+   "MeshGraphics3D", FrontEnd`GraphicsHighlightColor -> Hue[0.1, 1, 0.7]},
+  ImageSize->{140.25, Automatic},
+  Lighting->{{"Ambient", 
+     GrayLevel[0.45]}, {"Directional", 
+     GrayLevel[0.3], 
+     ImageScaled[{2, 0, 2}]}, {"Directional", 
+     GrayLevel[0.33], 
+     ImageScaled[{2, 2, 2}]}, {"Directional", 
+     GrayLevel[0.3], 
+     ImageScaled[{0, 2, 2}]}},
+  ViewPoint->{1.3, -2.4, 2.},
+  ViewVertical->{0., 0., 1.}]], "Output",
+ CellChangeTimes->{3.9925122512267284`*^9, 3.992512745935028*^9},
+ CellLabel->"Out[44]=",
+ CellID->325460548,ExpressionUUID->"a6958a88-ca40-d544-9db5-56132f83b172"]
+}, Open  ]],
+
+Cell["Make its simplicial complex:", "ExampleText",
+ CellChangeTimes->{{3.9925122592271023`*^9, 3.992512262695904*^9}},
+ CellID->74494194,ExpressionUUID->"14577b13-4a0d-9745-8ea1-57b52b6f50c3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"teapot", "=", 
+  RowBox[{"SimplicialComplex", "[", "%", "]"}]}]], "Input",
+ CellChangeTimes->{{3.992512263399065*^9, 3.9925122696618423`*^9}},
+ CellLabel->"In[45]:=",
+ CellID->382677456,ExpressionUUID->"e78a4340-acbe-bd4a-bf6a-b9e18ad25eac"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["480", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["480", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Facets: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2720", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["False", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`SimplicialComplex[<|
+   "Facets" -> {{1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {
+      12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}, {20}, {21}, {22}, {23}, {
+      24}, {25}, {26}, {27}, {28}, {29}, {30}, {31}, {32}, {33}, {34}, {35}, {
+      36}, {37}, {38}, {39}, {40}, {41}, {42}, {43}, {44}, {45}, {46}, {47}, {
+      48}, {49}, {50}, {51}, {52}, {53}, {54}, {55}, {56}, {57}, {58}, {59}, {
+      60}, {61}, {62}, {63}, {64}, {65}, {66}, {67}, {68}, {69}, {70}, {71}, {
+      72}, {73}, {74}, {75}, {76}, {77}, {78}, {79}, {80}, {81}, {82}, {83}, {
+      84}, {85}, {86}, {87}, {88}, {89}, {90}, {91}, {92}, {93}, {94}, {95}, {
+      96}, {97}, {98}, {99}, {100}, {101}, {102}, {103}, {104}, {105}, {
+      106}, {107}, {108}, {109}, {110}, {111}, {112}, {113}, {114}, {115}, {
+      116}, {117}, {118}, {119}, {120}, {121}, {122}, {123}, {124}, {125}, {
+      126}, {127}, {128}, {129}, {130}, {131}, {132}, {133}, {134}, {135}, {
+      136}, {137}, {138}, {139}, {140}, {141}, {142}, {143}, {144}, {145}, {
+      146}, {147}, {148}, {149}, {150}, {151}, {152}, {153}, {154}, {155}, {
+      156}, {157}, {158}, {159}, {160}, {161}, {162}, {163}, {164}, {165}, {
+      166}, {167}, {168}, {169}, {170}, {171}, {172}, {173}, {174}, {175}, {
+      176}, {177}, {178}, {179}, {180}, {181}, {182}, {183}, {184}, {185}, {
+      186}, {187}, {188}, {189}, {190}, {191}, {192}, {193}, {194}, {195}, {
+      196}, {197}, {198}, {199}, {200}, {201}, {202}, {203}, {204}, {205}, {
+      206}, {207}, {208}, {209}, {210}, {211}, {212}, {213}, {214}, {215}, {
+      216}, {217}, {218}, {219}, {220}, {221}, {222}, {223}, {224}, {225}, {
+      226}, {227}, {228}, {229}, {230}, {231}, {232}, {233}, {234}, {235}, {
+      236}, {237}, {238}, {239}, {240}, {241}, {242}, {243}, {244}, {245}, {
+      246}, {247}, {248}, {249}, {250}, {251}, {252}, {253}, {254}, {255}, {
+      256}, {257}, {258}, {259}, {260}, {261}, {262}, {263}, {264}, {265}, {
+      266}, {267}, {268}, {269}, {270}, {271}, {272}, {273}, {274}, {275}, {
+      276}, {277}, {278}, {279}, {280}, {281}, {282}, {283}, {284}, {285}, {
+      286}, {287}, {288}, {289}, {290}, {291}, {292}, {293}, {294}, {295}, {
+      296}, {297}, {298}, {299}, {300}, {301}, {302}, {303}, {304}, {305}, {
+      306}, {307}, {308}, {309}, {310}, {311}, {312}, {313}, {314}, {315}, {
+      316}, {317}, {318}, {319}, {320}, {321}, {322}, {323}, {324}, {325}, {
+      326}, {327}, {328}, {329}, {330}, {331}, {332}, {333}, {334}, {335}, {
+      336}, {337}, {338}, {339}, {340}, {341}, {342}, {343}, {344}, {345}, {
+      346}, {347}, {348}, {349}, {350}, {351}, {352}, {353}, {354}, {355}, {
+      356}, {357}, {358}, {359}, {360}, {361}, {362}, {363}, {364}, {365}, {
+      366}, {367}, {368}, {369}, {370}, {371}, {372}, {373}, {374}, {375}, {
+      376}, {377}, {378}, {379}, {380}, {381}, {382}, {383}, {384}, {385}, {
+      386}, {387}, {388}, {389}, {390}, {391}, {392}, {393}, {394}, {395}, {
+      396}, {397}, {398}, {399}, {400}, {401}, {402}, {403}, {404}, {405}, {
+      406}, {407}, {408}, {409}, {410}, {411}, {412}, {413}, {414}, {415}, {
+      416}, {417}, {418}, {419}, {420}, {421}, {422}, {423}, {424}, {425}, {
+      426}, {427}, {428}, {429}, {430}, {431}, {432}, {433}, {434}, {435}, {
+      436}, {437}, {438}, {439}, {440}, {441}, {442}, {443}, {444}, {445}, {
+      446}, {447}, {448}, {449}, {450}, {451}, {452}, {453}, {454}, {455}, {
+      456}, {457}, {458}, {459}, {460}, {461}, {462}, {463}, {464}, {465}, {
+      466}, {467}, {468}, {469}, {470}, {471}, {472}, {473}, {474}, {475}, {
+      476}, {477}, {478}, {479}, {480}, {1, 3}, {3, 4}, {1, 4}, {4, 5}, {5, 
+      6}, {4, 6}, {6, 7}, {7, 8}, {6, 8}, {8, 9}, {9, 10}, {8, 10}, {2, 12}, {
+      3, 12}, {2, 3}, {3, 13}, {5, 13}, {3, 5}, {5, 14}, {7, 14}, {5, 7}, {7, 
+      15}, {9, 15}, {7, 9}, {11, 17}, {12, 17}, {11, 12}, {12, 18}, {13, 
+      18}, {12, 13}, {13, 19}, {14, 19}, {13, 14}, {14, 20}, {15, 20}, {14, 
+      15}, {16, 22}, {17, 22}, {16, 17}, {17, 23}, {18, 23}, {17, 18}, {18, 
+      24}, {19, 24}, {18, 19}, {19, 25}, {20, 25}, {19, 20}, {10, 26}, {26, 
+      27}, {10, 27}, {27, 28}, {28, 29}, {27, 29}, {29, 30}, {30, 31}, {29, 
+      31}, {31, 32}, {32, 33}, {31, 33}, {9, 34}, {26, 34}, {9, 26}, {26, 
+      35}, {28, 35}, {26, 28}, {28, 36}, {30, 36}, {28, 30}, {30, 37}, {32, 
+      37}, {30, 32}, {15, 38}, {34, 38}, {15, 34}, {34, 39}, {35, 39}, {34, 
+      35}, {35, 40}, {36, 40}, {35, 36}, {36, 41}, {37, 41}, {36, 37}, {20, 
+      42}, {38, 42}, {20, 38}, {38, 43}, {39, 43}, {38, 39}, {39, 44}, {40, 
+      44}, {39, 40}, {40, 45}, {41, 45}, {40, 41}, {33, 46}, {46, 47}, {33, 
+      47}, {47, 48}, {48, 49}, {47, 49}, {49, 50}, {50, 51}, {49, 51}, {51, 
+      52}, {52, 53}, {51, 53}, {32, 54}, {46, 54}, {32, 46}, {46, 55}, {48, 
+      55}, {46, 48}, {48, 56}, {50, 56}, {48, 50}, {50, 57}, {52, 57}, {50, 
+      52}, {37, 58}, {54, 58}, {37, 54}, {54, 59}, {55, 59}, {54, 55}, {55, 
+      60}, {56, 60}, {55, 56}, {56, 61}, {57, 61}, {56, 57}, {41, 62}, {58, 
+      62}, {41, 58}, {58, 63}, {59, 63}, {58, 59}, {59, 64}, {60, 64}, {59, 
+      60}, {60, 65}, {61, 65}, {60, 61}, {53, 66}, {66, 67}, {53, 67}, {67, 
+      68}, {68, 69}, {67, 69}, {69, 70}, {70, 71}, {69, 71}, {2, 71}, {1, 
+      2}, {1, 71}, {52, 72}, {66, 72}, {52, 66}, {66, 73}, {68, 73}, {66, 
+      68}, {68, 74}, {70, 74}, {68, 70}, {11, 70}, {2, 11}, {2, 70}, {57, 
+      75}, {72, 75}, {57, 72}, {72, 76}, {73, 76}, {72, 73}, {73, 77}, {74, 
+      77}, {73, 74}, {16, 74}, {11, 16}, {11, 74}, {61, 78}, {75, 78}, {61, 
+      75}, {75, 79}, {76, 79}, {75, 76}, {76, 80}, {77, 80}, {76, 77}, {21, 
+      77}, {16, 21}, {16, 77}, {21, 82}, {22, 82}, {21, 22}, {22, 83}, {23, 
+      83}, {22, 23}, {23, 84}, {24, 84}, {23, 24}, {24, 85}, {25, 85}, {24, 
+      25}, {81, 87}, {82, 87}, {81, 82}, {82, 88}, {83, 88}, {82, 83}, {83, 
+      89}, {84, 89}, {83, 84}, {84, 90}, {85, 90}, {84, 85}, {86, 92}, {87, 
+      92}, {86, 87}, {87, 93}, {88, 93}, {87, 88}, {88, 94}, {89, 94}, {88, 
+      89}, {89, 95}, {90, 95}, {89, 90}, {91, 97}, {92, 97}, {91, 92}, {92, 
+      98}, {93, 98}, {92, 93}, {93, 99}, {94, 99}, {93, 94}, {94, 100}, {95, 
+      100}, {94, 95}, {25, 101}, {42, 101}, {25, 42}, {42, 102}, {43, 102}, {
+      42, 43}, {43, 103}, {44, 103}, {43, 44}, {44, 104}, {45, 104}, {44, 
+      45}, {85, 105}, {101, 105}, {85, 101}, {101, 106}, {102, 106}, {101, 
+      102}, {102, 107}, {103, 107}, {102, 103}, {103, 108}, {104, 108}, {103, 
+      104}, {90, 109}, {105, 109}, {90, 105}, {105, 110}, {106, 110}, {105, 
+      106}, {106, 111}, {107, 111}, {106, 107}, {107, 112}, {108, 112}, {107, 
+      108}, {95, 113}, {109, 113}, {95, 109}, {109, 114}, {110, 114}, {109, 
+      110}, {110, 115}, {111, 115}, {110, 111}, {111, 116}, {112, 116}, {111, 
+      112}, {45, 117}, {62, 117}, {45, 62}, {62, 118}, {63, 118}, {62, 63}, {
+      63, 119}, {64, 119}, {63, 64}, {64, 120}, {65, 120}, {64, 65}, {104, 
+      121}, {117, 121}, {104, 117}, {117, 122}, {118, 122}, {117, 118}, {118, 
+      123}, {119, 123}, {118, 119}, {119, 124}, {120, 124}, {119, 120}, {108, 
+      125}, {121, 125}, {108, 121}, {121, 126}, {122, 126}, {121, 122}, {122, 
+      127}, {123, 127}, {122, 123}, {123, 128}, {124, 128}, {123, 124}, {112, 
+      129}, {125, 129}, {112, 125}, {125, 130}, {126, 130}, {125, 126}, {126, 
+      131}, {127, 131}, {126, 127}, {127, 132}, {128, 132}, {127, 128}, {65, 
+      133}, {78, 133}, {65, 78}, {78, 134}, {79, 134}, {78, 79}, {79, 135}, {
+      80, 135}, {79, 80}, {80, 81}, {21, 81}, {21, 80}, {120, 136}, {133, 
+      136}, {120, 133}, {133, 137}, {134, 137}, {133, 134}, {134, 138}, {135, 
+      138}, {134, 135}, {86, 135}, {81, 86}, {81, 135}, {124, 139}, {136, 
+      139}, {124, 136}, {136, 140}, {137, 140}, {136, 137}, {137, 141}, {138, 
+      141}, {137, 138}, {91, 138}, {86, 91}, {86, 138}, {128, 142}, {139, 
+      142}, {128, 139}, {139, 143}, {140, 143}, {139, 140}, {140, 144}, {141, 
+      144}, {140, 141}, {96, 141}, {91, 96}, {91, 141}, {96, 146}, {97, 
+      146}, {96, 97}, {97, 147}, {98, 147}, {97, 98}, {98, 148}, {99, 148}, {
+      98, 99}, {99, 149}, {100, 149}, {99, 100}, {145, 151}, {146, 151}, {145,
+       146}, {146, 152}, {147, 152}, {146, 147}, {147, 153}, {148, 153}, {147,
+       148}, {148, 154}, {149, 154}, {148, 149}, {150, 156}, {151, 156}, {150,
+       151}, {151, 157}, {152, 157}, {151, 152}, {152, 158}, {153, 158}, {152,
+       153}, {153, 159}, {154, 159}, {153, 154}, {155, 161}, {156, 161}, {155,
+       156}, {156, 162}, {157, 162}, {156, 157}, {157, 163}, {158, 163}, {157,
+       158}, {158, 164}, {159, 164}, {158, 159}, {100, 165}, {113, 165}, {100,
+       113}, {113, 166}, {114, 166}, {113, 114}, {114, 167}, {115, 167}, {114,
+       115}, {115, 168}, {116, 168}, {115, 116}, {149, 169}, {165, 169}, {149,
+       165}, {165, 170}, {166, 170}, {165, 166}, {166, 171}, {167, 171}, {166,
+       167}, {167, 172}, {168, 172}, {167, 168}, {154, 173}, {169, 173}, {154,
+       169}, {169, 174}, {170, 174}, {169, 170}, {170, 175}, {171, 175}, {170,
+       171}, {171, 176}, {172, 176}, {171, 172}, {159, 177}, {173, 177}, {159,
+       173}, {173, 178}, {174, 178}, {173, 174}, {174, 179}, {175, 179}, {174,
+       175}, {175, 180}, {176, 180}, {175, 176}, {116, 181}, {129, 181}, {116,
+       129}, {129, 182}, {130, 182}, {129, 130}, {130, 183}, {131, 183}, {130,
+       131}, {131, 184}, {132, 184}, {131, 132}, {168, 185}, {181, 185}, {168,
+       181}, {181, 186}, {182, 186}, {181, 182}, {182, 187}, {183, 187}, {182,
+       183}, {183, 188}, {184, 188}, {183, 184}, {172, 189}, {185, 189}, {172,
+       185}, {185, 190}, {186, 190}, {185, 186}, {186, 191}, {187, 191}, {186,
+       187}, {187, 192}, {188, 192}, {187, 188}, {176, 193}, {189, 193}, {176,
+       189}, {189, 194}, {190, 194}, {189, 190}, {190, 195}, {191, 195}, {190,
+       191}, {191, 196}, {192, 196}, {191, 192}, {132, 197}, {142, 197}, {132,
+       142}, {142, 198}, {143, 198}, {142, 143}, {143, 199}, {144, 199}, {143,
+       144}, {144, 145}, {96, 145}, {96, 144}, {184, 200}, {197, 200}, {184, 
+      197}, {197, 201}, {198, 201}, {197, 198}, {198, 202}, {199, 202}, {198, 
+      199}, {150, 199}, {145, 150}, {145, 199}, {188, 203}, {200, 203}, {188, 
+      200}, {200, 204}, {201, 204}, {200, 201}, {201, 205}, {202, 205}, {201, 
+      202}, {155, 202}, {150, 155}, {150, 202}, {192, 206}, {203, 206}, {192, 
+      203}, {203, 207}, {204, 207}, {203, 204}, {204, 208}, {205, 208}, {204, 
+      205}, {160, 205}, {155, 160}, {155, 205}, {209, 211}, {211, 212}, {209, 
+      212}, {212, 213}, {213, 214}, {212, 214}, {214, 215}, {215, 216}, {214, 
+      216}, {216, 217}, {217, 218}, {216, 218}, {210, 220}, {211, 220}, {210, 
+      211}, {211, 221}, {213, 221}, {211, 213}, {213, 222}, {215, 222}, {213, 
+      215}, {215, 223}, {217, 223}, {215, 217}, {219, 225}, {220, 225}, {219, 
+      220}, {220, 226}, {221, 226}, {220, 221}, {221, 227}, {222, 227}, {221, 
+      222}, {222, 228}, {223, 228}, {222, 223}, {224, 230}, {225, 230}, {224, 
+      225}, {225, 231}, {226, 231}, {225, 226}, {226, 232}, {227, 232}, {226, 
+      227}, {227, 233}, {228, 233}, {227, 228}, {218, 234}, {234, 235}, {218, 
+      235}, {235, 236}, {236, 237}, {235, 237}, {237, 238}, {238, 239}, {237, 
+      239}, {210, 239}, {209, 210}, {209, 239}, {217, 240}, {234, 240}, {217, 
+      234}, {234, 241}, {236, 241}, {234, 236}, {236, 242}, {238, 242}, {236, 
+      238}, {219, 238}, {210, 219}, {210, 238}, {223, 243}, {240, 243}, {223, 
+      240}, {240, 244}, {241, 244}, {240, 241}, {241, 245}, {242, 245}, {241, 
+      242}, {224, 242}, {219, 224}, {219, 242}, {228, 246}, {243, 246}, {228, 
+      243}, {243, 247}, {244, 247}, {243, 244}, {244, 248}, {245, 248}, {244, 
+      245}, {229, 245}, {224, 229}, {224, 245}, {229, 250}, {230, 250}, {229, 
+      230}, {230, 251}, {231, 251}, {230, 231}, {231, 252}, {232, 252}, {231, 
+      232}, {232, 253}, {233, 253}, {232, 233}, {249, 255}, {250, 255}, {249, 
+      250}, {250, 256}, {251, 256}, {250, 251}, {251, 257}, {252, 257}, {251, 
+      252}, {252, 258}, {253, 258}, {252, 253}, {254, 260}, {255, 260}, {254, 
+      255}, {255, 261}, {256, 261}, {255, 256}, {256, 262}, {257, 262}, {256, 
+      257}, {257, 263}, {258, 263}, {257, 258}, {259, 264}, {260, 264}, {259, 
+      260}, {260, 265}, {261, 265}, {260, 261}, {261, 266}, {262, 266}, {261, 
+      262}, {262, 267}, {263, 267}, {262, 263}, {233, 268}, {246, 268}, {233, 
+      246}, {246, 269}, {247, 269}, {246, 247}, {247, 270}, {248, 270}, {247, 
+      248}, {248, 249}, {229, 249}, {229, 248}, {253, 271}, {268, 271}, {253, 
+      268}, {268, 272}, {269, 272}, {268, 269}, {269, 273}, {270, 273}, {269, 
+      270}, {254, 270}, {249, 254}, {249, 270}, {258, 274}, {271, 274}, {258, 
+      271}, {271, 275}, {272, 275}, {271, 272}, {272, 276}, {273, 276}, {272, 
+      273}, {259, 273}, {254, 259}, {254, 273}, {263, 277}, {274, 277}, {263, 
+      274}, {274, 278}, {275, 278}, {274, 275}, {275, 279}, {276, 279}, {275, 
+      276}, {116, 276}, {116, 259}, {259, 276}, {280, 282}, {282, 283}, {280, 
+      283}, {283, 284}, {284, 285}, {283, 285}, {285, 286}, {286, 287}, {285, 
+      287}, {287, 288}, {288, 289}, {287, 289}, {281, 291}, {282, 291}, {281, 
+      282}, {282, 292}, {284, 292}, {282, 284}, {284, 293}, {286, 293}, {284, 
+      286}, {286, 294}, {288, 294}, {286, 288}, {290, 296}, {291, 296}, {290, 
+      291}, {291, 297}, {292, 297}, {291, 292}, {292, 298}, {293, 298}, {292, 
+      293}, {293, 299}, {294, 299}, {293, 294}, {295, 301}, {296, 301}, {295, 
+      296}, {296, 302}, {297, 302}, {296, 297}, {297, 303}, {298, 303}, {297, 
+      298}, {298, 304}, {299, 304}, {298, 299}, {289, 305}, {305, 306}, {289, 
+      306}, {306, 307}, {307, 308}, {306, 308}, {308, 309}, {309, 310}, {308, 
+      310}, {281, 310}, {280, 281}, {280, 310}, {288, 311}, {305, 311}, {288, 
+      305}, {305, 312}, {307, 312}, {305, 307}, {307, 313}, {309, 313}, {307, 
+      309}, {290, 309}, {281, 290}, {281, 309}, {294, 314}, {311, 314}, {294, 
+      311}, {311, 315}, {312, 315}, {311, 312}, {312, 316}, {313, 316}, {312, 
+      313}, {295, 313}, {290, 295}, {290, 313}, {299, 317}, {314, 317}, {299, 
+      314}, {314, 318}, {315, 318}, {314, 315}, {315, 319}, {316, 319}, {315, 
+      316}, {300, 316}, {295, 300}, {295, 316}, {300, 321}, {301, 321}, {300, 
+      301}, {301, 322}, {302, 322}, {301, 302}, {302, 323}, {303, 323}, {302, 
+      303}, {303, 324}, {304, 324}, {303, 304}, {320, 326}, {321, 326}, {320, 
+      321}, {321, 327}, {322, 327}, {321, 322}, {322, 328}, {323, 328}, {322, 
+      323}, {323, 329}, {324, 329}, {323, 324}, {325, 331}, {326, 331}, {325, 
+      326}, {326, 332}, {327, 332}, {326, 327}, {327, 333}, {328, 333}, {327, 
+      328}, {328, 334}, {329, 334}, {328, 329}, {330, 336}, {331, 336}, {330, 
+      331}, {331, 337}, {332, 337}, {331, 332}, {332, 338}, {333, 338}, {332, 
+      333}, {333, 339}, {334, 339}, {333, 334}, {304, 340}, {317, 340}, {304, 
+      317}, {317, 341}, {318, 341}, {317, 318}, {318, 342}, {319, 342}, {318, 
+      319}, {319, 320}, {300, 320}, {300, 319}, {324, 343}, {340, 343}, {324, 
+      340}, {340, 344}, {341, 344}, {340, 341}, {341, 345}, {342, 345}, {341, 
+      342}, {325, 342}, {320, 325}, {320, 342}, {329, 346}, {343, 346}, {329, 
+      343}, {343, 347}, {344, 347}, {343, 344}, {344, 348}, {345, 348}, {344, 
+      345}, {330, 345}, {325, 330}, {325, 345}, {334, 349}, {346, 349}, {334, 
+      346}, {346, 350}, {347, 350}, {346, 347}, {347, 351}, {348, 351}, {347, 
+      348}, {335, 348}, {330, 335}, {330, 348}, {352, 354}, {354, 355}, {352, 
+      355}, {355, 356}, {356, 357}, {355, 357}, {357, 358}, {358, 359}, {357, 
+      359}, {359, 360}, {360, 361}, {359, 361}, {353, 363}, {354, 363}, {353, 
+      354}, {354, 364}, {356, 364}, {354, 356}, {356, 365}, {358, 365}, {356, 
+      358}, {358, 366}, {360, 366}, {358, 360}, {362, 368}, {363, 368}, {362, 
+      363}, {363, 369}, {364, 369}, {363, 364}, {364, 370}, {365, 370}, {364, 
+      365}, {365, 371}, {366, 371}, {365, 366}, {361, 372}, {372, 373}, {361, 
+      373}, {373, 374}, {374, 375}, {373, 375}, {375, 376}, {376, 377}, {375, 
+      377}, {377, 378}, {378, 379}, {377, 379}, {360, 380}, {372, 380}, {360, 
+      372}, {372, 381}, {374, 381}, {372, 374}, {374, 382}, {376, 382}, {374, 
+      376}, {376, 383}, {378, 383}, {376, 378}, {366, 384}, {380, 384}, {366, 
+      380}, {380, 385}, {381, 385}, {380, 381}, {381, 386}, {382, 386}, {381, 
+      382}, {382, 387}, {383, 387}, {382, 383}, {379, 388}, {388, 389}, {379, 
+      389}, {389, 390}, {390, 391}, {389, 391}, {391, 392}, {392, 393}, {391, 
+      393}, {393, 394}, {394, 395}, {393, 395}, {378, 396}, {388, 396}, {378, 
+      388}, {388, 397}, {390, 397}, {388, 390}, {390, 398}, {392, 398}, {390, 
+      392}, {392, 399}, {394, 399}, {392, 394}, {383, 400}, {396, 400}, {383, 
+      396}, {396, 401}, {397, 401}, {396, 397}, {397, 402}, {398, 402}, {397, 
+      398}, {398, 403}, {399, 403}, {398, 399}, {395, 404}, {404, 405}, {395, 
+      405}, {405, 406}, {406, 407}, {405, 407}, {407, 408}, {408, 409}, {407, 
+      409}, {353, 409}, {352, 353}, {352, 409}, {394, 410}, {404, 410}, {394, 
+      404}, {404, 411}, {406, 411}, {404, 406}, {406, 412}, {408, 412}, {406, 
+      408}, {362, 408}, {353, 362}, {353, 408}, {399, 413}, {410, 413}, {399, 
+      410}, {410, 414}, {411, 414}, {410, 411}, {411, 415}, {412, 415}, {411, 
+      412}, {367, 412}, {362, 367}, {362, 412}, {367, 417}, {368, 417}, {367, 
+      368}, {368, 418}, {369, 418}, {368, 369}, {369, 419}, {370, 419}, {369, 
+      370}, {370, 420}, {371, 420}, {370, 371}, {416, 422}, {417, 422}, {416, 
+      417}, {417, 423}, {418, 423}, {417, 418}, {418, 424}, {419, 424}, {418, 
+      419}, {419, 425}, {420, 425}, {419, 420}, {421, 427}, {422, 427}, {421, 
+      422}, {422, 428}, {423, 428}, {422, 423}, {423, 429}, {424, 429}, {423, 
+      424}, {424, 430}, {425, 430}, {424, 425}, {426, 432}, {427, 432}, {426, 
+      427}, {427, 433}, {428, 433}, {427, 428}, {428, 434}, {429, 434}, {428, 
+      429}, {429, 435}, {430, 435}, {429, 430}, {371, 436}, {384, 436}, {371, 
+      384}, {384, 437}, {385, 437}, {384, 385}, {385, 438}, {386, 438}, {385, 
+      386}, {386, 439}, {387, 439}, {386, 387}, {420, 440}, {436, 440}, {420, 
+      436}, {436, 441}, {437, 441}, {436, 437}, {437, 442}, {438, 442}, {437, 
+      438}, {438, 443}, {439, 443}, {438, 439}, {425, 444}, {440, 444}, {425, 
+      440}, {440, 445}, {441, 445}, {440, 441}, {441, 446}, {442, 446}, {441, 
+      442}, {442, 447}, {443, 447}, {442, 443}, {430, 448}, {444, 448}, {430, 
+      444}, {444, 449}, {445, 449}, {444, 445}, {445, 450}, {446, 450}, {445, 
+      446}, {446, 451}, {447, 451}, {446, 447}, {387, 452}, {400, 452}, {387, 
+      400}, {400, 453}, {401, 453}, {400, 401}, {401, 454}, {402, 454}, {401, 
+      402}, {402, 455}, {403, 455}, {402, 403}, {439, 456}, {452, 456}, {439, 
+      452}, {452, 457}, {453, 457}, {452, 453}, {453, 458}, {454, 458}, {453, 
+      454}, {454, 459}, {455, 459}, {454, 455}, {443, 460}, {456, 460}, {443, 
+      456}, {456, 461}, {457, 461}, {456, 457}, {457, 462}, {458, 462}, {457, 
+      458}, {458, 463}, {459, 463}, {458, 459}, {447, 464}, {460, 464}, {447, 
+      460}, {460, 465}, {461, 465}, {460, 461}, {461, 466}, {462, 466}, {461, 
+      462}, {462, 467}, {463, 467}, {462, 463}, {403, 468}, {413, 468}, {403, 
+      413}, {413, 469}, {414, 469}, {413, 414}, {414, 470}, {415, 470}, {414, 
+      415}, {415, 416}, {367, 416}, {367, 415}, {455, 471}, {468, 471}, {455, 
+      468}, {468, 472}, {469, 472}, {468, 469}, {469, 473}, {470, 473}, {469, 
+      470}, {421, 470}, {416, 421}, {416, 470}, {459, 474}, {471, 474}, {459, 
+      471}, {471, 475}, {472, 475}, {471, 472}, {472, 476}, {473, 476}, {472, 
+      473}, {426, 473}, {421, 426}, {421, 473}, {463, 477}, {474, 477}, {463, 
+      474}, {474, 478}, {475, 478}, {474, 475}, {475, 479}, {476, 479}, {475, 
+      476}, {431, 476}, {426, 431}, {426, 476}, {352, 480}, {355, 480}, {357, 
+      480}, {359, 480}, {361, 480}, {373, 480}, {375, 480}, {377, 480}, {379, 
+      480}, {389, 480}, {391, 480}, {393, 480}, {395, 480}, {405, 480}, {407, 
+      480}, {409, 480}, {160, 161}, {161, 162}, {162, 163}, {163, 164}, {164, 
+      177}, {177, 178}, {178, 179}, {179, 180}, {180, 193}, {193, 194}, {194, 
+      195}, {195, 196}, {196, 206}, {206, 207}, {207, 208}, {160, 208}, {116, 
+      264}, {264, 265}, {265, 266}, {266, 267}, {267, 277}, {277, 278}, {278, 
+      279}, {116, 279}, {335, 336}, {336, 337}, {337, 338}, {338, 339}, {339, 
+      349}, {349, 350}, {350, 351}, {335, 351}, {431, 432}, {432, 433}, {433, 
+      434}, {434, 435}, {435, 448}, {448, 449}, {449, 450}, {450, 451}, {451, 
+      464}, {464, 465}, {465, 466}, {466, 467}, {467, 477}, {477, 478}, {478, 
+      479}, {431, 479}, {1, 3, 4}, {4, 5, 6}, {6, 7, 8}, {8, 9, 10}, {2, 3, 
+      12}, {3, 5, 13}, {5, 7, 14}, {7, 9, 15}, {11, 12, 17}, {12, 13, 18}, {
+      13, 14, 19}, {14, 15, 20}, {16, 17, 22}, {17, 18, 23}, {18, 19, 24}, {
+      19, 20, 25}, {10, 26, 27}, {27, 28, 29}, {29, 30, 31}, {31, 32, 33}, {9,
+       26, 34}, {26, 28, 35}, {28, 30, 36}, {30, 32, 37}, {15, 34, 38}, {34, 
+      35, 39}, {35, 36, 40}, {36, 37, 41}, {20, 38, 42}, {38, 39, 43}, {39, 
+      40, 44}, {40, 41, 45}, {33, 46, 47}, {47, 48, 49}, {49, 50, 51}, {51, 
+      52, 53}, {32, 46, 54}, {46, 48, 55}, {48, 50, 56}, {50, 52, 57}, {37, 
+      54, 58}, {54, 55, 59}, {55, 56, 60}, {56, 57, 61}, {41, 58, 62}, {58, 
+      59, 63}, {59, 60, 64}, {60, 61, 65}, {53, 66, 67}, {67, 68, 69}, {69, 
+      70, 71}, {1, 2, 71}, {52, 66, 72}, {66, 68, 73}, {68, 70, 74}, {2, 11, 
+      70}, {57, 72, 75}, {72, 73, 76}, {73, 74, 77}, {11, 16, 74}, {61, 75, 
+      78}, {75, 76, 79}, {76, 77, 80}, {16, 21, 77}, {21, 22, 82}, {22, 23, 
+      83}, {23, 24, 84}, {24, 25, 85}, {81, 82, 87}, {82, 83, 88}, {83, 84, 
+      89}, {84, 85, 90}, {86, 87, 92}, {87, 88, 93}, {88, 89, 94}, {89, 90, 
+      95}, {91, 92, 97}, {92, 93, 98}, {93, 94, 99}, {94, 95, 100}, {25, 42, 
+      101}, {42, 43, 102}, {43, 44, 103}, {44, 45, 104}, {85, 101, 105}, {101,
+       102, 106}, {102, 103, 107}, {103, 104, 108}, {90, 105, 109}, {105, 106,
+       110}, {106, 107, 111}, {107, 108, 112}, {95, 109, 113}, {109, 110, 
+      114}, {110, 111, 115}, {111, 112, 116}, {45, 62, 117}, {62, 63, 118}, {
+      63, 64, 119}, {64, 65, 120}, {104, 117, 121}, {117, 118, 122}, {118, 
+      119, 123}, {119, 120, 124}, {108, 121, 125}, {121, 122, 126}, {122, 123,
+       127}, {123, 124, 128}, {112, 125, 129}, {125, 126, 130}, {126, 127, 
+      131}, {127, 128, 132}, {65, 78, 133}, {78, 79, 134}, {79, 80, 135}, {21,
+       80, 81}, {120, 133, 136}, {133, 134, 137}, {134, 135, 138}, {81, 86, 
+      135}, {124, 136, 139}, {136, 137, 140}, {137, 138, 141}, {86, 91, 
+      138}, {128, 139, 142}, {139, 140, 143}, {140, 141, 144}, {91, 96, 
+      141}, {96, 97, 146}, {97, 98, 147}, {98, 99, 148}, {99, 100, 149}, {145,
+       146, 151}, {146, 147, 152}, {147, 148, 153}, {148, 149, 154}, {150, 
+      151, 156}, {151, 152, 157}, {152, 153, 158}, {153, 154, 159}, {155, 156,
+       161}, {156, 157, 162}, {157, 158, 163}, {158, 159, 164}, {100, 113, 
+      165}, {113, 114, 166}, {114, 115, 167}, {115, 116, 168}, {149, 165, 
+      169}, {165, 166, 170}, {166, 167, 171}, {167, 168, 172}, {154, 169, 
+      173}, {169, 170, 174}, {170, 171, 175}, {171, 172, 176}, {159, 173, 
+      177}, {173, 174, 178}, {174, 175, 179}, {175, 176, 180}, {116, 129, 
+      181}, {129, 130, 182}, {130, 131, 183}, {131, 132, 184}, {168, 181, 
+      185}, {181, 182, 186}, {182, 183, 187}, {183, 184, 188}, {172, 185, 
+      189}, {185, 186, 190}, {186, 187, 191}, {187, 188, 192}, {176, 189, 
+      193}, {189, 190, 194}, {190, 191, 195}, {191, 192, 196}, {132, 142, 
+      197}, {142, 143, 198}, {143, 144, 199}, {96, 144, 145}, {184, 197, 
+      200}, {197, 198, 201}, {198, 199, 202}, {145, 150, 199}, {188, 200, 
+      203}, {200, 201, 204}, {201, 202, 205}, {150, 155, 202}, {192, 203, 
+      206}, {203, 204, 207}, {204, 205, 208}, {155, 160, 205}, {209, 211, 
+      212}, {212, 213, 214}, {214, 215, 216}, {216, 217, 218}, {210, 211, 
+      220}, {211, 213, 221}, {213, 215, 222}, {215, 217, 223}, {219, 220, 
+      225}, {220, 221, 226}, {221, 222, 227}, {222, 223, 228}, {224, 225, 
+      230}, {225, 226, 231}, {226, 227, 232}, {227, 228, 233}, {218, 234, 
+      235}, {235, 236, 237}, {237, 238, 239}, {209, 210, 239}, {217, 234, 
+      240}, {234, 236, 241}, {236, 238, 242}, {210, 219, 238}, {223, 240, 
+      243}, {240, 241, 244}, {241, 242, 245}, {219, 224, 242}, {228, 243, 
+      246}, {243, 244, 247}, {244, 245, 248}, {224, 229, 245}, {229, 230, 
+      250}, {230, 231, 251}, {231, 232, 252}, {232, 233, 253}, {249, 250, 
+      255}, {250, 251, 256}, {251, 252, 257}, {252, 253, 258}, {254, 255, 
+      260}, {255, 256, 261}, {256, 257, 262}, {257, 258, 263}, {259, 260, 
+      264}, {260, 261, 265}, {261, 262, 266}, {262, 263, 267}, {233, 246, 
+      268}, {246, 247, 269}, {247, 248, 270}, {229, 248, 249}, {253, 268, 
+      271}, {268, 269, 272}, {269, 270, 273}, {249, 254, 270}, {258, 271, 
+      274}, {271, 272, 275}, {272, 273, 276}, {254, 259, 273}, {263, 274, 
+      277}, {274, 275, 278}, {275, 276, 279}, {116, 259, 276}, {280, 282, 
+      283}, {283, 284, 285}, {285, 286, 287}, {287, 288, 289}, {281, 282, 
+      291}, {282, 284, 292}, {284, 286, 293}, {286, 288, 294}, {290, 291, 
+      296}, {291, 292, 297}, {292, 293, 298}, {293, 294, 299}, {295, 296, 
+      301}, {296, 297, 302}, {297, 298, 303}, {298, 299, 304}, {289, 305, 
+      306}, {306, 307, 308}, {308, 309, 310}, {280, 281, 310}, {288, 305, 
+      311}, {305, 307, 312}, {307, 309, 313}, {281, 290, 309}, {294, 311, 
+      314}, {311, 312, 315}, {312, 313, 316}, {290, 295, 313}, {299, 314, 
+      317}, {314, 315, 318}, {315, 316, 319}, {295, 300, 316}, {300, 301, 
+      321}, {301, 302, 322}, {302, 303, 323}, {303, 304, 324}, {320, 321, 
+      326}, {321, 322, 327}, {322, 323, 328}, {323, 324, 329}, {325, 326, 
+      331}, {326, 327, 332}, {327, 328, 333}, {328, 329, 334}, {330, 331, 
+      336}, {331, 332, 337}, {332, 333, 338}, {333, 334, 339}, {304, 317, 
+      340}, {317, 318, 341}, {318, 319, 342}, {300, 319, 320}, {324, 340, 
+      343}, {340, 341, 344}, {341, 342, 345}, {320, 325, 342}, {329, 343, 
+      346}, {343, 344, 347}, {344, 345, 348}, {325, 330, 345}, {334, 346, 
+      349}, {346, 347, 350}, {347, 348, 351}, {330, 335, 348}, {352, 354, 
+      355}, {355, 356, 357}, {357, 358, 359}, {359, 360, 361}, {353, 354, 
+      363}, {354, 356, 364}, {356, 358, 365}, {358, 360, 366}, {362, 363, 
+      368}, {363, 364, 369}, {364, 365, 370}, {365, 366, 371}, {361, 372, 
+      373}, {373, 374, 375}, {375, 376, 377}, {377, 378, 379}, {360, 372, 
+      380}, {372, 374, 381}, {374, 376, 382}, {376, 378, 383}, {366, 380, 
+      384}, {380, 381, 385}, {381, 382, 386}, {382, 383, 387}, {379, 388, 
+      389}, {389, 390, 391}, {391, 392, 393}, {393, 394, 395}, {378, 388, 
+      396}, {388, 390, 397}, {390, 392, 398}, {392, 394, 399}, {383, 396, 
+      400}, {396, 397, 401}, {397, 398, 402}, {398, 399, 403}, {395, 404, 
+      405}, {405, 406, 407}, {407, 408, 409}, {352, 353, 409}, {394, 404, 
+      410}, {404, 406, 411}, {406, 408, 412}, {353, 362, 408}, {399, 410, 
+      413}, {410, 411, 414}, {411, 412, 415}, {362, 367, 412}, {367, 368, 
+      417}, {368, 369, 418}, {369, 370, 419}, {370, 371, 420}, {416, 417, 
+      422}, {417, 418, 423}, {418, 419, 424}, {419, 420, 425}, {421, 422, 
+      427}, {422, 423, 428}, {423, 424, 429}, {424, 425, 430}, {426, 427, 
+      432}, {427, 428, 433}, {428, 429, 434}, {429, 430, 435}, {371, 384, 
+      436}, {384, 385, 437}, {385, 386, 438}, {386, 387, 439}, {420, 436, 
+      440}, {436, 437, 441}, {437, 438, 442}, {438, 439, 443}, {425, 440, 
+      444}, {440, 441, 445}, {441, 442, 446}, {442, 443, 447}, {430, 444, 
+      448}, {444, 445, 449}, {445, 446, 450}, {446, 447, 451}, {387, 400, 
+      452}, {400, 401, 453}, {401, 402, 454}, {402, 403, 455}, {439, 452, 
+      456}, {452, 453, 457}, {453, 454, 458}, {454, 455, 459}, {443, 456, 
+      460}, {456, 457, 461}, {457, 458, 462}, {458, 459, 463}, {447, 460, 
+      464}, {460, 461, 465}, {461, 462, 466}, {462, 463, 467}, {403, 413, 
+      468}, {413, 414, 469}, {414, 415, 470}, {367, 415, 416}, {455, 468, 
+      471}, {468, 469, 472}, {469, 470, 473}, {416, 421, 470}, {459, 471, 
+      474}, {471, 472, 475}, {472, 473, 476}, {421, 426, 473}, {463, 474, 
+      477}, {474, 475, 478}, {475, 476, 479}, {426, 431, 476}, {352, 355, 
+      480}, {355, 357, 480}, {357, 359, 480}, {359, 361, 480}, {361, 373, 
+      480}, {373, 375, 480}, {375, 377, 480}, {377, 379, 480}, {379, 389, 
+      480}, {389, 391, 480}, {391, 393, 480}, {393, 395, 480}, {395, 405, 
+      480}, {405, 407, 480}, {407, 409, 480}, {352, 409, 480}, {1, 2, 3}, {3, 
+      4, 5}, {5, 6, 7}, {7, 8, 9}, {2, 11, 12}, {3, 12, 13}, {5, 13, 14}, {7, 
+      14, 15}, {11, 16, 17}, {12, 17, 18}, {13, 18, 19}, {14, 19, 20}, {16, 
+      21, 22}, {17, 22, 23}, {18, 23, 24}, {19, 24, 25}, {9, 10, 26}, {26, 27,
+       28}, {28, 29, 30}, {30, 31, 32}, {9, 15, 34}, {26, 34, 35}, {28, 35, 
+      36}, {30, 36, 37}, {15, 20, 38}, {34, 38, 39}, {35, 39, 40}, {36, 40, 
+      41}, {20, 25, 42}, {38, 42, 43}, {39, 43, 44}, {40, 44, 45}, {32, 33, 
+      46}, {46, 47, 48}, {48, 49, 50}, {50, 51, 52}, {32, 37, 54}, {46, 54, 
+      55}, {48, 55, 56}, {50, 56, 57}, {37, 41, 58}, {54, 58, 59}, {55, 59, 
+      60}, {56, 60, 61}, {41, 45, 62}, {58, 62, 63}, {59, 63, 64}, {60, 64, 
+      65}, {52, 53, 66}, {66, 67, 68}, {68, 69, 70}, {2, 70, 71}, {52, 57, 
+      72}, {66, 72, 73}, {68, 73, 74}, {11, 70, 74}, {57, 61, 75}, {72, 75, 
+      76}, {73, 76, 77}, {16, 74, 77}, {61, 65, 78}, {75, 78, 79}, {76, 79, 
+      80}, {21, 77, 80}, {21, 81, 82}, {22, 82, 83}, {23, 83, 84}, {24, 84, 
+      85}, {81, 86, 87}, {82, 87, 88}, {83, 88, 89}, {84, 89, 90}, {86, 91, 
+      92}, {87, 92, 93}, {88, 93, 94}, {89, 94, 95}, {91, 96, 97}, {92, 97, 
+      98}, {93, 98, 99}, {94, 99, 100}, {25, 85, 101}, {42, 101, 102}, {43, 
+      102, 103}, {44, 103, 104}, {85, 90, 105}, {101, 105, 106}, {102, 106, 
+      107}, {103, 107, 108}, {90, 95, 109}, {105, 109, 110}, {106, 110, 
+      111}, {107, 111, 112}, {95, 100, 113}, {109, 113, 114}, {110, 114, 
+      115}, {111, 115, 116}, {45, 104, 117}, {62, 117, 118}, {63, 118, 119}, {
+      64, 119, 120}, {104, 108, 121}, {117, 121, 122}, {118, 122, 123}, {119, 
+      123, 124}, {108, 112, 125}, {121, 125, 126}, {122, 126, 127}, {123, 127,
+       128}, {112, 116, 129}, {125, 129, 130}, {126, 130, 131}, {127, 131, 
+      132}, {65, 120, 133}, {78, 133, 134}, {79, 134, 135}, {80, 81, 135}, {
+      120, 124, 136}, {133, 136, 137}, {134, 137, 138}, {86, 135, 138}, {124, 
+      128, 139}, {136, 139, 140}, {137, 140, 141}, {91, 138, 141}, {128, 132, 
+      142}, {139, 142, 143}, {140, 143, 144}, {96, 141, 144}, {96, 145, 
+      146}, {97, 146, 147}, {98, 147, 148}, {99, 148, 149}, {145, 150, 151}, {
+      146, 151, 152}, {147, 152, 153}, {148, 153, 154}, {150, 155, 156}, {151,
+       156, 157}, {152, 157, 158}, {153, 158, 159}, {155, 160, 161}, {156, 
+      161, 162}, {157, 162, 163}, {158, 163, 164}, {100, 149, 165}, {113, 165,
+       166}, {114, 166, 167}, {115, 167, 168}, {149, 154, 169}, {165, 169, 
+      170}, {166, 170, 171}, {167, 171, 172}, {154, 159, 173}, {169, 173, 
+      174}, {170, 174, 175}, {171, 175, 176}, {159, 164, 177}, {173, 177, 
+      178}, {174, 178, 179}, {175, 179, 180}, {116, 168, 181}, {129, 181, 
+      182}, {130, 182, 183}, {131, 183, 184}, {168, 172, 185}, {181, 185, 
+      186}, {182, 186, 187}, {183, 187, 188}, {172, 176, 189}, {185, 189, 
+      190}, {186, 190, 191}, {187, 191, 192}, {176, 180, 193}, {189, 193, 
+      194}, {190, 194, 195}, {191, 195, 196}, {132, 184, 197}, {142, 197, 
+      198}, {143, 198, 199}, {144, 145, 199}, {184, 188, 200}, {197, 200, 
+      201}, {198, 201, 202}, {150, 199, 202}, {188, 192, 203}, {200, 203, 
+      204}, {201, 204, 205}, {155, 202, 205}, {192, 196, 206}, {203, 206, 
+      207}, {204, 207, 208}, {160, 205, 208}, {209, 210, 211}, {211, 212, 
+      213}, {213, 214, 215}, {215, 216, 217}, {210, 219, 220}, {211, 220, 
+      221}, {213, 221, 222}, {215, 222, 223}, {219, 224, 225}, {220, 225, 
+      226}, {221, 226, 227}, {222, 227, 228}, {224, 229, 230}, {225, 230, 
+      231}, {226, 231, 232}, {227, 232, 233}, {217, 218, 234}, {234, 235, 
+      236}, {236, 237, 238}, {210, 238, 239}, {217, 223, 240}, {234, 240, 
+      241}, {236, 241, 242}, {219, 238, 242}, {223, 228, 243}, {240, 243, 
+      244}, {241, 244, 245}, {224, 242, 245}, {228, 233, 246}, {243, 246, 
+      247}, {244, 247, 248}, {229, 245, 248}, {229, 249, 250}, {230, 250, 
+      251}, {231, 251, 252}, {232, 252, 253}, {249, 254, 255}, {250, 255, 
+      256}, {251, 256, 257}, {252, 257, 258}, {254, 259, 260}, {255, 260, 
+      261}, {256, 261, 262}, {257, 262, 263}, {116, 259, 264}, {260, 264, 
+      265}, {261, 265, 266}, {262, 266, 267}, {233, 253, 268}, {246, 268, 
+      269}, {247, 269, 270}, {248, 249, 270}, {253, 258, 271}, {268, 271, 
+      272}, {269, 272, 273}, {254, 270, 273}, {258, 263, 274}, {271, 274, 
+      275}, {272, 275, 276}, {259, 273, 276}, {263, 267, 277}, {274, 277, 
+      278}, {275, 278, 279}, {116, 276, 279}, {280, 281, 282}, {282, 283, 
+      284}, {284, 285, 286}, {286, 287, 288}, {281, 290, 291}, {282, 291, 
+      292}, {284, 292, 293}, {286, 293, 294}, {290, 295, 296}, {291, 296, 
+      297}, {292, 297, 298}, {293, 298, 299}, {295, 300, 301}, {296, 301, 
+      302}, {297, 302, 303}, {298, 303, 304}, {288, 289, 305}, {305, 306, 
+      307}, {307, 308, 309}, {281, 309, 310}, {288, 294, 311}, {305, 311, 
+      312}, {307, 312, 313}, {290, 309, 313}, {294, 299, 314}, {311, 314, 
+      315}, {312, 315, 316}, {295, 313, 316}, {299, 304, 317}, {314, 317, 
+      318}, {315, 318, 319}, {300, 316, 319}, {300, 320, 321}, {301, 321, 
+      322}, {302, 322, 323}, {303, 323, 324}, {320, 325, 326}, {321, 326, 
+      327}, {322, 327, 328}, {323, 328, 329}, {325, 330, 331}, {326, 331, 
+      332}, {327, 332, 333}, {328, 333, 334}, {330, 335, 336}, {331, 336, 
+      337}, {332, 337, 338}, {333, 338, 339}, {304, 324, 340}, {317, 340, 
+      341}, {318, 341, 342}, {319, 320, 342}, {324, 329, 343}, {340, 343, 
+      344}, {341, 344, 345}, {325, 342, 345}, {329, 334, 346}, {343, 346, 
+      347}, {344, 347, 348}, {330, 345, 348}, {334, 339, 349}, {346, 349, 
+      350}, {347, 350, 351}, {335, 348, 351}, {352, 353, 354}, {354, 355, 
+      356}, {356, 357, 358}, {358, 359, 360}, {353, 362, 363}, {354, 363, 
+      364}, {356, 364, 365}, {358, 365, 366}, {362, 367, 368}, {363, 368, 
+      369}, {364, 369, 370}, {365, 370, 371}, {360, 361, 372}, {372, 373, 
+      374}, {374, 375, 376}, {376, 377, 378}, {360, 366, 380}, {372, 380, 
+      381}, {374, 381, 382}, {376, 382, 383}, {366, 371, 384}, {380, 384, 
+      385}, {381, 385, 386}, {382, 386, 387}, {378, 379, 388}, {388, 389, 
+      390}, {390, 391, 392}, {392, 393, 394}, {378, 383, 396}, {388, 396, 
+      397}, {390, 397, 398}, {392, 398, 399}, {383, 387, 400}, {396, 400, 
+      401}, {397, 401, 402}, {398, 402, 403}, {394, 395, 404}, {404, 405, 
+      406}, {406, 407, 408}, {353, 408, 409}, {394, 399, 410}, {404, 410, 
+      411}, {406, 411, 412}, {362, 408, 412}, {399, 403, 413}, {410, 413, 
+      414}, {411, 414, 415}, {367, 412, 415}, {367, 416, 417}, {368, 417, 
+      418}, {369, 418, 419}, {370, 419, 420}, {416, 421, 422}, {417, 422, 
+      423}, {418, 423, 424}, {419, 424, 425}, {421, 426, 427}, {422, 427, 
+      428}, {423, 428, 429}, {424, 429, 430}, {426, 431, 432}, {427, 432, 
+      433}, {428, 433, 434}, {429, 434, 435}, {371, 420, 436}, {384, 436, 
+      437}, {385, 437, 438}, {386, 438, 439}, {420, 425, 440}, {436, 440, 
+      441}, {437, 441, 442}, {438, 442, 443}, {425, 430, 444}, {440, 444, 
+      445}, {441, 445, 446}, {442, 446, 447}, {430, 435, 448}, {444, 448, 
+      449}, {445, 449, 450}, {446, 450, 451}, {387, 439, 452}, {400, 452, 
+      453}, {401, 453, 454}, {402, 454, 455}, {439, 443, 456}, {452, 456, 
+      457}, {453, 457, 458}, {454, 458, 459}, {443, 447, 460}, {456, 460, 
+      461}, {457, 461, 462}, {458, 462, 463}, {447, 451, 464}, {460, 464, 
+      465}, {461, 465, 466}, {462, 466, 467}, {403, 455, 468}, {413, 468, 
+      469}, {414, 469, 470}, {415, 416, 470}, {455, 459, 471}, {468, 471, 
+      472}, {469, 472, 473}, {421, 470, 473}, {459, 463, 474}, {471, 474, 
+      475}, {472, 475, 476}, {426, 473, 476}, {463, 467, 477}, {474, 477, 
+      478}, {475, 478, 479}, {431, 476, 479}}, "UUID" -> 
+    55476928963593541820953667474315085891169077002150219148929599745558522814\
+132|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{
+  3.9925122709791565`*^9, {3.992512742528818*^9, 3.9925127481890984`*^9}},
+ CellLabel->"Out[45]=",
+ CellID->128834076,ExpressionUUID->"e9f05b8e-8ede-ad44-b773-80627a195e02"]
+}, Open  ]],
+
+Cell["Calculate Betti numbers:", "ExampleText",
+ CellChangeTimes->{{3.9925122725498295`*^9, 3.992512276910593*^9}},
+ CellID->17419840,ExpressionUUID->"6fbbb4fb-253f-c44e-837d-8721fd253d13"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", "teapot", "]"}]], "Input",
+ CellChangeTimes->{{3.99251227780525*^9, 3.992512280491411*^9}},
+ CellLabel->"In[18]:=",
+ CellID->123575969,ExpressionUUID->"26a259bf-8aa3-1346-bad0-9c52c23ab038"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "3"}], ",", 
+   RowBox[{"1", "\[Rule]", "3"}], ",", 
+   RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9925122816358376`*^9},
+ CellLabel->"Out[18]=",
+ CellID->528323460,ExpressionUUID->"0070ab87-39de-294c-bdb9-b95796a41fc9"]
+}, Open  ]],
+
+Cell["\<\
+This demonstrates that there are 3 connected components, 3 holes, and no \
+enclosed voids in the teapot. Indeed.\
+\>", "ExampleText",
+ CellChangeTimes->{{3.9925122833769455`*^9, 3.992512305560955*^9}},
+ CellID->733876855,ExpressionUUID->"05f41285-d5e7-344c-bcd0-56b282d5f948"]
+}, Open  ]],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Properties & Relations", "ExampleSection",ExpressionUUID->
+   "f0db8986-afd9-864a-b392-5b26277dd0c7"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->437096970,ExpressionUUID->"822fb214-5464-074b-b73a-a49e8ee45945"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Possible Issues", "ExampleSection",ExpressionUUID->
+   "38fb0e5e-3b36-bc43-8ff4-a51697296914"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->60691438,ExpressionUUID->"cd78af93-19b7-1a49-9de9-272ee58289b8"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Interactive Examples", "ExampleSection",ExpressionUUID->
+   "fd744525-7969-344c-a006-7ce4622956ca"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->194306827,ExpressionUUID->"b89d81b4-cc76-a44d-ac4b-187b1550a140"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Neat Examples", "ExampleSection",ExpressionUUID->
+   "fa2512be-78b2-a746-b607-1e6d94f8c0fc"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->8125943,ExpressionUUID->"67e5ad63-b162-514a-b4ed-d650df4d925d"],
+
+Cell["\<\
+Collect facets of all abstract simplicial complexes of upto 5 vertices:\
+\>", "ExampleText",
+ CellChangeTimes->{{3.9924843739556675`*^9, 3.9924843909002495`*^9}, {
+  3.9924844242305813`*^9, 3.9924844286527176`*^9}, {3.992484509845375*^9, 
+  3.9924845100490665`*^9}},
+ CellID->631417840,ExpressionUUID->"d69e89c9-17ac-284f-a75f-16250ee53e24"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "@", "facets"}]], "Input",
+ CellChangeTimes->{{3.9924843915829544`*^9, 3.992484393581806*^9}},
+ CellLabel->"In[20]:=",
+ CellID->43797575,ExpressionUUID->"c60e3139-5a0c-3e45-b4dc-6515cf81b6d0"],
+
+Cell[BoxData["180"], "Output",
+ CellChangeTimes->{3.9924843938749046`*^9, 3.992512368712473*^9},
+ CellLabel->"Out[20]=",
+ CellID->492245935,ExpressionUUID->"d2251c09-d2fc-da45-ba5e-4f6c5b3626f2"]
+}, Open  ]],
+
+Cell["Make simplicial complexes out of these:", "ExampleText",
+ CellChangeTimes->{{3.9924843959434566`*^9, 3.992484401835558*^9}},
+ CellID->138852093,ExpressionUUID->"809a05fa-4942-e640-a81d-c22feb5b5d41"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"complexes", "=", 
+   RowBox[{"SimplicialComplex", "/@", "facets"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.9924844030036983`*^9, 3.9924844109696217`*^9}},
+ CellLabel->"In[21]:=",
+ CellID->266408836,ExpressionUUID->"c34c1a75-068a-8d43-ac02-e5fe9d62d085"],
+
+Cell["Calculate the number of spaces by number of holes:", "ExampleText",
+ CellChangeTimes->{{3.992484414915556*^9, 3.9924844355181026`*^9}, {
+  3.9925124293391266`*^9, 3.992512434800516*^9}},
+ CellID->247577826,ExpressionUUID->"949a0358-c9d3-6a47-8b9e-44ea1be62465"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Sort", "@", 
+  RowBox[{"Counts", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"BettiNumber", "[", 
+      RowBox[{"#", ",", 
+       RowBox[{"\"\<Reduced\>\"", "->", "True"}]}], "]"}], "&"}], "/@", 
+    "complexes"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.9924844372193413`*^9, 3.992484463657213*^9}, {
+  3.9925123736279163`*^9, 3.992512420972*^9}, {3.992512542992052*^9, 
+  3.9925125460637913`*^9}, {3.992512601843733*^9, 3.9925126570898113`*^9}, {
+  3.9925126957819977`*^9, 3.9925127130145664`*^9}},
+ CellLabel->"In[41]:=",
+ CellID->250260918,ExpressionUUID->"b2e381bc-33b5-e24d-af8f-4821e9ea2068"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{"0", "\[Rule]", "4"}], "\[RightAssociation]"}], "\[Rule]", "1"}],
+    ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "3"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "5"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "6"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "5"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "3"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "3"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "4"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "3"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}], ",", 
+      RowBox[{"4", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "1"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "4"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "2"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "2"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "3"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "3"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "3"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "3"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "4"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "4"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "4"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "4"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "7"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}], ",", 
+      RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "9"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "3"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "12"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "19"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "2"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "24"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}], ",", 
+      RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "27"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{{3.992512703753044*^9, 3.9925127133408127`*^9}},
+ CellLabel->"Out[41]=",
+ CellID->323828083,ExpressionUUID->"4536c08e-6ac6-6041-8425-61169cd08b53"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",
+ CellID->211665263,ExpressionUUID->"1024a889-2763-a74a-8569-b33ed20f437f"],
+
+Cell[TextData[{
+ "New in: ",
+ Cell["XX", "HistoryData",
+  CellTags->"New",ExpressionUUID->"2bb1288f-79dd-4241-93d0-29469c687c24"],
+ " | Modified in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Modified",ExpressionUUID->"8005b41d-6337-ef40-a14b-573482654812"],
+ " | Obsolete in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Obsolete",ExpressionUUID->"6aac4b1c-3dfe-e749-b82d-7d924b010bad"]
+}], "History",
+ CellID->47153616,ExpressionUUID->"cc8280fe-e7ff-6544-a609-2a11d6b8cad3"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Categorization",
+ Cell[BoxData[
+  TemplateBox[{"Metadata", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Metadata such as page URI, context, and type of documentation page.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "fe962adb-cc75-dd49-abc1-848a8ee2274c"]
+}], "CategorizationSection",
+ CellID->65267627,ExpressionUUID->"4623cfc8-d13f-314f-968c-20e6f4b0caaa"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->"Entity Type",
+ CellID->69603464,ExpressionUUID->"21ec4bfb-a153-f043-8cc4-2f095bc15567"],
+
+Cell["Taggar/SimplicialHomology", "Categorization",
+ CellLabel->"Paclet Name",
+ CellID->29554404,ExpressionUUID->"360449f6-3178-a049-ae5a-bb90ae3fcaf6"],
+
+Cell["Taggar`SimplicialHomology`", "Categorization",
+ CellLabel->"Context",
+ CellID->675927755,ExpressionUUID->"3d6399c6-65c3-3b4c-872e-ad75ef913745"],
+
+Cell["Taggar/SimplicialHomology/ref/BettiNumber", "Categorization",
+ CellLabel->"URI",
+ CellID->93881246,ExpressionUUID->"53fbcfa0-e1ff-4943-864f-ca519bf9c197"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",
+ CellID->525322275,ExpressionUUID->"dbb6774f-b02c-af42-bf6d-28e0efd2eeee"],
+
+Cell["XXXX", "Keywords",
+ CellID->42205157,ExpressionUUID->"8081a259-8a20-4447-a92e-d3c1849106be"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Syntax Templates", "TemplatesSection",
+ CellID->88510739,ExpressionUUID->"0a65eb98-8150-3c4d-885c-b6c55f069b7c"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Additional Function Template",
+ CellID->48246364,ExpressionUUID->"7a3917fb-a850-ed4c-ae5d-fbc36c72ce62"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Arguments Pattern",
+ CellID->372000496,ExpressionUUID->"ba79cb8e-3ea3-0946-99db-30757dfed56c"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Local Variables",
+ CellID->16025342,ExpressionUUID->"539410a8-5ea3-2940-8c0e-7a526c7ef68f"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Color Equal Signs",
+ CellID->13339658,ExpressionUUID->"aef83a19-71b1-d943-8f32-4483dd42d4d9"]
+}, Closed]]
+}, Open  ]]
+},
+WindowSize->{1024.5, 507.75},
+WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+TaggingRules-><|"Paclet" -> "Taggar/SimplicialHomology"|>,
+CellContext->"Global`",
+FrontEndVersion->"15.0 for Microsoft Windows (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"ae4c33da-d69d-f542-941b-abe68b8a8107"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "ExtendedExamples"->{
+  Cell[15099, 425, 487, 13, 56, "ExtendedExamplesSection",ExpressionUUID->"bff3ff6d-494e-8746-82c2-e180bce88ad6",
+   CellTags->"ExtendedExamples",
+   CellID->520356629]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"ExtendedExamples", 96748, 2023}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 108, 1, 72, "ObjectName",ExpressionUUID->"1a73a83c-31a7-e54f-b038-fdd7c79fc98d",
+ CellID->282454930],
+Cell[687, 25, 2100, 52, 117, "Usage",ExpressionUUID->"1973f6d4-bfe1-914d-9307-0f880b0b7b16",
+ CellID->450786222],
+Cell[2790, 79, 127, 1, 26, "Notes",ExpressionUUID->"959a0af8-a064-2f49-bc9e-2ba5d95dfbc5",
+ CellID->13345911],
+Cell[2920, 82, 712, 14, 40, "3ColumnTableMod",ExpressionUUID->"baee1f36-6bcc-b244-b82e-d5f6e8899e23",
+ CellID->541313514],
+Cell[3635, 98, 211, 2, 26, "Notes",ExpressionUUID->"52545c44-6bc3-9a4c-89b5-f705cbe48b18",
+ CellID->569306411],
+Cell[3849, 102, 1609, 29, 56, "2ColumnTableMod",ExpressionUUID->"f443d503-654a-734f-8caf-afc5696f7366",
+ CellID->1155054]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5495, 136, 458, 13, 38, "SeeAlsoSection",ExpressionUUID->"1f58bfff-11e2-934e-a0c1-f230cc708020",
+ CellID->279388949],
+Cell[5956, 151, 2165, 53, 21, "SeeAlso",ExpressionUUID->"f7d1c6d6-595a-7c46-a162-ea1da38bff4d",
+ CellID->546481379]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8158, 209, 435, 12, 39, "TechNotesSection",ExpressionUUID->"43d1adcb-c818-394c-8750-167dd9ce88ba",
+ CellID->602100821],
+Cell[8596, 223, 100, 1, 17, "Tutorials",ExpressionUUID->"79439be6-6b1e-8846-961f-020d82f75c03",
+ CellID->173808674]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8733, 229, 116, 1, 37, "MoreAboutSection",ExpressionUUID->"8c9b3622-d936-164a-98a8-686a7d4a2ab3",
+ CellID->52586460],
+Cell[8852, 232, 100, 1, 17, "MoreAbout",ExpressionUUID->"5d0407bf-db53-694d-8202-6adaeb2ad3eb",
+ CellID->256678261]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8989, 238, 472, 13, 38, "RelatedLinksSection",ExpressionUUID->"c548b3a4-8bb2-4144-8f89-be7d0425c2a6",
+ CellID->338387264],
+Cell[9464, 253, 103, 1, 17, "RelatedLinks",ExpressionUUID->"5fe3f429-b547-af4f-9964-eb96fdb7ac3a",
+ CellID->316972676]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9604, 259, 529, 14, 68, "ExamplesInitializationSection",ExpressionUUID->"a8702dab-9787-544a-ab27-3d9a3ff91ec9",
+ CellID->12579307],
+Cell[10136, 275, 185, 3, 45, "ExampleInitialization",ExpressionUUID->"4903818e-b390-5b4d-855d-fefad01056ce",
+ CellID->272730597]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10358, 283, 439, 12, 69, "PrimaryExamplesSection",ExpressionUUID->"aea5f488-c800-784c-84d3-7d137017e25e",
+ CellID->530870],
+Cell[10800, 297, 252, 3, 23, "ExampleText",ExpressionUUID->"528e395f-ac8a-534e-a7e8-1ec55722bfb3",
+ CellID->222771919],
+Cell[CellGroupData[{
+Cell[11077, 304, 365, 8, 25, "Input",ExpressionUUID->"9d525abf-3f91-c94c-8229-51d76b1787ef",
+ CellID->557890103],
+Cell[11445, 314, 219, 4, 24, "Output",ExpressionUUID->"04c3e15b-0ba5-fe45-9569-9bf6abfd8b56",
+ CellID->269341203]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11701, 323, 363, 8, 25, "Input",ExpressionUUID->"218f003e-8684-c848-bcd1-ebd151f2599b",
+ CellID->480778305],
+Cell[12067, 333, 219, 4, 24, "Output",ExpressionUUID->"bb1fc41f-c6de-b344-9f82-0bd3ed58f437",
+ CellID->153384735]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12323, 342, 242, 5, 16, "ExampleDelimiter",ExpressionUUID->"0dfc6613-c40e-ec40-bf63-10f4c96ac8e7",
+ CellID->260805044],
+Cell[12568, 349, 490, 10, 23, "ExampleText",ExpressionUUID->"af5b659e-1ecd-bb45-b8b5-49d301a7f956",
+ CellID->112485116],
+Cell[CellGroupData[{
+Cell[13083, 363, 453, 11, 25, "Input",ExpressionUUID->"52e6d4d1-4c69-8e48-bbb1-b9109a076a80",
+ CellID->20573954],
+Cell[13539, 376, 217, 4, 24, "Output",ExpressionUUID->"d197393a-2532-7c4b-a86a-0e9bb85ff7c5",
+ CellID->557744937]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13805, 386, 242, 5, 16, "ExampleDelimiter",ExpressionUUID->"40210d0e-fc84-b445-9236-b6675a330518",
+ CellID->322869468],
+Cell[14050, 393, 241, 3, 23, "ExampleText",ExpressionUUID->"b55d7a58-9f02-7b49-bc38-60017037d5de",
+ CellID->140693888],
+Cell[CellGroupData[{
+Cell[14316, 400, 501, 12, 25, "Input",ExpressionUUID->"b2985961-4ed2-6842-9b00-6f3da9d3b1d5",
+ CellID->254747810],
+Cell[14820, 414, 218, 4, 24, "Output",ExpressionUUID->"7b61f345-fa55-c049-af80-20f08622a589",
+ CellID->32484414]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15099, 425, 487, 13, 56, "ExtendedExamplesSection",ExpressionUUID->"bff3ff6d-494e-8746-82c2-e180bce88ad6",
+ CellTags->"ExtendedExamples",
+ CellID->520356629],
+Cell[CellGroupData[{
+Cell[15611, 442, 241, 5, 32, "ExampleSection",ExpressionUUID->"9180a340-021f-c042-bf2a-48a717dc4d52",
+ CellID->300292749],
+Cell[15855, 449, 276, 3, 23, "ExampleText",ExpressionUUID->"a30a7681-169a-e445-847c-aaa49d8e5473",
+ CellID->164578164],
+Cell[CellGroupData[{
+Cell[16156, 456, 340, 6, 25, "Input",ExpressionUUID->"28912e7e-743e-a843-82dc-0e59c5b97ad9",
+ CellID->51602072],
+Cell[16499, 464, 423, 9, 24, "Output",ExpressionUUID->"cf58c973-6bac-0b46-af9c-0b49adafa8e0",
+ CellID->66733585]
+}, Open  ]]
+}, Open  ]],
+Cell[16949, 477, 263, 5, 32, "ExampleSection",ExpressionUUID->"e92eb6c9-3311-5f4f-a6a0-87d6a1caa049",
+ CellID->13046121],
+Cell[CellGroupData[{
+Cell[17237, 486, 243, 5, 20, "ExampleSection",ExpressionUUID->"a5f4635a-ab82-4b4d-9610-afd8c042da3c",
+ CellID->457087979],
+Cell[CellGroupData[{
+Cell[17505, 495, 253, 5, 23, "ExampleSubsection",ExpressionUUID->"e456c566-af1a-5543-8546-2922460f96aa",
+ CellID->292229927],
+Cell[17761, 502, 210, 2, 23, "ExampleText",ExpressionUUID->"0e2e917f-d914-814a-93f0-13068c9f1760",
+ CellID->656888161],
+Cell[CellGroupData[{
+Cell[17996, 508, 387, 8, 25, "Input",ExpressionUUID->"76b245e6-54e4-9244-86a5-03025c407ab1",
+ CellID->19647287],
+Cell[18386, 518, 402, 9, 24, "Output",ExpressionUUID->"8fef446a-b368-b94b-ae92-4ef37e5dbc32",
+ CellID->587633916]
+}, Open  ]],
+Cell[18803, 530, 190, 2, 23, "ExampleText",ExpressionUUID->"604ccf56-bcba-6f48-b30f-e9cbcfc4eb90",
+ CellID->512607999],
+Cell[CellGroupData[{
+Cell[19018, 536, 455, 10, 25, "Input",ExpressionUUID->"0acb6dcf-f1d3-5e4f-9e66-bc9ab5a77bf1",
+ CellID->51901616],
+Cell[19476, 548, 395, 9, 24, "Output",ExpressionUUID->"64951bdf-fd26-014f-ae1f-3ccce13d2d4f",
+ CellID->586436484]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19920, 563, 257, 5, 23, "ExampleSubsection",ExpressionUUID->"b8136aaa-98f9-0041-bd2b-0b44b8d042d2",
+ CellID->93341587],
+Cell[20180, 570, 217, 2, 23, "ExampleText",ExpressionUUID->"e0e2eef3-5198-cd41-b6ca-9664d23a7be3",
+ CellID->135722546],
+Cell[CellGroupData[{
+Cell[20422, 576, 356, 7, 25, "Input",ExpressionUUID->"3931d5cb-ba91-0447-802c-86086c0870c5",
+ CellID->89910818],
+Cell[20781, 585, 373, 8, 24, "Output",ExpressionUUID->"0b0bc586-8ba1-9849-a7fe-762edc9ca290",
+ CellID->377099900]
+}, Open  ]],
+Cell[21169, 596, 258, 3, 23, "ExampleText",ExpressionUUID->"1ec54ed3-8da2-6b4d-a469-75e278ffe29c",
+ CellID->55035650],
+Cell[CellGroupData[{
+Cell[21452, 603, 421, 8, 25, "Input",ExpressionUUID->"df759529-67b2-e642-be7e-d369bcc6467e",
+ CellID->97271922],
+Cell[21876, 613, 375, 8, 24, "Output",ExpressionUUID->"b72c3d35-a06c-824a-b1f3-f2453848d044",
+ CellID->257466130]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22312, 628, 246, 5, 32, "ExampleSection",ExpressionUUID->"94905646-f8be-7e49-89ed-3bebe7f9e031",
+ CellID->9323932],
+Cell[22561, 635, 187, 2, 23, "ExampleText",ExpressionUUID->"8468675a-95b3-8248-a720-7f53efb7d982",
+ CellID->123401369],
+Cell[CellGroupData[{
+Cell[22773, 641, 291, 5, 25, "Input",ExpressionUUID->"3eda7ade-0b88-694c-9ba8-b1bfdb868dfd",
+ CellID->79944413],
+Cell[23067, 648, 10805, 194, 137, "Output",ExpressionUUID->"a6958a88-ca40-d544-9db5-56132f83b172",
+ CellID->325460548]
+}, Open  ]],
+Cell[33887, 845, 193, 2, 23, "ExampleText",ExpressionUUID->"14577b13-4a0d-9745-8ea1-57b52b6f50c3",
+ CellID->74494194],
+Cell[CellGroupData[{
+Cell[34105, 851, 265, 5, 25, "Input",ExpressionUUID->"e78a4340-acbe-bd4a-bf6a-b9e18ad25eac",
+ CellID->382677456],
+Cell[34373, 858, 43814, 626, 51, "Output",ExpressionUUID->"e9f05b8e-8ede-ad44-b773-80627a195e02",
+ CellID->128834076]
+}, Open  ]],
+Cell[78202, 1487, 189, 2, 23, "ExampleText",ExpressionUUID->"6fbbb4fb-253f-c44e-837d-8721fd253d13",
+ CellID->17419840],
+Cell[CellGroupData[{
+Cell[78416, 1493, 233, 4, 25, "Input",ExpressionUUID->"26a259bf-8aa3-1346-bad0-9c52c23ab038",
+ CellID->123575969],
+Cell[78652, 1499, 351, 8, 24, "Output",ExpressionUUID->"0070ab87-39de-294c-bdb9-b95796a41fc9",
+ CellID->528323460]
+}, Open  ]],
+Cell[79018, 1510, 286, 5, 39, "ExampleText",ExpressionUUID->"05f41285-d5e7-344c-bcd0-56b282d5f948",
+ CellID->733876855]
+}, Open  ]],
+Cell[79319, 1518, 258, 5, 32, "ExampleSection",ExpressionUUID->"822fb214-5464-074b-b73a-a49e8ee45945",
+ CellID->437096970],
+Cell[79580, 1525, 250, 5, 20, "ExampleSection",ExpressionUUID->"cd78af93-19b7-1a49-9de9-272ee58289b8",
+ CellID->60691438],
+Cell[79833, 1532, 256, 5, 20, "ExampleSection",ExpressionUUID->"b89d81b4-cc76-a44d-ac4b-187b1550a140",
+ CellID->194306827],
+Cell[CellGroupData[{
+Cell[80114, 1541, 247, 5, 20, "ExampleSection",ExpressionUUID->"67e5ad63-b162-514a-b4ed-d650df4d925d",
+ CellID->8125943],
+Cell[80364, 1548, 351, 6, 23, "ExampleText",ExpressionUUID->"d69e89c9-17ac-284f-a75f-16250ee53e24",
+ CellID->631417840],
+Cell[CellGroupData[{
+Cell[80740, 1558, 225, 4, 25, "Input",ExpressionUUID->"c60e3139-5a0c-3e45-b4dc-6515cf81b6d0",
+ CellID->43797575],
+Cell[80968, 1564, 195, 3, 24, "Output",ExpressionUUID->"d2251c09-d2fc-da45-ba5e-4f6c5b3626f2",
+ CellID->492245935]
+}, Open  ]],
+Cell[81178, 1570, 205, 2, 23, "ExampleText",ExpressionUUID->"809a05fa-4942-e640-a81d-c22feb5b5d41",
+ CellID->138852093],
+Cell[81386, 1574, 290, 6, 25, "Input",ExpressionUUID->"c34c1a75-068a-8d43-ac02-e5fe9d62d085",
+ CellID->266408836],
+Cell[81679, 1582, 267, 3, 23, "ExampleText",ExpressionUUID->"949a0358-c9d3-6a47-8b9e-44ea1be62465",
+ CellID->247577826],
+Cell[CellGroupData[{
+Cell[81971, 1589, 624, 14, 25, "Input",ExpressionUUID->"b2e381bc-33b5-e24d-af8f-4821e9ea2068",
+ CellID->250260918],
+Cell[82598, 1605, 10869, 315, 305, "Output",ExpressionUUID->"4536c08e-6ac6-6041-8425-61169cd08b53",
+ CellID->323828083]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93528, 1927, 110, 1, 71, "MetadataSection",ExpressionUUID->"1024a889-2763-a74a-8569-b33ed20f437f",
+ CellID->211665263],
+Cell[93641, 1930, 472, 11, 25, "History",ExpressionUUID->"cc8280fe-e7ff-6544-a609-2a11d6b8cad3",
+ CellID->47153616],
+Cell[CellGroupData[{
+Cell[94138, 1945, 483, 13, 20, "CategorizationSection",ExpressionUUID->"4623cfc8-d13f-314f-968c-20e6f4b0caaa",
+ CellID->65267627],
+Cell[94624, 1960, 133, 2, 34, "Categorization",ExpressionUUID->"21ec4bfb-a153-f043-8cc4-2f095bc15567",
+ CellID->69603464],
+Cell[94760, 1964, 152, 2, 34, "Categorization",ExpressionUUID->"360449f6-3178-a049-ae5a-bb90ae3fcaf6",
+ CellID->29554404],
+Cell[94915, 1968, 150, 2, 34, "Categorization",ExpressionUUID->"3d6399c6-65c3-3b4c-872e-ad75ef913745",
+ CellID->675927755],
+Cell[95068, 1972, 160, 2, 34, "Categorization",ExpressionUUID->"53fbcfa0-e1ff-4943-864f-ca519bf9c197",
+ CellID->93881246]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[95265, 1979, 110, 1, 20, "KeywordsSection",ExpressionUUID->"dbb6774f-b02c-af42-bf6d-28e0efd2eeee",
+ CellID->525322275],
+Cell[95378, 1982, 98, 1, 70, "Keywords",ExpressionUUID->"8081a259-8a20-4447-a92e-d3c1849106be",
+ CellID->42205157]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[95513, 1988, 118, 1, 20, "TemplatesSection",ExpressionUUID->"0a65eb98-8150-3c4d-885c-b6c55f069b7c",
+ CellID->88510739],
+Cell[95634, 1991, 147, 2, 70, "Template",ExpressionUUID->"7a3917fb-a850-ed4c-ae5d-fbc36c72ce62",
+ CellID->48246364],
+Cell[95784, 1995, 137, 2, 70, "Template",ExpressionUUID->"ba79cb8e-3ea3-0946-99db-30757dfed56c",
+ CellID->372000496],
+Cell[95924, 1999, 134, 2, 70, "Template",ExpressionUUID->"539410a8-5ea3-2940-8c0e-7a526c7ef68f",
+ CellID->16025342],
+Cell[96061, 2003, 136, 2, 70, "Template",ExpressionUUID->"aef83a19-71b1-d943-8f32-4483dd42d4d9",
+ CellID->13339658]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+

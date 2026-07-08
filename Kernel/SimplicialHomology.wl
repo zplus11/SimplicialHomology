@@ -118,7 +118,7 @@ SimplicialComplex /: sc_SimplicialComplex["EdgeCount"] :=
 
 
 SimplicialComplex /: sc_SimplicialComplex["Facets"] :=
-	Facets[sc]
+	First[sc]["Facets"]
 
 
 SimplicialComplex /: sc_SimplicialComplex["FacetCount"] :=
@@ -180,25 +180,30 @@ NormaliseSimplex[Simplex[x_List]] := Sort @ x
 (*Main entry point:*)
 
 
-SimplicialComplex[data : { (_List | _Simplex) ... }] :=
-	With[
-		{norm = DeleteDuplicates[NormaliseSimplex /@ data]},
-		SimplicialComplex[<|"Facets" -> norm, "UUID" -> Hash[norm, "SHA256"]|>]]
+SimplicialComplexFromFacets[facets_] :=
+	SimplicialComplex[
+		<|
+			"Facets" -> DeleteDuplicates[NormaliseSimplex /@ facets],
+			"UUID" -> Hash[facets, "SHA256"]
+		|>]
+
+
+SimplicialComplex[data : {(_List | _Simplex)...}] :=
+	SimplicialComplexFromFacets[MaximalSimplices[data]]
 
 
 (* ::Text:: *)
 (*Other constructors:*)
 
 
-SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion), opts : OptionsPattern[]] :=
-	SimplicialComplex[
+SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion)] :=
+	SimplicialComplexFromFacets[
 		Flatten[MeshCells[reg, All]] /.
-			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]},
-		opts]
+			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]}]
 
 
 SimplicialComplex[{"Simplex", n_Integer?NonNegative}] :=
-	SimplicialComplex[{Range[n + 1]}]
+	SimplicialComplexFromFacets[{Range[n + 1]}]
 SimplicialComplex["Point"] := SimplicialComplex[{"Simplex", 0}]
 SimplicialComplex["Line"] := SimplicialComplex[{"Simplex", 1}]
 SimplicialComplex["Triangle"] := SimplicialComplex[{"Simplex", 2}]
@@ -206,13 +211,13 @@ SimplicialComplex["Tetrahedron"] := SimplicialComplex[{"Simplex", 3}]
 
 
 SimplicialComplex[{"Circle", n_Integer?NonNegative}] :=
-	SimplicialComplex[Subsets[Range[n + 2], {n + 1}]]
+	SimplicialComplexFromFacets[Subsets[Range[n + 2], {n + 1}]]
 SimplicialComplex["Circle"] := SimplicialComplex[{"Circle", 1}]
 SimplicialComplex["Sphere"] := SimplicialComplex[{"Circle", 2}]
 
 
 SimplicialComplex[{"CircleWedge", n_Integer?Positive}] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		Flatten[Table[{{1, 2 i}, {2 i, 2 i + 1}, {2 i + 1, 1}}, {i, 1, n}], 1]]
 
 
@@ -221,14 +226,14 @@ SimplicialComplex[{"CircleWedge", n_Integer?Positive}] :=
 
 
 SimplicialComplex["Torus"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{1,2,3}, {1,2,6}, {1,3,7}, {1,4,5}, {1,4,6},
 		{1,5,7}, {2,3,5}, {2,4,5}, {2,4,7}, {2,6,7},
 		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}]
 
 
 SimplicialComplex["KleinBottle"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{1,2,5}, {1,2,7}, {1,3,5}, {1,3,6}, {1,6,7},
 		{2,3,4}, {2,3,7}, {2,4,6}, {2,5,8}, {2,6,8},
 		{3,4,8}, {3,5,7}, {3,6,8}, {4,5,7}, {4,5,8},
@@ -236,19 +241,19 @@ SimplicialComplex["KleinBottle"] :=
 
 
 SimplicialComplex["MobiusStrip"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{1, 2, 4}, {2, 3, 4}, {3, 4, 5},
 		{1, 3, 5}, {1, 2, 5}}]
 
 
 SimplicialComplex["RealProjectivePlane"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{1,2,3}, {1,2,6}, {1,3,4}, {1,4,5}, {1,5,6},
 		{2,3,5}, {2,4,5}, {2,4,6}, {3,4,6}, {3,5,6}}]
 
 
 SimplicialComplex["ComplexProjectivePlane"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{2,3,4,8,9}, {2,3,4,8,10}, {2,3,4,9,10}, {2,3,5,6,7},
 		{2,3,5,6,10}, {2,3,5,7,8}, {2,3,5,8,10}, {2,3,6,7,9},
 		{2,3,6,9,10}, {2,3,7,8,9}, {2,4,5,6,7}, {2,4,5,6,8},
@@ -261,7 +266,7 @@ SimplicialComplex["ComplexProjectivePlane"] :=
 
 
 SimplicialComplex["DunceHat"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{2,3,5}, {2,3,8}, {2,3,9}, {2,4,5}, {2,4,6}, {2,4,7},
 		{2,6,7}, {2,8,9}, {3,4,6}, {3,4,8}, {3,4,9}, {3,5,6},
 		{4,5,9}, {4,7,8}, {5,6,7}, {5,7,9}, {7,8,9}}]
@@ -269,7 +274,7 @@ SimplicialComplex["DunceHat"] :=
 
 (* same homology as sS3 *)
 SimplicialComplex["PoincareHomologyThreeSphere"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{2,3,5,10}, {2,3,5,16}, {2,3,7,15}, {2,3,7,16},
 		{2,3,10,15}, {2,4,5,13}, {2,4,5,16}, {2,4,8,11},
 		{2,4,8,13}, {2,4,11,16}, {2,5,10,13}, {2,6,7,14},
@@ -293,7 +298,7 @@ SimplicialComplex["PoincareHomologyThreeSphere"] :=
 
 
 SimplicialComplex["RudinBall"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{2,3,6,10}, {2,3,6,11}, {2,5,9,10}, {2,5,9,13},
 		{2,6,10,13}, {2,6,11,12}, {2,6,12,14}, {2,8,11,12},
 		{2,8,12,14}, {2,9,10,13}, {3,4,7,11}, {3,4,7,12},
@@ -308,7 +313,7 @@ SimplicialComplex["RudinBall"] :=
 
 
 SimplicialComplex["ZieglerBall"] :=
-	SimplicialComplex[
+	SimplicialComplexFromFacets[
 		{{1,2,3,4}, {1,2,3,6}, {1,3,4,8}, {1,3,6,7}, {1,3,7,8},
 		{2,3,4,5}, {2,3,5,10}, {2,3,6,7}, {2,3,7,10}, {2,4,5,8},
 		{2,5,6,8}, {2,5,6,9}, {2,5,9,10}, {2,6,7,10}, {2,6,9,10},
@@ -353,27 +358,6 @@ SimplicialComplex /:
 (*Some helper functions to do basic examination:*)
 
 
-ClearAll[Facets];
-Facets[sc_?SimplicialComplexQ] :=
-	Module[
-		{cached, s, facets = {}},
-		
-		cached = CacheGet[sc, "Facets"];
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
-		
-		s = SortBy[
-			Replace[First[sc]["Facets"], Simplex[v_] :> Sort[v], {1}],
-				-Length[#] &];
-			
-		Do[If[
-			\[Not] AnyTrue[facets, SubsetQ[#, simplex] &],
-				AppendTo[facets, simplex]],
-			{simplex, s}];
-		
-		CacheSet[sc, "Facets", facets]]
-
-
 ClearAll[Simplices];
 Simplices[sc_, k_] :=
 	Module[
@@ -391,6 +375,21 @@ Simplices[sc_, k_] :=
 		
 		(* cache it, and return it *)
 		CacheSet[sc, {"Simplices", k}, cached]]
+
+
+ClearAll[MaximalSimplices];
+MaximalSimplices[simplices_List] :=
+	Module[
+		{s, facets = {}},
+		
+		s = SortBy[simplices, -Length[#] &];
+		
+		Do[
+			If[!AnyTrue[facets, SubsetQ[#, simplex] &],
+			AppendTo[facets, simplex]],
+			{simplex, s}];
+		
+		facets]
 
 
 ClearAll[Dimension];
@@ -438,16 +437,28 @@ BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?Positive] :=
 
 
 ClearAll[BoundaryRank];
-BoundaryRank[sc_, k_] :=
+BoundaryRank::coeffs = "Invalid coefficients `1`";
+BoundaryRank[sc_, k_, coeffs_ : Integers] :=
 	Module[
-		{cached},
+		{cached, rank},
 		
-		cached = CacheGet[sc, {"BoundaryRank", k}];
+		cached = CacheGet[sc, {"BoundaryRank", k, coeffs}];
 		If[cached =!= Missing["NotCached"],
 			Return[cached]];
-		CacheSet[
-			sc, {"BoundaryRank", k},
-			MatrixRank[BoundaryMatrix[sc, k]]]]
+		
+		rank = Switch[coeffs,
+			Integers | Rationals,
+				MatrixRank[BoundaryMatrix[sc, k]],
+			
+			_Integer,
+				MatrixRank[
+					BoundaryMatrix[sc, k], Modulus -> coeffs],
+			
+			_,
+				Message[BoundaryRank::coeffs, coeffs];
+				Return[$Failed]];
+		
+		CacheSet[sc, {"BoundaryRank", k, coeffs}, rank]]
 
 
 (* ::Subsection:: *)
@@ -506,9 +517,7 @@ SubComplexQ[
     sc1_?SimplicialComplexQ,
     sc2_?SimplicialComplexQ
 ] :=
-	AllTrue[
-		sc2["Facets"],
-		AnyTrue[sc1["Facets"], SubsetQ[#, #2] &]]
+	Nothing[] (* pending implementation *)
 
 
 (* ::Subsection:: *)
@@ -520,33 +529,37 @@ BettiNumber::usage =
 	"BettiNumber[k, n] computes the nth betti number of SimplicialComplex k.";
 BettiNumber::InvalidDimension =
 	"Betti number of dimension `1` does not exist.";
-Options[BettiNumber] = {"Reduced" -> False};
+General::NonPrimeCoefficients =
+	"\"Coefficients\" specification `1` cannot be a composite integer.";
+Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};
 BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
-	BettiNumber[sc, 0, opts] =
 	With[
 		{b0 = Length @ Simplices[sc, 0] -
-			BoundaryRank[sc, 1]},
+			BoundaryRank[sc, 1, OptionValue["Coefficients"]]},
 		If[TrueQ @ OptionValue["Reduced"],
 			Max[0, b0 - 1], b0]]
 BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{cached},
+		{cached, coeffs = OptionValue["Coefficients"]},
 		
-		cached = CacheGet[sc, {"BettiNumber", k}];
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
+		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
+			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		
+		cached = CacheGet[sc, {"BettiNumber", k, coeffs}];
+		If[cached =!= Missing["NotCached"], Return[cached]];
 			
 		cached = If[k == Dimension[sc],
-			Dimensions[BoundaryMatrix[sc, k]][[2]] - BoundaryRank[sc, k],
+			Dimensions[BoundaryMatrix[sc, k]][[2]] - BoundaryRank[sc, k, coeffs],
 				Dimensions[BoundaryMatrix[sc, k]][[2]] -
-					BoundaryRank[sc, k] - BoundaryRank[sc, k + 1]];
+					BoundaryRank[sc, k, coeffs] - BoundaryRank[sc, k + 1, coeffs]];
 		
-		CacheSet[sc, {"BettiNumber", k}, cached]]
+		CacheSet[sc, {"BettiNumber", k, coeffs}, cached]]
 BettiNumber[sc_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] :=
 	(Message[BettiNumber::InvalidDimension, k]; $Failed)
 BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
-	AssociationMap[BettiNumber[sc, #, opts] &, Range[0, Dimension[sc]]]
+	Association @ Table[
+		k -> BettiNumber[sc, k, opts], {k, 0, Dimension[sc]}]
 
 
 (* ::Subsection:: *)
@@ -556,47 +569,72 @@ BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 ClearAll[HomologyGroup];
 HomologyGroup::usage =
 	"HomologyGroup[k, n] computes the nth homology group of SimplicialComplex k.";
-Options[HomologyGroup] = {"Reduced" -> False};
+Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
 HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
-	HomologyGroup[sc, 0, opts] = 
-	With[
-		{o = Max[0, 
+	Module[
+		{o, coeffs = OptionValue["Coefficients"], grp},
+		
+		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
+			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			
+		o = Max[0, 
 			Length[Simplices[sc, 0]] -
-				BoundaryRank[sc, 1] -
-				Boole[TrueQ @ OptionValue["Reduced"]]]},
-		If[o == 0, 0, {Power[Integers, o]}]]
+				BoundaryRank[sc, 1, OptionValue["Coefficients"]] -
+				Boole[TrueQ @ OptionValue["Reduced"]]];
+				
+		grp = Which[o == 0, 0,
+			coeffs === Integers \[Or] coeffs === Rationals, 
+				If[o == 1, coeffs, Superscript[coeffs, o]],
+			MatchQ[coeffs, _Integer],
+				If[o == 1, Subscript[Integers, coeffs], Subsuperscript[Integers, coeffs, o]]]]
 HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
-		Module[
-			{cached, \[Delta]k, \[Delta]kp1, diag, torsion, free, out},
+	Module[
+		{cached, \[Delta]k, \[Delta]kp1, diag, torsion, free, out, coeffs = OptionValue["Coefficients"]},
+		
+		cached = CacheGet[sc, {"HomologyGroup", k, coeffs}];
+		
+		If[cached =!= Missing["NotCached"],
+			Return[cached]];
+		
+		\[Delta]k = BoundaryMatrix[sc, k];
+		\[Delta]kp1 = BoundaryMatrix[sc, k + 1];
+		
+		free = Dimensions[\[Delta]k][[2]] - BoundaryRank[sc, k, coeffs]
+			- BoundaryRank[sc, k + 1, coeffs];
+		
+		Switch[coeffs,
+			Integers,
+				diag = If[
+					Dimensions[\[Delta]kp1][[2]] == 0, {},
+					DeleteCases[
+						Diagonal[SmithDecomposition[\[Delta]kp1][[2]]],
+							0 | 1]];
+				torsion = CyclicGroup /@ diag;
+				out = If[torsion == {}, If[free == 1,
+					Integers, Superscript[Integers, free]],
+					Join[
+						If[free == 0, {}, If[free == 1,
+							{Integers}, {Superscript[Integers, free]}]], torsion]],
 			
-			cached = CacheGet[sc, {"HomologyGroup", k}];
+			Rationals,
+				out = If[free == 0, 0, If[free == 1,
+					Rationals, Superscript[Rationals, free]]],
 			
-			If[cached =!= Missing["NotCached"],
-				Return[cached]];
+			_Integer?PrimeQ,
+				out = If[free == 0, 0, If[free == 1,
+					Subscript[Integers, coeffs], Subsuperscript[Integers, coeffs, free]]],
 			
-			\[Delta]k = BoundaryMatrix[sc, k];
-			\[Delta]kp1 = BoundaryMatrix[sc, k + 1];
-			
-			diag = If[
-				Dimensions[\[Delta]kp1][[2]] == 0, {},
-				DeleteCases[
-					Diagonal[SmithDecomposition[\[Delta]kp1][[2]]],
-					0 | 1]];
-			
-			torsion = CyclicGroup /@ diag;
-			
-			free = Dimensions[\[Delta]k][[2]] - BoundaryRank[sc, k] -
-				BoundaryRank[sc, k + 1];
-			
-			out = Join[
-				If[free == 0, {}, {Power[Integers, free]}], torsion];
-			
-			CacheSet[sc, {"HomologyGroup", k},
-				If[out === {}, 0, out]]]
+			_Integer,
+				Message[HomologyGroup::NonPrimeCoefficients, coeffs];
+					Return[$Failed]];
+
+		CacheSet[sc, {"HomologyGroup", k, coeffs},
+			If[out === {}, 0, out]]]
 HomologyGroup[sc_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
 HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
-	AssociationMap[HomologyGroup[sc, #, opts] &, Range[0, Dimension[sc]]]
+	Association @ Table[
+		k -> HomologyGroup[sc, k, opts], {k, 0, Dimension[sc]}]
 
 
 (* ::Section::Closed:: *)

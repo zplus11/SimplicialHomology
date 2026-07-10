@@ -1,12 +1,16 @@
 # Simplicial Homology
 
-<span style="float:left;padding-right:10"><img src="Media/headline.png" width="100"></span>is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
+<img align="left" src="Media/headline.png" width="100"> is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
 
 Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology groups, Euler characteristic and f-vectors, joins, cones, suspensions, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram Language.
 
 # Installation
 
-tbd
+Easily install the package from Wolfram paclet repository using the following command:
+
+```mathematica
+PacletInstall["Taggar/SimplicialHomology"]
+```
 
 # Usage
 
@@ -25,17 +29,17 @@ In[2]:= S1 = SimplicialComplex[{{1, 2}, {2, 3}, {3, 1}}];
 or using one of the named objects:
 
 ```mathematica
-In[3]:= torus = SimplicialComplex["torus"];
+In[3]:= torus = SimplicialComplex["Torus"];
 ```
 
-Calculate its homology groups as follows:
+Calculate the homology groups of torus:
 
 ```mathematica
 In[4]:= HomologyGroup[torus]
-Out[4]= <|0 -> Integers, 1 -> Superscript[Integers,2], 2 -> Integers|>
+Out[4]= <|0 -> Integers, 1 -> Superscript[Integers, 2], 2 -> Integers|>
 ```
 
-or Betti numbers:
+or Betti numbers of <i>S</i><sup>1</sup>:
 
 ```mathematica
 In[5]:= BettiNumber[S1]
@@ -50,17 +54,44 @@ In[7]:= SimplicialSuspension[S1]
 In[8]:= SimplicialJoin[S1, torus]
 ```
 
-# Disclaimer
+Check that two simplicial complexes are isomorphic to each other:
 
-This is a pre-release. Basic functionality is there but much remains to be implemented, in particular
+```mathematica
+In[9]:= SimplicialIsomorphicQ[
+            SimplicialComplex[{{1, 2, 3}}],
+            SimplicialComplex[{{a, b, c}, {b, c}}]]
+Out[9]= True
+```
+
+Find the automorphism group of a simplicial complex:
+
+```mathematica
+In[10]:= SimplicialAutomorphismGroup[
+             SimplicialComplex["RealProjectivePlane"]]
+Out[10]= PermutationGroup[{Cycles[{{3, 5},{4, 6}}], Cycles[{{2, 3}, {5, 6}}], Cycles[{{1, 2}, {3, 5}}]}]
+```
+
+Verify that it is isomorphic to the alternating group of degree 5:
+
+```mathematica
+In[11]:= ResourceFunction["FindGroupIsomorphism"][
+             %,
+             AlternatingGroup[5]]
+Out[11]= True
+```
+
+For a full reference, visit the homepage at Wolfram paclet repository [here](https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/).
+
+# Future scope
 
 - simplicial maps
-- automorphism groups
+- relative homology
 - Stars, links, and related local constructions
-- wedge, products
-- and more along with optimisation
+- wedge, products, and more
 
 # Version log
+
+**Version 1.0.0,** *on 10 July, 2026* &mdash; public release of v1.0.0.
 
 **Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins.
 
@@ -93,5 +124,6 @@ W. Kühnel and T. F. Banchoff, The 9-vertex complex projective plane, Math. Inte
 
 [11] https://doc.sagemath.org/html/en/reference/references/index.html
 
+[12] https://resources.wolframcloud.com/FunctionRepository/resources/FindGroupIsomorphism/
 
 

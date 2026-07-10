@@ -18,6 +18,8 @@ SimplicialCone;
 SimplicialSuspension;
 BettiNumber;
 HomologyGroup;
+SimplicialAutomorphismGroup;
+SimplicialIsomorphicQ;
 
 
 Begin["`Private`"];
@@ -62,10 +64,10 @@ CacheSet[sc_, key_, value_] := (
 (*A simplicial complex is stored in the following form:*)
 
 
-ClearAll[SimplicialComplex, SimplicialComplexQ];
+ClearAll[SimplicialComplex, SimplicialComplexObject, SimplicialComplexQ];
 
 
-SimplicialComplexQ[SimplicialComplex[
+SimplicialComplexQ[SimplicialComplexObject[
 	KeyValuePattern[{
 		"Facets" -> {_List ..},
 		"UUID" -> _}]
@@ -77,7 +79,7 @@ SimplicialComplexQ[_] := False
 (*Some properties:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["Dimension"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Dimension"] :=
 	Dimension[sc]
 
 
@@ -85,7 +87,7 @@ SimplicialComplex /: sc_SimplicialComplex["Dimension"] :=
 (*Association of all simplices sorted by dimension:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["Simplices"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Simplices"] :=
 	Association @ Table[i -> Simplices[sc, i], {i, 0, sc["Dimension"]}]
 
 
@@ -93,39 +95,39 @@ SimplicialComplex /: sc_SimplicialComplex["Simplices"] :=
 (*All simplices count:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["SimplexCount"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["SimplexCount"] :=
 	Total[Length /@ Values[sc["Simplices"]]]
 
 
-SimplicialComplex /: sc_SimplicialComplex["EulerCharacteristic"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["EulerCharacteristic"] :=
 	EuChar[sc]
 
 
-SimplicialComplex /: sc_SimplicialComplex["Vertices"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Vertices"] :=
 	Flatten @ Simplices[sc, 0]
 
 
-SimplicialComplex /: sc_SimplicialComplex["VertexCount"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["VertexCount"] :=
 	Length @ sc["Vertices"]
 
 
-SimplicialComplex /: sc_SimplicialComplex["Edges"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Edges"] :=
 	Simplices[sc, 1]
 
 
-SimplicialComplex /: sc_SimplicialComplex["EdgeCount"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["EdgeCount"] :=
 	Length @ sc["Edges"]
 
 
-SimplicialComplex /: sc_SimplicialComplex["Facets"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Facets"] :=
 	First[sc]["Facets"]
 
 
-SimplicialComplex /: sc_SimplicialComplex["FacetCount"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["FacetCount"] :=
 	Length @ sc["Facets"]
 
 
-SimplicialComplex /: sc_SimplicialComplex["FVector"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["FVector"] :=
 	Length /@ Values @ sc["Simplices"]
 
 
@@ -133,7 +135,7 @@ SimplicialComplex /: sc_SimplicialComplex["FVector"] :=
 (*A simplicial complex is pure if all of its facets have the same dimension:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["PureQ"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["PureQ"] :=
 	Length @ Union[(Length[#]-1)& /@ sc["Facets"]] == 1
 
 
@@ -141,7 +143,7 @@ SimplicialComplex /: sc_SimplicialComplex["PureQ"] :=
 (*Graph made out of 0- and 1-dimensional simplices:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["1Skeleton"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["1Skeleton"] :=
 	Graph[sc["Vertices"], UndirectedEdge @@@ sc["Edges"]]
 
 
@@ -149,7 +151,7 @@ SimplicialComplex /: sc_SimplicialComplex["1Skeleton"] :=
 (*Simplicial complex's connected components are precisely the connected components of its 1-skeleton:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["ConnectedComponents"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["ConnectedComponents"] :=
 	ConnectedComponents[sc["1Skeleton"]]
 
 
@@ -157,11 +159,11 @@ SimplicialComplex /: sc_SimplicialComplex["ConnectedComponents"] :=
 (*It is connected if the 1-skeleton is connected:*)
 
 
-SimplicialComplex /: sc_SimplicialComplex["ConnectedQ"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["ConnectedQ"] :=
 	Length[sc["ConnectedComponents"]] == 1
 
 
-SimplicialComplex /: sc_SimplicialComplex["Properties"] :=
+SimplicialComplexObject /: sc_SimplicialComplexObject["Properties"] :=
 	{"Dimension", "Simplices", "SimplexCount", "EulerCharacteristic",
 	"Vertices", "VertexCount", "Edges", "EdgeCount", "Facets", "FacetCount",
 	"FVector", "PureQ", "1Skeleton", "ConnectedComponents", "ConnectedQ",
@@ -172,88 +174,114 @@ SimplicialComplex /: sc_SimplicialComplex["Properties"] :=
 (*Input methods:*)
 
 
-NormaliseSimplex[x : _List] := Sort @ x
-NormaliseSimplex[Simplex[x_List]] := Sort @ x
+Listify[x : _List] := Sort @ x
+Listify[Simplex[x_List]] := Sort @ x
 
 
 (* ::Text:: *)
 (*Main entry point:*)
 
 
-SimplicialComplexFromFacets[facets_] :=
-	SimplicialComplex[
-		<|
-			"Facets" -> DeleteDuplicates[NormaliseSimplex /@ facets],
-			"UUID" -> Hash[facets, "SHA256"]
-		|>]
+SimplicialComplex::usage =
+	"SimplicialComplex[{Simplex[\[Ellipsis]], ...}] represents an abstract simplicial complex created from given Simplex objects.
+SimplicialComplex[{{\[Ellipsis]}, ...}] represents an abstract simplicial complex created from given List objects.
+SimplicialComplex[mesh] represents an abstract simplicial complex created from given Mesh region.
+SimplicialComplex[\"name\"] represents an abstract simplicial complex created from the given name specification.";
+SimplicialComplex::InvalidOptionValue =
+	"The option value \"`1`\" -> `2` is invalid.";
+Options[SimplicialComplex] =
+	{"MaximalityCheck" -> True};
 
 
-SimplicialComplex[data : {(_List | _Simplex)...}] :=
-	SimplicialComplexFromFacets[MaximalSimplices[data]]
+SimplicialComplex[data : {(_List | _Simplex)...}, opts : OptionsPattern[]] :=
+	Module[
+		{good = {}, maximal = Listify /@ data, mcheck, ordering, order, norm},
+		
+		mcheck = OptionValue["MaximalityCheck"];
+		If[\[Not] BooleanQ[mcheck],
+			Message[SimplicialComplex::InvalidOptionValue, "MaximalityCheck", mcheck];
+			Return[$Failed]];
+		
+		(* calculating maximals is easier when sorted by length *)
+		If[mcheck,
+			maximal = ReverseSortBy[maximal, Length]];
+			
+		Scan[Function[face,
+				If[\[Not] mcheck \[Or] \[Not] AnyTrue[good, SubsetQ[#, face] &],
+					AppendTo[good, face]]],
+			maximal];
+		
+		SimplicialComplexObject[
+			<|
+				"Facets" -> good,
+				"UUID" -> Hash[good, "SHA256"]
+			|>]]
 
 
 (* ::Text:: *)
 (*Other constructors:*)
 
 
-SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion)] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion), opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		Flatten[MeshCells[reg, All]] /.
-			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]}]
+			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]},
+		"MaximalityCheck" -> False] (* mesh gives too many maximal points, sorry *)
 
 
-SimplicialComplex[{"Simplex", n_Integer?NonNegative}] :=
-	SimplicialComplexFromFacets[{Range[n + 1]}]
-SimplicialComplex["Point"] := SimplicialComplex[{"Simplex", 0}]
-SimplicialComplex["Line"] := SimplicialComplex[{"Simplex", 1}]
-SimplicialComplex["Triangle"] := SimplicialComplex[{"Simplex", 2}]
-SimplicialComplex["Tetrahedron"] := SimplicialComplex[{"Simplex", 3}]
+SimplicialComplex[{"Simplex", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
+	SimplicialComplex[{Range[n + 1]}, "MaximalityCheck" -> False, opts]
+SimplicialComplex["Point", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 0}, opts]
+SimplicialComplex["Line", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 1}, opts]
+SimplicialComplex["Triangle", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 2}, opts]
+SimplicialComplex["Tetrahedron", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 3}, opts]
 
 
-SimplicialComplex[{"Circle", n_Integer?NonNegative}] :=
-	SimplicialComplexFromFacets[Subsets[Range[n + 2], {n + 1}]]
-SimplicialComplex["Circle"] := SimplicialComplex[{"Circle", 1}]
-SimplicialComplex["Sphere"] := SimplicialComplex[{"Circle", 2}]
+SimplicialComplex[{"Circle", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
+	SimplicialComplex[Subsets[Range[n + 2], {n + 1}], "MaximalityCheck" -> False, opts]
+SimplicialComplex["Circle", opts : OptionsPattern[]] := SimplicialComplex[{"Circle", 1}, opts]
+SimplicialComplex["Sphere", opts : OptionsPattern[]] := SimplicialComplex[{"Circle", 2}, opts]
 
 
-SimplicialComplex[{"CircleWedge", n_Integer?Positive}] :=
-	SimplicialComplexFromFacets[
-		Flatten[Table[{{1, 2 i}, {2 i, 2 i + 1}, {2 i + 1, 1}}, {i, 1, n}], 1]]
+SimplicialComplex[{"CircleWedge", n_Integer?Positive}, opts : OptionsPattern[]] :=
+	SimplicialComplex[
+		Flatten[Table[{{1, 2 i}, {2 i, 2 i + 1}, {2 i + 1, 1}}, {i, 1, n}], 1],
+			"MaximalityCheck" -> False, opts]
 
 
 (* ::Text:: *)
 (*For the spaces below, facets were taken from sagemath Python:*)
 
 
-SimplicialComplex["Torus"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["Torus", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{1,2,3}, {1,2,6}, {1,3,7}, {1,4,5}, {1,4,6},
 		{1,5,7}, {2,3,5}, {2,4,5}, {2,4,7}, {2,6,7},
-		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}]
+		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["KleinBottle"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["KleinBottle", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{1,2,5}, {1,2,7}, {1,3,5}, {1,3,6}, {1,6,7},
 		{2,3,4}, {2,3,7}, {2,4,6}, {2,5,8}, {2,6,8},
 		{3,4,8}, {3,5,7}, {3,6,8}, {4,5,7}, {4,5,8},
-		{4,6,7}}]
+		{4,6,7}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["MobiusStrip"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["MobiusStrip", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{1, 2, 4}, {2, 3, 4}, {3, 4, 5},
-		{1, 3, 5}, {1, 2, 5}}]
+		{1, 3, 5}, {1, 2, 5}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["RealProjectivePlane"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["RealProjectivePlane", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{1,2,3}, {1,2,6}, {1,3,4}, {1,4,5}, {1,5,6},
-		{2,3,5}, {2,4,5}, {2,4,6}, {3,4,6}, {3,5,6}}]
+		{2,3,5}, {2,4,5}, {2,4,6}, {3,4,6}, {3,5,6}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["ComplexProjectivePlane"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["ComplexProjectivePlane", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{2,3,4,8,9}, {2,3,4,8,10}, {2,3,4,9,10}, {2,3,5,6,7},
 		{2,3,5,6,10}, {2,3,5,7,8}, {2,3,5,8,10}, {2,3,6,7,9},
 		{2,3,6,9,10}, {2,3,7,8,9}, {2,4,5,6,7}, {2,4,5,6,8},
@@ -262,19 +290,19 @@ SimplicialComplex["ComplexProjectivePlane"] :=
 		{3,4,5,6,7}, {3,4,5,6,9}, {3,4,5,7,10}, {3,4,5,9,10},
 		{3,4,6,7,8}, {3,4,6,8,9}, {3,4,7,8,10}, {3,5,6,9,10},
 		{3,5,7,8,10}, {3,6,7,8,9}, {4,5,6,8,9}, {4,5,7,9,10},
-		{4,6,7,8,10}, {5,6,8,9,10}, {5,7,8,9,10}, {6,7,8,9,10}}]
+		{4,6,7,8,10}, {5,6,8,9,10}, {5,7,8,9,10}, {6,7,8,9,10}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["DunceHat"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["DunceHat", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{2,3,5}, {2,3,8}, {2,3,9}, {2,4,5}, {2,4,6}, {2,4,7},
 		{2,6,7}, {2,8,9}, {3,4,6}, {3,4,8}, {3,4,9}, {3,5,6},
-		{4,5,9}, {4,7,8}, {5,6,7}, {5,7,9}, {7,8,9}}]
+		{4,5,9}, {4,7,8}, {5,6,7}, {5,7,9}, {7,8,9}}, "MaximalityCheck" -> False, opts]
 
 
-(* same homology as sS3 *)
-SimplicialComplex["PoincareHomologyThreeSphere"] :=
-	SimplicialComplexFromFacets[
+(* same homology as S3 *)
+SimplicialComplex["PoincareHomologyThreeSphere", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{2,3,5,10}, {2,3,5,16}, {2,3,7,15}, {2,3,7,16},
 		{2,3,10,15}, {2,4,5,13}, {2,4,5,16}, {2,4,8,11},
 		{2,4,8,13}, {2,4,11,16}, {2,5,10,13}, {2,6,7,14},
@@ -294,11 +322,11 @@ SimplicialComplex["PoincareHomologyThreeSphere"] :=
 		{7,13,14,16}, {8,9,11,15}, {8,9,12,16}, {8,9,15,16}, {8,10,15,16},
 		{9,13,15,16}, {10,11,12,13}, {10,11,12,17}, {10,11,16,17}, {10,12,15,17},
 		{10,15,16,17}, {11,12,14,17}, {11,14,16,17}, {12,14,15,17}, {13,14,15,16},
-		{14,15,16,17}}]
+		{14,15,16,17}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["RudinBall"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["RudinBall", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{2,3,6,10}, {2,3,6,11}, {2,5,9,10}, {2,5,9,13},
 		{2,6,10,13}, {2,6,11,12}, {2,6,12,14}, {2,8,11,12},
 		{2,8,12,14}, {2,9,10,13}, {3,4,7,11}, {3,4,7,12},
@@ -309,26 +337,26 @@ SimplicialComplex["RudinBall"] :=
 		{5,8,12,13}, {5,9,10,11}, {5,9,11,15}, {5,9,12,13},
 		{6,10,11,12}, {6,10,12,14}, {7,11,12,13}, {7,11,13,15},
 		{8,10,12,13}, {8,10,12,14}, {9,10,11,13}, {9,11,13,15},
-		{10,11,12,13}}]
+		{10,11,12,13}}, "MaximalityCheck" -> False, opts]
 
 
-SimplicialComplex["ZieglerBall"] :=
-	SimplicialComplexFromFacets[
+SimplicialComplex["ZieglerBall", opts : OptionsPattern[]] :=
+	SimplicialComplex[
 		{{1,2,3,4}, {1,2,3,6}, {1,3,4,8}, {1,3,6,7}, {1,3,7,8},
 		{2,3,4,5}, {2,3,5,10}, {2,3,6,7}, {2,3,7,10}, {2,4,5,8},
 		{2,5,6,8}, {2,5,6,9}, {2,5,9,10}, {2,6,7,10}, {2,6,9,10},
 		{3,4,5,9}, {3,4,7,8}, {3,4,7,9}, {4,5,8,9}, {4,7,8,9},
-		{5,6,8,9}}]
+		{5,6,8,9}}, "MaximalityCheck" -> False, opts]
 
 
 (* ::Subsection:: *)
 (*Formatting:*)
 
 
-SimplicialComplex /:
-	MakeBoxes[sc_SimplicialComplex?SimplicialComplexQ, form_] :=
+SimplicialComplexObject /:
+	MakeBoxes[sc_SimplicialComplexObject?SimplicialComplexQ, form_] :=
 		Module[
-			{smallQ = sc["FacetCount"] <= 1000, largeicon},
+			{smallQ = sc["FacetCount"] <= 100, largeicon},
 			
 			largeicon = Graphics3D[
 				{Opacity[.6], MeshRegion[{{0, 0, 0}, {2, 0, 0}, {2, 2, 0},
@@ -376,24 +404,11 @@ Simplices[sc_, k_] :=
 		(* cache it, and return it *)
 		CacheSet[sc, {"Simplices", k}, cached]]
 
-
-ClearAll[MaximalSimplices];
-MaximalSimplices[simplices_List] :=
-	Module[
-		{s, facets = {}},
-		
-		s = SortBy[simplices, -Length[#] &];
-		
-		Do[
-			If[!AnyTrue[facets, SubsetQ[#, simplex] &],
-			AppendTo[facets, simplex]],
-			{simplex, s}];
-		
-		facets]
+(* Similarly other routines are also cached *)
 
 
 ClearAll[Dimension];
-Dimension[sc : _SimplicialComplex] := Max[Length /@ sc["Facets"]] - 1
+Dimension[sc : _SimplicialComplexObject] := Max[Length /@ sc["Facets"]] - 1
 
 
 ClearAll[Boundary];
@@ -404,7 +419,7 @@ Boundary[s : _List] :=
 
 
 ClearAll[EuChar];
-EuChar[sc_SimplicialComplex] :=
+EuChar[sc : _SimplicialComplexObject] :=
 	Total[
 		MapIndexed[
 			(-1)^(First[#2]-1) #1 &, sc["FVector"]]]
@@ -511,13 +526,21 @@ SimplicialSuspension[sc_?SimplicialComplexQ] :=
 (*SubComplexQ*)
 
 
+SimplexInQ[sc_, sim_] :=
+	MemberQ[
+		(* vvv if sim is of length k, then whether it is a
+		   vvv		part of the (k-1)-dimensional simplices of sc *)
+		Lookup[sc["Simplices"], Length @ DeleteDuplicates @ sim - 1, {}],
+		sim]
+
+
 ClearAll[SubComplexQ];
-SubComplexQ::usage = "SubComplexQ[k1, k2] checks if k2 is a subcomplex of k1.";
+SubComplexQ::usage = "SubComplexQ[sc1, sc2] checks if sc2 is a subcomplex of sc1.";
 SubComplexQ[
     sc1_?SimplicialComplexQ,
     sc2_?SimplicialComplexQ
 ] :=
-	Nothing[] (* pending implementation *)
+	AllTrue[sc2["Facets"], SimplexInQ[sc1, #] &]
 
 
 (* ::Subsection:: *)
@@ -526,7 +549,8 @@ SubComplexQ[
 
 ClearAll[BettiNumber];
 BettiNumber::usage =
-	"BettiNumber[k, n] computes the nth betti number of SimplicialComplex k.";
+	"BettiNumber[sc, n] computes the nth betti number of simplicial complex sc.
+BettiNumber[sc] computes all betti numbers of the simplicial complex sc.";
 BettiNumber::InvalidDimension =
 	"Betti number of dimension `1` does not exist.";
 General::NonPrimeCoefficients =
@@ -536,6 +560,7 @@ BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	With[
 		{b0 = Length @ Simplices[sc, 0] -
 			BoundaryRank[sc, 1, OptionValue["Coefficients"]]},
+			
 		If[TrueQ @ OptionValue["Reduced"],
 			Max[0, b0 - 1], b0]]
 BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
@@ -566,32 +591,65 @@ BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 (*Homology group*)
 
 
+ClearAll[FormatGroup];
+FormatGroup[0, {}, coeffs_] := 0
+FormatGroup[free_, torsion_List, coeffs_] :=
+	Module[
+		{freePart},
+		
+		freePart = Switch[
+			coeffs,
+				Integers, Which[
+						free == 0, Nothing,
+						free == 1, Integers,
+						True, Superscript[Integers, free]],
+				
+				Rationals, Which[
+						free == 0, Nothing,
+						free == 1, Rationals,
+						True, Superscript[Rationals, free]],
+				
+				_Integer?PrimeQ,
+					With[{p = coeffs}, Which[
+							free == 0, Nothing,
+							free == 1, Subscript[Integers, p],
+							True, Subsuperscript[Integers, p, free]]]];
+		Which[
+			freePart === Nothing && torsion === {}, 0,
+			freePart === Nothing, If[Length[torsion] == 1,
+				First@torsion, torsion],
+			torsion === {}, freePart,
+			Length[torsion] == 1, {freePart, First@torsion},
+			True, Prepend[torsion, freePart]]]
+
+
 ClearAll[HomologyGroup];
 HomologyGroup::usage =
-	"HomologyGroup[k, n] computes the nth homology group of SimplicialComplex k.";
+	"HomologyGroup[sc, n] computes the nth homology group of the simplicial complex sc.
+HomologyGroup[sc] computes all homology groups of the simplicial complex sc.";
 Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
 HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	Module[
 		{o, coeffs = OptionValue["Coefficients"], grp},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
-			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
 			
-		o = Max[0, 
-			Length[Simplices[sc, 0]] -
-				BoundaryRank[sc, 1, OptionValue["Coefficients"]] -
-				Boole[TrueQ @ OptionValue["Reduced"]]];
-				
-		grp = Which[o == 0, 0,
-			coeffs === Integers \[Or] coeffs === Rationals, 
-				If[o == 1, coeffs, Superscript[coeffs, o]],
-			MatchQ[coeffs, _Integer],
-				If[o == 1, Subscript[Integers, coeffs], Subsuperscript[Integers, coeffs, o]]]]
+		o = Max[0, Length[Simplices[sc, 0]] -
+			BoundaryRank[sc, 1, coeffs] -
+			Boole[TrueQ @ OptionValue["Reduced"]]];
+		
+		Switch[coeffs,
+			Integers | Rationals, FormatGroup[o, {}, coeffs],
+			_Integer?PrimeQ, FormatGroup[o, {}, coeffs]]]
 HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
 		{cached, \[Delta]k, \[Delta]kp1, diag, torsion, free, out, coeffs = OptionValue["Coefficients"]},
 		
+		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
+			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			
 		cached = CacheGet[sc, {"HomologyGroup", k, coeffs}];
 		
 		If[cached =!= Missing["NotCached"],
@@ -605,36 +663,61 @@ HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[
 		
 		Switch[coeffs,
 			Integers,
-				diag = If[
-					Dimensions[\[Delta]kp1][[2]] == 0, {},
+				diag = If[Dimensions[\[Delta]kp1][[2]] == 0, {},
 					DeleteCases[
-						Diagonal[SmithDecomposition[\[Delta]kp1][[2]]],
-							0 | 1]];
-				torsion = CyclicGroup /@ diag;
-				out = If[torsion == {}, If[free == 1,
-					Integers, Superscript[Integers, free]],
-					Join[
-						If[free == 0, {}, If[free == 1,
-							{Integers}, {Superscript[Integers, free]}]], torsion]],
+						Diagonal[SmithDecomposition[\[Delta]kp1][[2]]], 0 | 1]];
 			
-			Rationals,
-				out = If[free == 0, 0, If[free == 1,
-					Rationals, Superscript[Rationals, free]]],
-			
-			_Integer?PrimeQ,
-				out = If[free == 0, 0, If[free == 1,
-					Subscript[Integers, coeffs], Subsuperscript[Integers, coeffs, free]]],
-			
-			_Integer,
-				Message[HomologyGroup::NonPrimeCoefficients, coeffs];
-					Return[$Failed]];
-
-		CacheSet[sc, {"HomologyGroup", k, coeffs},
-			If[out === {}, 0, out]]]
+				out = FormatGroup[free, CyclicGroup /@ diag, coeffs],			
+			Rationals, out = FormatGroup[free, {}, coeffs],
+			_Integer?PrimeQ, out = FormatGroup[free, {}, coeffs]]]
 HomologyGroup[sc_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
 HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 	Association @ Table[
 		k -> HomologyGroup[sc, k, opts], {k, 0, Dimension[sc]}]
+
+
+(* ::Subsection:: *)
+(*Automorphism group*)
+
+
+SimplicialIncidenceGraph[sc_] :=
+	Module[
+		{verts, facets, v, f},
+		verts = v /@ sc["Vertices"];
+		facets = sc["Facets"];
+		
+		Graph[
+			Join[verts, f /@ Range[Length[facets]]], 
+			Flatten @ MapIndexed[Thread[DirectedEdge[v /@ #1, f[#2[[1]]]]] &,
+				facets]]]
+
+
+ClearAll[SimplicialAutomorphismGroup];
+SimplicialAutomorphismGroup::usage =
+	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
+SimplicialAutomorphismGroup[sc_?SimplicialComplexQ] :=
+	Module[
+		{verts, v, gens},
+		verts = v /@ sc["Vertices"];
+		
+		gens = With[
+			{img = PermutationReplace[verts, #]},
+			FindPermutation[verts, img]] & /@
+				GroupGenerators @ GraphAutomorphismGroup @ SimplicialIncidenceGraph[sc];
+				
+		PermutationGroup[gens]]
+
+
+(* ::Subsection:: *)
+(*SimplicialIsomorphicQ*)
+
+
+ClearAll[SimplicialIsomorphicQ];
+SimplicialIsomorphicQ::usage =
+	"SimplicialIsomorphicQ[sc1, sc2] checks whether the given simplicial complexes are isomorphic or not.";
+SimplicialIsomorphicQ[sc1_?SimplicialComplexQ, sc2_?SimplicialComplexQ] :=
+	IsomorphicGraphQ[SimplicialIncidenceGraph[sc1],
+		SimplicialIncidenceGraph[sc2]]
 
 
 (* ::Section::Closed:: *)

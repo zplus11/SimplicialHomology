@@ -35,6 +35,7 @@ Begin["`Private`"];
 
 If[\[Not] AssociationQ @ $SimplicialCache,
 	$SimplicialCache = <||>];
+$SimplicialCache = <||>;
 
 
 (* ::Text:: *)
@@ -566,20 +567,15 @@ BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{cached, coeffs = OptionValue["Coefficients"]},
+		{coeffs = OptionValue["Coefficients"]},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
-		
-		cached = CacheGet[sc, {"BettiNumber", k, coeffs}];
-		If[cached =!= Missing["NotCached"], Return[cached]];
 			
-		cached = If[k == Dimension[sc],
+		If[k == Dimension[sc],
 			Dimensions[BoundaryMatrix[sc, k]][[2]] - BoundaryRank[sc, k, coeffs],
 				Dimensions[BoundaryMatrix[sc, k]][[2]] -
-					BoundaryRank[sc, k, coeffs] - BoundaryRank[sc, k + 1, coeffs]];
-		
-		CacheSet[sc, {"BettiNumber", k, coeffs}, cached]]
+					BoundaryRank[sc, k, coeffs] - BoundaryRank[sc, k + 1, coeffs]]]
 BettiNumber[sc_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] :=
 	(Message[BettiNumber::InvalidDimension, k]; $Failed)
 BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
@@ -623,6 +619,19 @@ FormatGroup[free_, torsion_List, coeffs_] :=
 			True, Prepend[torsion, freePart]]]
 
 
+getSmith[sc_, k_] :=
+	Module[
+		{cached},
+		
+		cached = CacheGet[sc, {"Smith", k}]; (* Smith decomposition of
+		                                              k + 1 boundary matrix *)
+		If[cached =!= Missing["NotCached"],
+			Return[cached]];
+		
+		res = SmithReduce[BoundaryMatrix[sc, k]];
+		CacheSet[sc, {"Smith", k}, res]]
+
+
 ClearAll[HomologyGroup];
 HomologyGroup::usage =
 	"HomologyGroup[sc, n] computes the nth homology group of the simplicial complex sc.
@@ -645,15 +654,10 @@ HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{cached, \[Delta]k, \[Delta]kp1, diag, torsion, free, out, coeffs = OptionValue["Coefficients"]},
+		{\[Delta]k, \[Delta]kp1, diag, torsion, free, out, coeffs = OptionValue["Coefficients"]},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
-			
-		cached = CacheGet[sc, {"HomologyGroup", k, coeffs}];
-		
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
 		
 		\[Delta]k = BoundaryMatrix[sc, k];
 		\[Delta]kp1 = BoundaryMatrix[sc, k + 1];
@@ -665,7 +669,7 @@ HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[
 			Integers,
 				diag = If[Dimensions[\[Delta]kp1][[2]] == 0, {},
 					DeleteCases[
-						Diagonal[SmithDecomposition[\[Delta]kp1][[2]]], 0 | 1]];
+						Diagonal[getSmith[sc, k + 1]], 0 | 1]];
 			
 				out = FormatGroup[free, CyclicGroup /@ diag, coeffs],			
 			Rationals, out = FormatGroup[free, {}, coeffs],

@@ -482,8 +482,8 @@ BoundaryRank[sc_, k_, coeffs_ : Integers] :=
 
 
 SimplexJoin[s1_List, s2_List] :=
-	Join[Table["L" <> ToString[i], {i, s1}],
-		Table["R" <> ToString[i], {i, s2}]]
+	Join[Table[Subscript[i, "L"], {i, s1}],
+		Table[Subscript[j, "R"], {j, s2}]]
 
 
 ClearAll[SimplicialComplexJoin];

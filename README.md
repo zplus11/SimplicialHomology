@@ -4,6 +4,8 @@
 
 Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology groups, Euler characteristic and f-vectors, joins, cones, suspensions, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram Language.
 
+Wolfram paclet repository: https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/
+
 # Installation
 
 Easily install the package from Wolfram paclet repository using the following command:

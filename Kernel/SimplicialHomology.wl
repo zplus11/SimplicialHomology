@@ -16,6 +16,8 @@ SubComplexQ;
 SimplicialJoin;
 SimplicialCone;
 SimplicialSuspension;
+SimplicialStar;
+SimplicialLink;
 BettiNumber;
 HomologyGroup;
 SimplicialAutomorphismGroup;
@@ -35,7 +37,6 @@ Begin["`Private`"];
 
 If[\[Not] AssociationQ @ $SimplicialCache,
 	$SimplicialCache = <||>];
-$SimplicialCache = <||>;
 
 
 (* ::Text:: *)
@@ -70,7 +71,7 @@ ClearAll[SimplicialComplex, SimplicialComplexObject, SimplicialComplexQ];
 
 SimplicialComplexQ[SimplicialComplexObject[
 	KeyValuePattern[{
-		"Facets" -> {_List ..},
+		"Facets" -> {_List ... },
 		"UUID" -> _}]
 ]] := True
 SimplicialComplexQ[_] := False
@@ -88,8 +89,12 @@ SimplicialComplexObject /: sc_SimplicialComplexObject["Dimension"] :=
 (*Association of all simplices sorted by dimension:*)
 
 
+EmptyComplexQ[sc_?SimplicialComplexQ] := sc["Dimension"] == -Infinity
+
+
 SimplicialComplexObject /: sc_SimplicialComplexObject["Simplices"] :=
-	Association @ Table[i -> Simplices[sc, i], {i, 0, sc["Dimension"]}]
+	If[EmptyComplexQ[sc], <||>, (* special case the empty complex *)
+	Association @ Table[i -> Simplices[sc, i], {i, 0, sc["Dimension"]}]]
 
 
 (* ::Text:: *)
@@ -194,7 +199,7 @@ Options[SimplicialComplex] =
 	{"MaximalityCheck" -> True};
 
 
-SimplicialComplex[data : {(_List | _Simplex)...}, opts : OptionsPattern[]] :=
+SimplicialComplex[data : { (_List | _Simplex) ... }, opts : OptionsPattern[]] :=
 	Module[
 		{good = {}, maximal = Listify /@ data, mcheck, ordering, order, norm},
 		
@@ -523,16 +528,50 @@ SimplicialSuspension[sc_?SimplicialComplexQ] :=
 		sc, SimplicialComplex[{"Circle", 0}]]
 
 
-(* ::Subsection:: *)
-(*SubComplexQ*)
-
-
 SimplexInQ[sc_, sim_] :=
 	MemberQ[
 		(* vvv if sim is of length k, then whether it is a
 		   vvv		part of the (k-1)-dimensional simplices of sc *)
 		Lookup[sc["Simplices"], Length @ DeleteDuplicates @ sim - 1, {}],
 		sim]
+
+
+ClearAll[SimplicialStar];
+SimplicialStar::usage =
+	"SimplicialStar[sc, sigma] returns the star of the complex sigma in the simplicial complex sc.";
+SimplicialStar::NotSimplex =
+	"`1` is not a simplex present in the complex.";
+SimplicialStar[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
+	Module[
+		{norm = Listify @ sigma},
+		
+		If[\[Not] SimplexInQ[sc, norm],
+			Message[SimplicialStar::NotSimplex, norm]; $Failed,
+			SimplicialComplex[
+				Select[sc["Facets"], SubsetQ[#, norm] &],
+				"MaximalityCheck" -> False]]]
+
+
+ClearAll[SimplicialLink];
+SimplicialLink::usage =
+	"SimplicialLink[sc, sigma] returns the link of the complex sigma in the simplicial complex sc.";
+SimplicialLink::NotSimplex =
+	"`1` is not a simplex present in the complex.";
+SimplicialLink[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
+	Module[
+		{facets, norm = Listify @ sigma},
+		
+		facets = Select[sc["Facets"], SubsetQ[#, norm] &];
+		
+		If[\[Not] SimplexInQ[sc, norm],
+			Message[SimplicialLink::NotSimplex, norm]; $Failed,
+			SimplicialComplex[
+				DeleteCases[Complement[#, norm] & /@ facets, {}],
+				"MaximalityCheck" -> False]]]
+
+
+(* ::Subsection:: *)
+(*SubComplexQ*)
 
 
 ClearAll[SubComplexQ];
@@ -552,11 +591,22 @@ ClearAll[BettiNumber];
 BettiNumber::usage =
 	"BettiNumber[sc, n] computes the nth betti number of simplicial complex sc.
 BettiNumber[sc] computes all betti numbers of the simplicial complex sc.";
-BettiNumber::InvalidDimension =
-	"Betti number of dimension `1` does not exist.";
 General::NonPrimeCoefficients =
 	"\"Coefficients\" specification `1` cannot be a composite integer.";
 Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};
+
+
+(* ::Text:: *)
+(*Special case the empty complex:*)
+
+
+BettiNumber[sc_?EmptyComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
+
+
+(* ::Text:: *)
+(*0th betti number of a complex:*)
+
+
 BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	With[
 		{b0 = Length @ Simplices[sc, 0] -
@@ -564,6 +614,13 @@ BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 			
 		If[TrueQ @ OptionValue["Reduced"],
 			Max[0, b0 - 1], b0]]
+
+
+(* ::Text:: *)
+(*General case:*)
+
+
+(* upto dimension *)
 BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
@@ -576,9 +633,16 @@ BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]]
 			Dimensions[BoundaryMatrix[sc, k]][[2]] - BoundaryRank[sc, k, coeffs],
 				Dimensions[BoundaryMatrix[sc, k]][[2]] -
 					BoundaryRank[sc, k, coeffs] - BoundaryRank[sc, k + 1, coeffs]]]
-BettiNumber[sc_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] :=
-	(Message[BettiNumber::InvalidDimension, k]; $Failed)
-BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+(* beyond dimension *)
+BettiNumber[sc_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
+
+
+(* ::Text:: *)
+(*All betti numbers (in association form) :*)
+
+
+BettiNumber[sc_?EmptyComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
+BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
 	Association @ Table[
 		k -> BettiNumber[sc, k, opts], {k, 0, Dimension[sc]}]
 
@@ -637,6 +701,19 @@ HomologyGroup::usage =
 	"HomologyGroup[sc, n] computes the nth homology group of the simplicial complex sc.
 HomologyGroup[sc] computes all homology groups of the simplicial complex sc.";
 Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
+
+
+(* ::Text:: *)
+(*Likewise as for betti numbers we follow the same scheme, first off special case the empty complex:*)
+
+
+HomologyGroup[sc_?EmptyComplexQ, n : _Integer, opts : OptionsPattern[]] := 0
+
+
+(* ::Text:: *)
+(*0th homology group:*)
+
+
 HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	Module[
 		{o, coeffs = OptionValue["Coefficients"], grp},
@@ -651,6 +728,13 @@ HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 		Switch[coeffs,
 			Integers | Rationals, FormatGroup[o, {}, coeffs],
 			_Integer?PrimeQ, FormatGroup[o, {}, coeffs]]]
+
+
+(* ::Text:: *)
+(*General case:*)
+
+
+(* upto dimension *)
 HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
@@ -674,8 +758,16 @@ HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[
 				out = FormatGroup[free, CyclicGroup /@ diag, coeffs],			
 			Rationals, out = FormatGroup[free, {}, coeffs],
 			_Integer?PrimeQ, out = FormatGroup[free, {}, coeffs]]]
+(* beyond dimension *)
 HomologyGroup[sc_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
-HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+
+
+(* ::Text:: *)
+(*All groups in association form:*)
+
+
+HomologyGroup[sc_?EmptyComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
+HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
 	Association @ Table[
 		k -> HomologyGroup[sc, k, opts], {k, 0, Dimension[sc]}]
 

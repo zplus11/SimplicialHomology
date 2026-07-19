@@ -146,7 +146,7 @@ SimplicialComplexObject /: sc_SimplicialComplexObject["PureQ"] :=
 
 
 (* ::Text:: *)
-(*Graph made out of 0- and 1-dimensional simplices:*)
+(*Graph made out of the 0- and 1-dimensional simplices of the given complex:*)
 
 
 SimplicialComplexObject /: sc_SimplicialComplexObject["1Skeleton"] :=
@@ -232,7 +232,7 @@ SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion), opts : OptionsPatte
 	SimplicialComplex[
 		Flatten[MeshCells[reg, All]] /.
 			{Point[v_] :> Simplex[{v}], Line[v_] | Polygon[v_] | Tetrahedron[v_] :> Simplex[v]},
-		"MaximalityCheck" -> False] (* mesh gives too many maximal points, sorry *)
+		opts]
 
 
 SimplicialComplex[{"Simplex", n_Integer?NonNegative}, opts : OptionsPattern[]] :=

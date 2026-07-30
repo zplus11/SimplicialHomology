@@ -27,8 +27,165 @@ SimplicialIsomorphicQ;
 Begin["`Private`"];
 
 
-(* ::Section:: *)
-(*Definitions*)
+(* ::Subsection:: *)
+(*Some helper functions to do basic examination:*)
+
+
+ClearAll[Simplices];
+Simplices[sc_, k_] :=
+	Module[
+		{cached},
+		(* We look in the cache *)
+		cached = CacheGet[sc, {"Simplices", k}];
+		(* If it is not missing, *)
+		If[cached =!= Missing["NotCached"],
+			(* Return it *)
+			Return[cached]];
+		
+		(* else calculate the required *)
+		cached = DeleteDuplicates @ Flatten[
+			Subsets[#, {k + 1}] & /@ sc["Facets"], 1];
+		
+		(* cache it, and return it *)
+		CacheSet[sc, {"Simplices", k}, cached]]
+
+(* Similarly other routines are also cached *)
+
+
+ClearAll[Dimension];
+Dimension[sc : _SimplicialComplexObject] := Max[Length /@ sc["Facets"]] - 1
+
+
+ClearAll[Boundary];
+Boundary[s : _List] :=
+	Table[
+		{Delete[s, i], (-1)^(i - 1)},
+		{i, Length[s]}]
+
+
+ClearAll[EuChar];
+EuChar[sc : _SimplicialComplexObject] :=
+	Total[
+		MapIndexed[
+			(-1)^(First[#2]-1) #1 &, sc["FVector"]]]
+
+
+(* ::Subsection:: *)
+(*Boundary matrices*)
+
+
+ClearAll[BoundaryMatrix];
+BoundaryMatrix[sc_?SimplicialComplexQ, 0] :=
+	SparseArray[{}, {Length @ Simplices[sc, 0], 0}]
+BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?Positive] :=
+	Module[
+		{rows, cols, lookup, rules},
+		
+		rows = Simplices[sc, k - 1];
+		cols = Simplices[sc, k];
+		
+		lookup = AssociationThread[rows -> Range[Length[rows]]];
+		
+		rules = Flatten @ MapIndexed[
+			Function[{simp, col},
+				({lookup[#1[[1]]], col[[1]]} -> #1[[2]]) & /@ Boundary[simp]],
+			cols];
+		
+		SparseArray[rules, {Length[rows], Length[cols]}]]
+
+
+ClearAll[BoundaryRank];
+BoundaryRank::coeffs = "Invalid coefficients `1`";
+BoundaryRank[sc_, k_, coeffs_ : Integers] :=
+	Module[
+		{cached, rank},
+		
+		cached = CacheGet[sc, {"BoundaryRank", k, coeffs}];
+		If[cached =!= Missing["NotCached"],
+			Return[cached]];
+		
+		rank = Switch[coeffs,
+			Integers | Rationals,
+				MatrixRank[BoundaryMatrix[sc, k]],
+			
+			_Integer,
+				MatrixRank[
+					BoundaryMatrix[sc, k], Modulus -> coeffs],
+			
+			_,
+				Message[BoundaryRank::coeffs, coeffs];
+				Return[$Failed]];
+		
+		CacheSet[sc, {"BoundaryRank", k, coeffs}, rank]]
+
+
+(* ::Subsection:: *)
+(*Homology groups*)
+
+
+ClearAll[FormatGroup];
+FormatGroup[0, {}, coeffs_] := 0
+FormatGroup[free_, torsion_List, coeffs_] :=
+	Module[
+		{freePart},
+		
+		freePart = Switch[
+			coeffs,
+				Integers, Which[
+						free == 0, Nothing,
+						free == 1, Integers,
+						True, Superscript[Integers, free]],
+				
+				Rationals, Which[
+						free == 0, Nothing,
+						free == 1, Rationals,
+						True, Superscript[Rationals, free]],
+				
+				_Integer?PrimeQ,
+					With[{p = coeffs}, Which[
+							free == 0, Nothing,
+							free == 1, Subscript[Integers, p],
+							True, Subsuperscript[Integers, p, free]]]];
+		Which[
+			freePart === Nothing && torsion === {}, 0,
+			freePart === Nothing, If[Length[torsion] == 1,
+				First@torsion, torsion],
+			torsion === {}, freePart,
+			Length[torsion] == 1, {freePart, First@torsion},
+			True, Prepend[torsion, freePart]]]
+
+
+getSmith[sc_, k_] :=
+	Module[
+		{cached, res},
+		
+		cached = CacheGet[sc, {"Smith", k}]; (* Smith decomposition of
+		                                              k + 1th boundary matrix *)
+		If[cached =!= Missing["NotCached"],
+			Return[cached]];
+		
+		res = SmithReduce[BoundaryMatrix[sc, k]];
+		CacheSet[sc, {"Smith", k}, res]]
+
+
+(* ::Subsection:: *)
+(*Incidence graphs*)
+
+
+SimplicialIncidenceGraph[sc_] :=
+	Module[
+		{verts, facets, v, f},
+		verts = v /@ sc["Vertices"];
+		facets = sc["Facets"];
+		
+		Graph[
+			Join[verts, f /@ Range[Length[facets]]], 
+			Flatten @ MapIndexed[Thread[DirectedEdge[v /@ #1, f[#2[[1]]]]] &,
+				facets]]]
+
+
+(* ::Subsection:: *)
+(*Sys*)
 
 
 (* ::Text:: *)
@@ -60,6 +217,10 @@ CacheSet[sc_, key_, value_] := (
 	If[!KeyExistsQ[$SimplicialCache, SimplicialComplexUUID[sc]],
 		$SimplicialCache[SimplicialComplexUUID[sc]] = <||>];
 		$SimplicialCache[SimplicialComplexUUID[sc], HoldComplete[key]] = value; value)
+
+
+(* ::Section:: *)
+(*Definitions*)
 
 
 (* ::Text:: *)
@@ -94,7 +255,9 @@ EmptyComplexQ[sc_?SimplicialComplexQ] := sc["Dimension"] == -Infinity
 
 SimplicialComplexObject /: sc_SimplicialComplexObject["Simplices"] :=
 	If[EmptyComplexQ[sc], <||>, (* special case the empty complex *)
-	Association @ Table[i -> Simplices[sc, i], {i, 0, sc["Dimension"]}]]
+	Join[
+		<| -1 -> {{}} |>, (* empty simplex *)
+		Association @ Table[i -> Simplices[sc, i], {i, 0, sc["Dimension"]}]]]
 
 
 (* ::Text:: *)
@@ -226,6 +389,9 @@ SimplicialComplex[data : { (_List | _Simplex) ... }, opts : OptionsPattern[]] :=
 
 (* ::Text:: *)
 (*Other constructors:*)
+
+
+SimplicialComplex[] := SimplicialComplex[{}]
 
 
 SimplicialComplex[reg : (_MeshRegion | _BoundaryMeshRegion), opts : OptionsPattern[]] :=
@@ -386,100 +552,6 @@ SimplicialComplexObject /:
 					 (* else *)
 					 {BoxForm`SummaryItem[{"Facets: ", sc["FacetCount"]}],
 					  BoxForm`SummaryItem[{"PureQ: ", sc["PureQ"]}]}], form, "Interpretable" -> Automatic]]
-
-
-(* ::Subsection:: *)
-(*Some helper functions to do basic examination:*)
-
-
-ClearAll[Simplices];
-Simplices[sc_, k_] :=
-	Module[
-		{cached},
-		(* We look in the cache *)
-		cached = CacheGet[sc, {"Simplices", k}];
-		(* If it is not missing, *)
-		If[cached =!= Missing["NotCached"],
-			(* Return it *)
-			Return[cached]];
-		
-		(* else calculate the required *)
-		cached = DeleteDuplicates @ Flatten[
-			Subsets[#, {k + 1}] & /@ sc["Facets"], 1];
-		
-		(* cache it, and return it *)
-		CacheSet[sc, {"Simplices", k}, cached]]
-
-(* Similarly other routines are also cached *)
-
-
-ClearAll[Dimension];
-Dimension[sc : _SimplicialComplexObject] := Max[Length /@ sc["Facets"]] - 1
-
-
-ClearAll[Boundary];
-Boundary[s : _List] :=
-	Table[
-		{Delete[s, i], (-1)^(i - 1)},
-		{i, Length[s]}]
-
-
-ClearAll[EuChar];
-EuChar[sc : _SimplicialComplexObject] :=
-	Total[
-		MapIndexed[
-			(-1)^(First[#2]-1) #1 &, sc["FVector"]]]
-
-
-ClearAll[BoundaryMatrix];
-BoundaryMatrix[sc_?SimplicialComplexQ, 0] :=
-	SparseArray[{}, {Length @ Simplices[sc, 0], 0}]
-BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?Positive] :=
-	Module[
-		{cached, rows, cols, lookup, rules},
-		
-		cached = CacheGet[sc, {"BoundaryMatrix", k}];
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
-		
-		rows = Simplices[sc, k - 1];
-		cols = Simplices[sc, k];
-		
-		lookup = AssociationThread[rows -> Range[Length[rows]]];
-		
-		rules = Flatten @ MapIndexed[
-			Function[{simp, col},
-				({lookup[#1[[1]]], col[[1]]} -> #1[[2]]) & /@ Boundary[simp]],
-			cols];
-		
-		CacheSet[
-			sc, {"BoundaryMatrix", k},
-			SparseArray[rules, {Length[rows], Length[cols]}]]]
-
-
-ClearAll[BoundaryRank];
-BoundaryRank::coeffs = "Invalid coefficients `1`";
-BoundaryRank[sc_, k_, coeffs_ : Integers] :=
-	Module[
-		{cached, rank},
-		
-		cached = CacheGet[sc, {"BoundaryRank", k, coeffs}];
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
-		
-		rank = Switch[coeffs,
-			Integers | Rationals,
-				MatrixRank[BoundaryMatrix[sc, k]],
-			
-			_Integer,
-				MatrixRank[
-					BoundaryMatrix[sc, k], Modulus -> coeffs],
-			
-			_,
-				Message[BoundaryRank::coeffs, coeffs];
-				Return[$Failed]];
-		
-		CacheSet[sc, {"BoundaryRank", k, coeffs}, rank]]
 
 
 (* ::Subsection:: *)
@@ -651,51 +723,6 @@ BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
 (*Homology group*)
 
 
-ClearAll[FormatGroup];
-FormatGroup[0, {}, coeffs_] := 0
-FormatGroup[free_, torsion_List, coeffs_] :=
-	Module[
-		{freePart},
-		
-		freePart = Switch[
-			coeffs,
-				Integers, Which[
-						free == 0, Nothing,
-						free == 1, Integers,
-						True, Superscript[Integers, free]],
-				
-				Rationals, Which[
-						free == 0, Nothing,
-						free == 1, Rationals,
-						True, Superscript[Rationals, free]],
-				
-				_Integer?PrimeQ,
-					With[{p = coeffs}, Which[
-							free == 0, Nothing,
-							free == 1, Subscript[Integers, p],
-							True, Subsuperscript[Integers, p, free]]]];
-		Which[
-			freePart === Nothing && torsion === {}, 0,
-			freePart === Nothing, If[Length[torsion] == 1,
-				First@torsion, torsion],
-			torsion === {}, freePart,
-			Length[torsion] == 1, {freePart, First@torsion},
-			True, Prepend[torsion, freePart]]]
-
-
-getSmith[sc_, k_] :=
-	Module[
-		{cached},
-		
-		cached = CacheGet[sc, {"Smith", k}]; (* Smith decomposition of
-		                                              k + 1 boundary matrix *)
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
-		
-		res = SmithReduce[BoundaryMatrix[sc, k]];
-		CacheSet[sc, {"Smith", k}, res]]
-
-
 ClearAll[HomologyGroup];
 HomologyGroup::usage =
 	"HomologyGroup[sc, n] computes the nth homology group of the simplicial complex sc.
@@ -774,18 +801,6 @@ HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *
 
 (* ::Subsection:: *)
 (*Automorphism group*)
-
-
-SimplicialIncidenceGraph[sc_] :=
-	Module[
-		{verts, facets, v, f},
-		verts = v /@ sc["Vertices"];
-		facets = sc["Facets"];
-		
-		Graph[
-			Join[verts, f /@ Range[Length[facets]]], 
-			Flatten @ MapIndexed[Thread[DirectedEdge[v /@ #1, f[#2[[1]]]]] &,
-				facets]]]
 
 
 ClearAll[SimplicialAutomorphismGroup];

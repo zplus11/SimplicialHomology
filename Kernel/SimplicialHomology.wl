@@ -28,6 +28,41 @@ Begin["`Private`"];
 
 
 (* ::Subsection:: *)
+(*Caching*)
+
+
+(* ::Text:: *)
+(*A global cache system is maintained:*)
+
+
+If[\[Not] AssociationQ @ $SimplicialCache,
+	$SimplicialCache = <||>];
+
+
+(* ::Text:: *)
+(*Each simplicial complex is to have a hash ID corresponding to the facet data:*)
+
+
+SimplicialComplexUUID[sc_] := First[sc]["UUID"]
+
+
+(* ::Text:: *)
+(*Helper functions to deal with cache:*)
+
+
+CacheGet[sc_, key_] :=
+	Lookup[
+		Lookup[$SimplicialCache, SimplicialComplexUUID[sc], <||>],
+		HoldComplete[key],
+		Missing["NotCached"]]
+
+CacheSet[sc_, key_, value_] := (
+	If[!KeyExistsQ[$SimplicialCache, SimplicialComplexUUID[sc]],
+		$SimplicialCache[SimplicialComplexUUID[sc]] = <||>];
+		$SimplicialCache[SimplicialComplexUUID[sc], HoldComplete[key]] = value; value)
+
+
+(* ::Subsection:: *)
 (*Some helper functions to do basic examination:*)
 
 
@@ -75,48 +110,61 @@ EuChar[sc : _SimplicialComplexObject] :=
 
 
 ClearAll[BoundaryMatrix];
-BoundaryMatrix[sc_?SimplicialComplexQ, 0] :=
-	SparseArray[{}, {Length @ Simplices[sc, 0], 0}]
-BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?Positive] :=
+BoundaryMatrix[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0] := 
+    SparseArray[{}, {0, Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]]}]
+BoundaryMatrix[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positive] := 
 	Module[
+		
 		{rows, cols, lookup, rules},
 		
-		rows = Simplices[sc, k - 1];
-		cols = Simplices[sc, k];
+		(* the basis for C_k(sc, sub) and C_{k-1}(sc, sub) *)
+		cols = Complement[Simplices[sc, k], Simplices[sub, k]];
+		rows = Complement[Simplices[sc, k - 1], Simplices[sub, k - 1]];
+		
+		If[Length[cols] == 0, Return[SparseArray[{}, {Length[rows], 0}]]];
+		If[Length[rows] == 0, Return[SparseArray[{}, {0, Length[cols]}]]];
 		
 		lookup = AssociationThread[rows -> Range[Length[rows]]];
 		
 		rules = Flatten @ MapIndexed[
 			Function[{simp, col},
-				({lookup[#1[[1]]], col[[1]]} -> #1[[2]]) & /@ Boundary[simp]],
+				Map[
+					If[KeyExistsQ[lookup, #[[1]]],
+						{lookup[#[[1]]], col[[1]]} -> #[[2]],
+						Nothing] &,
+					Boundary[simp]]],
 			cols];
 		
 		SparseArray[rules, {Length[rows], Length[cols]}]]
+(* now absolute matrix is just a special case of relative *)
+BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?NonNegative] :=
+	BoundaryMatrix[sc, SimplicialComplex[], k]
 
 
 ClearAll[BoundaryRank];
 BoundaryRank::coeffs = "Invalid coefficients `1`";
-BoundaryRank[sc_, k_, coeffs_ : Integers] :=
+BoundaryRank[sc_, sub_, k_, coeffs_] :=
 	Module[
-		{cached, rank},
+		{cached, rank, mat},
 		
-		cached = CacheGet[sc, {"BoundaryRank", k, coeffs}];
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
+		cached = CacheGet[sc, {"BoundaryRank", SimplicialComplexUUID @ sub, k, coeffs}];
+		If[cached =!= Missing["NotCached"], Return[cached]];
 		
-		rank = Switch[coeffs,
-			Integers | Rationals,
-				MatrixRank[BoundaryMatrix[sc, k]],
+		mat = BoundaryMatrix[sc, sub, k];
+		
+		rank = If[Times @@ Dimensions[mat] == 0, 0,
+			Switch[coeffs,
+				Integers | Rationals, MatrixRank[mat],
 			
-			_Integer,
-				MatrixRank[
-					BoundaryMatrix[sc, k], Modulus -> coeffs],
+				_Integer, MatrixRank[mat, Modulus -> coeffs],
 			
-			_,
-				Message[BoundaryRank::coeffs, coeffs];
-				Return[$Failed]];
+				_,
+					Message[BoundaryRank::coeffs, coeffs];
+					Return[$Failed]]];
 		
-		CacheSet[sc, {"BoundaryRank", k, coeffs}, rank]]
+		CacheSet[sc, {"BoundaryRank", SimplicialComplexUUID @ sub, k, coeffs}, rank]]
+BoundaryRank[sc_, k_, coeffs_] :=
+	BoundaryRank[sc, SimplicialComplex[], k, coeffs]
 
 
 (* ::Subsection:: *)
@@ -155,17 +203,18 @@ FormatGroup[free_, torsion_List, coeffs_] :=
 			True, Prepend[torsion, freePart]]]
 
 
-getSmith[sc_, k_] :=
+getSmith[sc_, sub_, k_] :=
 	Module[
 		{cached, res},
 		
-		cached = CacheGet[sc, {"Smith", k}]; (* Smith decomposition of
-		                                              k + 1th boundary matrix *)
+		(* Smith decomposition of k + 1th boundary matrix *)
+		cached = CacheGet[sc, {"Smith", SimplicialComplexUUID @ sub, k}];
+		
 		If[cached =!= Missing["NotCached"],
 			Return[cached]];
 		
-		res = SmithReduce[BoundaryMatrix[sc, k]];
-		CacheSet[sc, {"Smith", k}, res]]
+		res = SmithReduce[BoundaryMatrix[sc, sub, k]];
+		CacheSet[sc, {"Smith", SimplicialComplexUUID @ sub, k}, res]]
 
 
 (* ::Subsection:: *)
@@ -182,41 +231,6 @@ SimplicialIncidenceGraph[sc_] :=
 			Join[verts, f /@ Range[Length[facets]]], 
 			Flatten @ MapIndexed[Thread[DirectedEdge[v /@ #1, f[#2[[1]]]]] &,
 				facets]]]
-
-
-(* ::Subsection:: *)
-(*Sys*)
-
-
-(* ::Text:: *)
-(*A global cache system is maintained:*)
-
-
-If[\[Not] AssociationQ @ $SimplicialCache,
-	$SimplicialCache = <||>];
-
-
-(* ::Text:: *)
-(*Each simplicial complex is to have a hash ID corresponding to the facet data:*)
-
-
-SimplicialComplexUUID[sc_] := First[sc]["UUID"]
-
-
-(* ::Text:: *)
-(*Helper functions to deal with cache:*)
-
-
-CacheGet[sc_, key_] :=
-	Lookup[
-		Lookup[$SimplicialCache, SimplicialComplexUUID[sc], <||>],
-		HoldComplete[key],
-		Missing["NotCached"]]
-
-CacheSet[sc_, key_, value_] := (
-	If[!KeyExistsQ[$SimplicialCache, SimplicialComplexUUID[sc]],
-		$SimplicialCache[SimplicialComplexUUID[sc]] = <||>];
-		$SimplicialCache[SimplicialComplexUUID[sc], HoldComplete[key]] = value; value)
 
 
 (* ::Section:: *)
@@ -672,19 +686,24 @@ Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};
 (*Special case the empty complex:*)
 
 
-BettiNumber[sc_?EmptyComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
+BettiNumber[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
 
 
 (* ::Text:: *)
 (*0th betti number of a complex:*)
 
 
-BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
-	With[
-		{b0 = Length @ Simplices[sc, 0] -
-			BoundaryRank[sc, 1, OptionValue["Coefficients"]]},
-			
-		If[TrueQ @ OptionValue["Reduced"],
+BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
+	Module[
+		{b0, coeffs = OptionValue["Coefficients"]},
+		
+		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
+			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		
+		b0 = Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
+			BoundaryRank[sc, sub, 1, coeffs];
+		
+		If[TrueQ @ OptionValue["Reduced"] \[And] EmptyComplexQ[sub],
 			Max[0, b0 - 1], b0]]
 
 
@@ -693,30 +712,41 @@ BettiNumber[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 
 
 (* upto dimension *)
-BettiNumber[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
+BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k : _Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{coeffs = OptionValue["Coefficients"]},
+		{coeffs = OptionValue["Coefficients"], size},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		
+		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
 			
 		If[k == Dimension[sc],
-			Dimensions[BoundaryMatrix[sc, k]][[2]] - BoundaryRank[sc, k, coeffs],
-				Dimensions[BoundaryMatrix[sc, k]][[2]] -
-					BoundaryRank[sc, k, coeffs] - BoundaryRank[sc, k + 1, coeffs]]]
+			size - BoundaryRank[sc, sub, k, coeffs],
+			size - BoundaryRank[sc, sub, k, coeffs] - BoundaryRank[sc, sub, k+1, coeffs]]]
 (* beyond dimension *)
-BettiNumber[sc_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
+BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
 
 
 (* ::Text:: *)
 (*All betti numbers (in association form) :*)
 
 
-BettiNumber[sc_?EmptyComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
-BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
+BettiNumber[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
+BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
 	Association @ Table[
-		k -> BettiNumber[sc, k, opts], {k, 0, Dimension[sc]}]
+		k -> BettiNumber[sc, sub, k, opts], {k, 0, Dimension[sc]}]
+
+
+(* ::Text:: *)
+(*Absolute betti numbers:*)
+
+
+BettiNumber[sc_?SimplicialComplexQ, k_Integer?NonNegative, opts : OptionsPattern[]] :=
+	BettiNumber[sc, SimplicialComplex[], k, opts]
+BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+	BettiNumber[sc, SimplicialComplex[], opts]
 
 
 (* ::Subsection:: *)
@@ -734,23 +764,24 @@ Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
 (*Likewise as for betti numbers we follow the same scheme, first off special case the empty complex:*)
 
 
-HomologyGroup[sc_?EmptyComplexQ, n : _Integer, opts : OptionsPattern[]] := 0
+HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, n : _Integer, opts : OptionsPattern[]] := 0
 
 
 (* ::Text:: *)
 (*0th homology group:*)
 
 
-HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	Module[
 		{o, coeffs = OptionValue["Coefficients"], grp},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
 			
-		o = Max[0, Length[Simplices[sc, 0]] -
-			BoundaryRank[sc, 1, coeffs] -
-			Boole[TrueQ @ OptionValue["Reduced"]]];
+		o = Max[0,
+			Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
+				BoundaryRank[sc, sub, 1, coeffs] - Boole[
+					TrueQ[OptionValue["Reduced"]] \[And] EmptyComplexQ[sub]]];
 		
 		Switch[coeffs,
 			Integers | Rationals, FormatGroup[o, {}, coeffs],
@@ -762,41 +793,52 @@ HomologyGroup[sc_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 
 
 (* upto dimension *)
-HomologyGroup[sc_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{\[Delta]k, \[Delta]kp1, diag, torsion, free, out, coeffs = OptionValue["Coefficients"]},
+		{\[Delta]kp1, diag, torsion, free, out, size, coeffs = OptionValue["Coefficients"]},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
 		
-		\[Delta]k = BoundaryMatrix[sc, k];
-		\[Delta]kp1 = BoundaryMatrix[sc, k + 1];
+		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
 		
-		free = Dimensions[\[Delta]k][[2]] - BoundaryRank[sc, k, coeffs]
-			- BoundaryRank[sc, k + 1, coeffs];
+		\[Delta]kp1 = BoundaryMatrix[sc, sub, k + 1];
+		
+		free = size - BoundaryRank[sc, sub, k, coeffs] -
+			BoundaryRank[sc, sub, k+1, coeffs];
 		
 		Switch[coeffs,
 			Integers,
-				diag = If[Dimensions[\[Delta]kp1][[2]] == 0, {},
+				diag = If[Times @@ Dimensions[\[Delta]kp1] == 0, {},
 					DeleteCases[
-						Diagonal[getSmith[sc, k + 1]], 0 | 1]];
+						Diagonal[getSmith[sc, sub, k + 1]], 0 | 1]];
 			
 				out = FormatGroup[free, CyclicGroup /@ diag, coeffs],			
 			Rationals, out = FormatGroup[free, {}, coeffs],
 			_Integer?PrimeQ, out = FormatGroup[free, {}, coeffs]]]
 (* beyond dimension *)
-HomologyGroup[sc_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
 
 
 (* ::Text:: *)
 (*All groups in association form:*)
 
 
-HomologyGroup[sc_?EmptyComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
-HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
+HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
 	Association @ Table[
-		k -> HomologyGroup[sc, k, opts], {k, 0, Dimension[sc]}]
+		k -> HomologyGroup[sc, sub, k, opts], {k, 0, Dimension[sc]}]
+
+
+(* ::Text:: *)
+(*Absolute homology:*)
+
+
+HomologyGroup[sc_?SimplicialComplexQ, k_Integer?NonNegative, opts : OptionsPattern[]] :=
+	HomologyGroup[sc, SimplicialComplex[], k, opts]
+HomologyGroup[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+	HomologyGroup[sc, SimplicialComplex[], opts]
 
 
 (* ::Subsection:: *)

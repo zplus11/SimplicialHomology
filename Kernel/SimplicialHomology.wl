@@ -175,7 +175,7 @@ ClearAll[FormatGroup];
 FormatGroup[0, {}, coeffs_] := 0
 FormatGroup[free_, torsion_List, coeffs_] :=
 	Module[
-		{freePart},
+		{freePart, torsionPart, parts},
 		
 		freePart = Switch[
 			coeffs,
@@ -194,13 +194,18 @@ FormatGroup[free_, torsion_List, coeffs_] :=
 							free == 0, Nothing,
 							free == 1, Subscript[Integers, p],
 							True, Subsuperscript[Integers, p, free]]]];
+		
+		torsionPart = Which[
+			torsion === {}, Nothing,
+			Length[torsion] == 1, Subscript[Integers, First @ torsion],
+			True, CirclePlus @@ Thread[Subscript[Integers, torsion]]];
+		
+		parts = {freePart, torsionPart};
+		
 		Which[
-			freePart === Nothing && torsion === {}, 0,
-			freePart === Nothing, If[Length[torsion] == 1,
-				First@torsion, torsion],
-			torsion === {}, freePart,
-			Length[torsion] == 1, {freePart, First@torsion},
-			True, Prepend[torsion, freePart]]]
+			parts === {Nothing, Nothing}, 0,
+			Count[parts, Except[Nothing]] == 1, First@DeleteCases[parts, Nothing],
+			True, CirclePlus @@ DeleteCases[parts, Nothing]]]
 
 
 getSmith[sc_, sub_, k_] :=
@@ -675,10 +680,14 @@ SubComplexQ[
 
 ClearAll[BettiNumber];
 BettiNumber::usage =
-	"BettiNumber[sc, n] computes the nth betti number of simplicial complex sc.
-BettiNumber[sc] computes all betti numbers of the simplicial complex sc.";
+	"BettiNumber[sc, n] computes the nth betti number of sc.
+BettiNumber[sc] computes all betti numbers of sc.
+BettiNumber[sc, sub, n] computes the nth betti number of sc relative to sub.
+BettiNumber[sc, sub] computes all betti numbers of sc relative to sub.";
 General::NonPrimeCoefficients =
 	"\"Coefficients\" specification `1` cannot be a composite integer.";
+General::InvalidSubcomplex =
+	"`1` is not a valid subcomplex.";
 Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};
 
 
@@ -700,6 +709,9 @@ BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPa
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
 		
+		If[\[Not] SubComplexQ[sc, sub],
+			Message[BettiNumber::InvalidSubcomplex, sub]; Return[$Failed]];
+		
 		b0 = Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
 			BoundaryRank[sc, sub, 1, coeffs];
 		
@@ -719,6 +731,9 @@ BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k : _Integer?Positi
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		
+		If[\[Not] SubComplexQ[sc, sub],
+			Message[BettiNumber::InvalidSubcomplex, sub]; Return[$Failed]];
 		
 		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
 			
@@ -755,8 +770,10 @@ BettiNumber[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 
 ClearAll[HomologyGroup];
 HomologyGroup::usage =
-	"HomologyGroup[sc, n] computes the nth homology group of the simplicial complex sc.
-HomologyGroup[sc] computes all homology groups of the simplicial complex sc.";
+	"HomologyGroup[sc, n] computes the nth homology group of sc.
+HomologyGroup[sc] computes all homology groups of sc.
+HomologyGroup[sc, sub, n] computes the nth homology group of sc relative to sub.
+HomologyGroup[sc, sub] computes all homology groups of sc relative to sub.";
 Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
 
 
@@ -777,6 +794,9 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : Options
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		
+		If[\[Not] SubComplexQ[sc, sub],
+			Message[HomologyGroup::InvalidSubcomplex, sub]; Return[$Failed]];
 			
 		o = Max[0,
 			Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
@@ -801,6 +821,9 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positiv
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
 			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
 		
+		If[\[Not] SubComplexQ[sc, sub],
+			Message[HomologyGroup::InvalidSubcomplex, sub]; Return[$Failed]];
+		
 		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
 		
 		\[Delta]kp1 = BoundaryMatrix[sc, sub, k + 1];
@@ -814,7 +837,7 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positiv
 					DeleteCases[
 						Diagonal[getSmith[sc, sub, k + 1]], 0 | 1]];
 			
-				out = FormatGroup[free, CyclicGroup /@ diag, coeffs],			
+				out = FormatGroup[free, diag, coeffs],			
 			Rationals, out = FormatGroup[free, {}, coeffs],
 			_Integer?PrimeQ, out = FormatGroup[free, {}, coeffs]]]
 (* beyond dimension *)

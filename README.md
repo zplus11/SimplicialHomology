@@ -82,9 +82,9 @@ Out[11]= True
 Construct stars or links of simplices:
 
 ```mathematica
-sc = SimplicialComplex[{{1, 2, 3}, {2, 3, 4}}];
-SimplicialStar[sc, {1}]
-SimplicialLink[sc,{2, 3}]
+In[12]:= sc = SimplicialComplex[{{1, 2, 3}, {2, 3, 4}}];
+In[13]:= SimplicialStar[sc, {1}]
+In[14]:= SimplicialLink[sc,{2, 3}]
 ```
 
 For a full reference, visit the homepage at Wolfram paclet repository [here](https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/).

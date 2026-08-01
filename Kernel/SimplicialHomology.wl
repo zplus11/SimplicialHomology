@@ -629,7 +629,7 @@ SimplexInQ[sc_, sim_] :=
 
 ClearAll[SimplicialStar];
 SimplicialStar::usage =
-	"SimplicialStar[sc, sigma] returns the star of the complex sigma in the simplicial complex sc.";
+	"SimplicialStar[sc, sigma] returns the star of sigma in sc.";
 SimplicialStar::NotSimplex =
 	"`1` is not a simplex present in the complex.";
 SimplicialStar[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
@@ -645,7 +645,7 @@ SimplicialStar[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
 
 ClearAll[SimplicialLink];
 SimplicialLink::usage =
-	"SimplicialLink[sc, sigma] returns the link of the complex sigma in the simplicial complex sc.";
+	"SimplicialLink[sc, sigma] returns the link of sigma in sc.";
 SimplicialLink::NotSimplex =
 	"`1` is not a simplex present in the complex.";
 SimplicialLink[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=

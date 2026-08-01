@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Naman T.",
     "License" -> "MIT",
     "PublisherID" -> "Taggar",
-    "Version" -> "1.0.0",
+    "Version" -> "1.1.0",
     "WolframVersion" -> "15+",
     "PrimaryContext" -> "Taggar`SimplicialHomology`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
@@ -24,6 +24,8 @@ PacletObject[
           "Taggar`SimplicialHomology`SimplicialCone",
           "Taggar`SimplicialHomology`SimplicialIsomorphicQ",
           "Taggar`SimplicialHomology`SimplicialJoin",
+          "Taggar`SimplicialHomology`SimplicialLink",
+          "Taggar`SimplicialHomology`SimplicialStar",
           "Taggar`SimplicialHomology`SimplicialSuspension",
           "Taggar`SimplicialHomology`SubComplexQ"
         }

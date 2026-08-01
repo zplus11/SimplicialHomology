@@ -68,18 +68,23 @@ Out[9]= True
 Find the automorphism group of a simplicial complex:
 
 ```mathematica
-In[10]:= SimplicialAutomorphismGroup[
-             SimplicialComplex["RealProjectivePlane"]]
+In[10]:= SimplicialAutomorphismGroup[SimplicialComplex["RealProjectivePlane"]]
 Out[10]= PermutationGroup[{Cycles[{{3, 5},{4, 6}}], Cycles[{{2, 3}, {5, 6}}], Cycles[{{1, 2}, {3, 5}}]}]
 ```
 
 Verify that it is isomorphic to the alternating group of degree 5:
 
 ```mathematica
-In[11]:= ResourceFunction["FindGroupIsomorphism"][
-             %,
-             AlternatingGroup[5]]
+In[11]:= ResourceFunction["FindGroupIsomorphism"][%, AlternatingGroup[5]]
 Out[11]= True
+```
+
+Construct stars or links of simplices:
+
+```mathematica
+sc = SimplicialComplex[{{1, 2, 3}, {2, 3, 4}}];
+SimplicialStar[sc, {1}]
+SimplicialLink[sc,{2, 3}]
 ```
 
 For a full reference, visit the homepage at Wolfram paclet repository [here](https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/).
@@ -87,15 +92,16 @@ For a full reference, visit the homepage at Wolfram paclet repository [here](htt
 # Future scope
 
 - simplicial maps
-- relative homology
-- Stars, links, and related local constructions
 - wedge, products, and more
+- formalisation of chain complexes
 
 # Version log
 
-**Version 1.0.0,** *on 10 July, 2026* &mdash; public release of v1.0.0.
+**Version 1.1.0,** *on 1 August, 2026* &mdash; Support for relative homology and stars & links
+ 
+**Version 1.0.0,** *on 10 July, 2026* &mdash; public release
 
-**Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins.
+**Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins
 
 # Contributions
 

@@ -18,6 +18,7 @@ SimplicialCone;
 SimplicialSuspension;
 SimplicialStar;
 SimplicialLink;
+SimplicialProduct;
 BettiNumber;
 HomologyGroup;
 SimplicialAutomorphismGroup;

@@ -224,6 +224,10 @@ SimplicialComplexObject /:
 (*New complexes from old*)
 
 
+(* ::Text:: *)
+(*Join of given simplicial complexes:*)
+
+
 ClearAll[SimplicialComplexJoin];
 SimplicialJoin::usage =
 	"SimplicialJoin[sc1, sc2, ...] constructs the join product of given simplicial complexes.";
@@ -233,11 +237,13 @@ SimplicialJoin[sc1_?SimplicialComplexQ, sc2_?SimplicialComplexQ] :=
 	SimplicialComplex[
 		Flatten[Table[
 			SimplexJoin[x, y], {x, sc1["Facets"]},
-				{y, sc2["Facets"]}], 1]]
+				{y, sc2["Facets"]}], 1],
+		"MaximalityCheck" -> False]
 SimplicialJoin[
 	sc1_?SimplicialComplexQ,
 	sc2_?SimplicialComplexQ,
-	scs__?SimplicialComplexQ
+	scs__?SimplicialComplexQ,
+	opts : OptionsPattern[]
 ] :=
 	Fold[
 		SimplicialJoin,
@@ -245,12 +251,21 @@ SimplicialJoin[
         {scs}]
 
 
+(* ::Text:: *)
+(*Cone, which is now a join with single point:*)
+
+
 ClearAll[SimplicialCone];
 SimplicialCone::usage =
 	"SimplicialCone[sc] returns the cone of the simplicial complex sc.";
 SimplicialCone[sc_?SimplicialComplexQ] :=
 	SimplicialJoin[
-		sc, SimplicialComplex["Point"]]
+		sc, SimplicialComplex["Point"],
+		"MaximalityCheck" -> False]
+
+
+(* ::Text:: *)
+(*Suspension, which is now a join with 2 distinct points:*)
 
 
 ClearAll[SimplicialSuspension];
@@ -258,7 +273,12 @@ SimplicialSuspension::usage =
 	"SimplicialSuspension[sc] returns the suspension of the simplicial complex sc.";
 SimplicialSuspension[sc_?SimplicialComplexQ] :=
 	SimplicialJoin[
-		sc, SimplicialComplex[{"Circle", 0}]]
+		sc, SimplicialComplex[{"Circle", 0}],
+		"MaximalityCheck" -> False]
+
+
+(* ::Text:: *)
+(*Star of sigma, the complex formed by all simplices which contain it:*)
 
 
 ClearAll[SimplicialStar];
@@ -277,6 +297,10 @@ SimplicialStar[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
 				"MaximalityCheck" -> False]]]
 
 
+(* ::Text:: *)
+(*Link of sigma, the complex formed by all simplices that are disjoint from it and whose union with it is a simplex of the complex:*)
+
+
 ClearAll[SimplicialLink];
 SimplicialLink::usage =
 	"SimplicialLink[sc, sigma] returns the link of sigma in sc.";
@@ -293,6 +317,31 @@ SimplicialLink[sc_?SimplicialComplexQ, sigma : (_List | _Simplex)] :=
 			SimplicialComplex[
 				DeleteCases[Complement[#, norm] & /@ facets, {}],
 				"MaximalityCheck" -> False]]]
+
+
+(* ::Text:: *)
+(*Simplicial product of given complexes:*)
+
+
+ClearAll[SimplicialProduct];
+SimplicialProduct::usage =
+	"SimplicialProduct[sc1, sc2, ...] returns the simplicial product of given simplicial complexes.";
+SimplicialProduct[sc_?SimplicialComplexQ] :=
+	sc
+SimplicialProduct[sc1_?SimplicialComplexQ, sc2_?SimplicialComplexQ] :=
+	SimplicialComplex[
+		DeleteDuplicates @ Flatten[
+		Outer[SimplexProduct, sc1["Facets"], sc2["Facets"], 1],
+		2], "MaximalityCheck" -> False]
+SimplicialProduct[
+	sc1_?SimplicialComplexQ,
+	sc2_?SimplicialComplexQ,
+	scs__?SimplicialComplexQ
+] :=
+	Fold[
+		SimplicialProduct,
+		SimplicialProduct[sc1, sc2],
+        {scs}]
 
 
 (* ::Subsection:: *)

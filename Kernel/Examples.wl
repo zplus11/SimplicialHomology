@@ -42,6 +42,15 @@ SimplicialComplex["Torus", opts : OptionsPattern[]] :=
 		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}, "MaximalityCheck" -> False, opts]
 
 
+SimplicialComplex[{"Torus", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
+	Which[
+		n == 0, SimplicialComplex["Point", "MaximalityCheck" -> False, opts],
+		n == 1, SimplicialComplex["Circle", "MaximalityCheck" -> False, opts],
+		n == 2, SimplicialComplex["Torus", "MaximalityCheck" -> False, opts],
+		True, SimplicialProduct @@ Table[SimplicialComplex["Circle", "MaximalityCheck" -> False, opts],
+			{i, n}]]
+
+
 SimplicialComplex["KleinBottle", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{1,2,5}, {1,2,7}, {1,3,5}, {1,3,6}, {1,6,7},
@@ -54,6 +63,41 @@ SimplicialComplex["MobiusStrip", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{1, 2, 4}, {2, 3, 4}, {3, 4, 5},
 		{1, 3, 5}, {1, 2, 5}}, "MaximalityCheck" -> False, opts]
+
+
+SimplicialComplex::MooreSpaceq =
+	"The mod q Moore space is only defined for q >= 2.";
+SimplicialComplex[{"MooreSpace", q_Integer?Positive}, opts : OptionsPattern[]] :=
+	Module[
+		{facets = {}, Ai, Aiplus, Bi, i},
+		
+		If[q < 2,
+			Message[SimplicialComplex::MooreSpaceq, q];
+			Return[$Failed]];
+		
+		If[q == 2,
+			Return[SimplicialComplex["RealProjectivePlane", "MaximalityCheck" -> False, opts]]];
+		
+		Do[
+			Ai = Subscript["A", i];
+			Aiplus = Subscript["A", Mod[i + 1, q]];
+			Bi = Subscript["B", i];
+			
+			AppendTo[facets, {1, 2, Ai}];
+			AppendTo[facets, {2, 3, Ai}];
+			AppendTo[facets, {3, 1, Bi}];
+			AppendTo[facets, {3, Bi, Ai}];
+			AppendTo[facets, {1, Bi, Aiplus}];
+			AppendTo[facets, {Bi, Ai, Aiplus}],
+			{i, 0, q - 1}];
+		
+		Do[
+			Ai = Subscript["A", i];
+			Aiplus = Subscript["A", Mod[i + 1, q]];
+			AppendTo[facets, {Subscript["A", 0], Ai, Aiplus}],
+			{i, 1, q - 2}];
+		
+		SimplicialComplex[facets, "MaximalityCheck" -> False, opts]];
 
 
 SimplicialComplex["RealProjectivePlane", opts : OptionsPattern[]] :=
@@ -73,6 +117,118 @@ SimplicialComplex["ComplexProjectivePlane", opts : OptionsPattern[]] :=
 		{3,4,6,7,8}, {3,4,6,8,9}, {3,4,7,8,10}, {3,5,6,9,10},
 		{3,5,7,8,10}, {3,6,7,8,9}, {4,5,6,8,9}, {4,5,7,9,10},
 		{4,6,7,8,10}, {5,6,8,9,10}, {5,7,8,9,10}, {6,7,8,9,10}}, "MaximalityCheck" -> False, opts]
+
+
+SimplicialComplex["QuaternionicProjectivePlane", opts : OptionsPattern[]] :=
+	Module[
+		{P, S, G, seeds, facets},
+		
+		P = Cycles[{{1, 2, 3, 4, 5}, {6, 7, 8, 9, 10}, {11, 12, 13, 14, 15}}];
+
+		S = Cycles[{{1, 6, 11}, {2, 15, 14}, {3, 13, 8}, {4, 7, 5}, {9, 12, 10}}];
+
+		G = PermutationGroup[{P, S}];
+
+		seeds = {
+			{1, 2, 3, 6, 8, 11, 13, 14, 15},
+			{1, 3, 6, 8, 9, 10, 11, 12, 13},
+			{1, 2, 6, 9, 10, 11, 12, 14, 15},
+			{1, 2, 3, 4, 7, 9, 12, 14, 15},
+			{1, 2, 4, 7, 9, 10, 12, 13, 14},
+			{1, 2, 6, 8, 9, 10, 11, 14, 15},
+			{1, 2, 3, 4, 5, 6, 9, 11, 13},
+			{1, 3, 5, 6, 8, 9, 10, 11, 12},
+			{1, 3, 5, 6, 7, 8, 9, 10, 11},
+			{1, 2, 3, 4, 5, 7, 10, 12, 15},
+			{1, 2, 3, 7, 8, 10, 12, 13, 14},
+			{2, 5, 6, 7, 8, 9, 10, 13, 14},
+			{3, 4, 6, 7, 11, 12, 13, 14, 15},
+			{3, 4, 6, 7, 10, 12, 13, 14, 15}
+		};
+
+		facets = Table[
+			PermutationReplace[tuple, g],
+			{tuple, seeds},
+			{g, GroupElements[G]}];
+		facets = DeleteDuplicates @ Flatten[facets, 1];
+
+		SimplicialComplex[
+			facets,
+			"MaximalityCheck" -> False,
+			opts]]
+
+
+SimplicialComplex::RealProjectiveSpace5p =
+	"The real projective space for n >=5 is not yet defined.";
+SimplicialComplex[{"RealProjectiveSpace", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
+	Which[
+		n == 0, SimplicialComplex[{"Simplex", 0}, "MaximalityCheck" -> False, opts],
+		n == 1, SimplicialComplex[{"Circle", 1}, "MaximalityCheck" -> False, opts],
+		n == 2, SimplicialComplex["RealProjectivePlane", "MaximalityCheck" -> False, opts],
+		n == 3, SimplicialComplex[
+			{{1, 2, 3, 7}, {1, 4, 7, 9}, {2, 3, 4, 8}, {2, 5, 8, 10},
+             {3, 6, 7, 10}, {1, 2, 3, 11}, {1, 4, 7, 10}, {2, 3, 4, 11},
+             {2, 5, 9, 10}, {3, 6, 8, 9}, {1, 2, 6, 9}, {1, 4, 8, 9},
+             {2, 3, 7, 8}, {2, 6, 9, 10}, {3, 6, 9, 10}, {1, 2, 6, 11},
+             {1, 4, 8, 10}, {2, 4, 6, 10}, {3, 4, 5, 9}, {4, 5, 6, 7},
+             {1, 2, 7, 9}, {1, 5, 6, 8}, {2, 4, 6, 11}, {3, 4, 5, 11},
+             {4, 5, 6, 11}, {1, 3, 5, 10}, {1, 5, 6, 11}, {2, 4, 8, 10},
+             {3, 4, 8, 9}, {4, 5, 7, 9}, {1, 3, 5, 11}, {1, 5, 8, 10},
+             {2, 5, 7, 8}, {3, 5, 9, 10}, {4, 6, 7, 10}, {1, 3, 7, 10},
+             {1, 6, 8, 9}, {2, 5, 7, 9}, {3, 6, 7, 8}, {5, 6, 7, 8}}, "MaximalityCheck" -> False, opts],
+		n == 4, SimplicialComplex[
+			{{1, 3, 8, 12, 13}, {2, 7, 8, 13, 16}, {4, 8, 9, 12, 14},
+             {2, 6, 10, 12, 16}, {5, 7, 9, 10, 13}, {1, 2, 7, 8, 15},
+                {1, 3, 9, 11, 16}, {5, 6, 8, 13, 16}, {1, 3, 8, 11, 13},
+                {3, 4, 10, 13, 15}, {4, 6, 9, 12, 15}, {2, 4, 6, 11, 13},
+                {2, 3, 9, 12, 16}, {1, 6, 9, 12, 15}, {2, 5, 10, 11, 12},
+                {1, 7, 8, 12, 15}, {2, 6, 9, 13, 16}, {1, 5, 9, 11, 15},
+                {4, 9, 10, 13, 14}, {2, 7, 8, 15, 16}, {2, 3, 9, 12, 14},
+                {1, 6, 7, 10, 14}, {2, 5, 10, 11, 15}, {1, 2, 4, 13, 14},
+                {1, 6, 10, 14, 16}, {2, 6, 9, 12, 16}, {1, 3, 9, 12, 16},
+                {4, 5, 7, 11, 16}, {5, 9, 10, 11, 15}, {3, 5, 8, 12, 14},
+                {5, 6, 9, 13, 16}, {5, 6, 9, 13, 15}, {1, 3, 4, 10, 16},
+                {1, 6, 10, 12, 16}, {2, 4, 6, 9, 13}, {2, 4, 6, 9, 12},
+                {1, 2, 4, 11, 13}, {7, 9, 10, 13, 14}, {1, 7, 8, 12, 13},
+                {4, 6, 7, 11, 12}, {3, 4, 6, 11, 13}, {1, 5, 6, 9, 15},
+                {1, 6, 7, 14, 15}, {2, 3, 7, 14, 15}, {2, 6, 10, 11, 12},
+                {5, 7, 9, 10, 11}, {1, 2, 4, 5, 14}, {3, 5, 10, 13, 15},
+                {3, 8, 9, 12, 14}, {5, 9, 10, 13, 15}, {2, 6, 8, 13, 16},
+                {1, 2, 7, 13, 14}, {1, 7, 10, 12, 13}, {3, 4, 6, 13, 15},
+                {4, 9, 10, 13, 15}, {2, 3, 10, 12, 16}, {1, 2, 5, 14, 15},
+                {2, 6, 8, 10, 11}, {1, 3, 10, 12, 13}, {4, 8, 9, 12, 15},
+                {1, 3, 8, 9, 11}, {4, 6, 7, 12, 15}, {1, 8, 9, 11, 15},
+                {4, 5, 8, 14, 16}, {1, 2, 8, 11, 13}, {3, 6, 8, 11, 13},
+                {3, 6, 8, 11, 14}, {3, 5, 8, 12, 13}, {3, 7, 9, 11, 14},
+                {4, 6, 9, 13, 15}, {2, 3, 5, 10, 12}, {4, 7, 8, 15, 16},
+                {1, 2, 7, 14, 15}, {3, 7, 9, 11, 16}, {3, 6, 7, 14, 15},
+                {2, 6, 8, 11, 13}, {4, 8, 9, 10, 14}, {1, 4, 10, 13, 14},
+                {4, 8, 9, 10, 15}, {2, 7, 9, 13, 16}, {1, 6, 9, 12, 16},
+                {2, 3, 7, 9, 14}, {4, 8, 10, 15, 16}, {1, 5, 9, 11, 16},
+                {1, 5, 6, 14, 15}, {5, 7, 9, 11, 16}, {4, 5, 7, 11, 12},
+                {5, 7, 10, 11, 12}, {2, 3, 10, 15, 16}, {1, 2, 7, 8, 13},
+                {1, 6, 7, 10, 12}, {1, 3, 10, 12, 16}, {7, 9, 10, 11, 14},
+                {1, 7, 10, 13, 14}, {1, 2, 4, 5, 11}, {3, 4, 6, 7, 11},
+                {1, 6, 7, 12, 15}, {1, 3, 4, 10, 13}, {1, 4, 10, 14, 16},
+                {2, 4, 6, 11, 12}, {5, 6, 8, 14, 16}, {3, 5, 6, 8, 13},
+                {3, 5, 6, 8, 14}, {1, 2, 8, 11, 15}, {1, 4, 5, 14, 16},
+                {2, 3, 7, 15, 16}, {8, 9, 10, 11, 14}, {1, 3, 4, 11, 16},
+                {6, 8, 10, 14, 16}, {8, 9, 10, 11, 15}, {1, 3, 4, 11, 13},
+                {2, 4, 5, 12, 14}, {2, 4, 9, 13, 14}, {3, 4, 7, 11, 16},
+                {3, 6, 7, 11, 14}, {3, 8, 9, 11, 14}, {2, 8, 10, 11, 15},
+                {1, 3, 8, 9, 12}, {4, 5, 7, 8, 16}, {4, 5, 8, 12, 14},
+                {2, 4, 9, 12, 14}, {6, 8, 10, 11, 14}, {3, 5, 6, 13, 15},
+                {1, 4, 5, 11, 16}, {3, 5, 6, 14, 15}, {2, 4, 5, 11, 12},
+                {4, 5, 7, 8, 12}, {1, 8, 9, 12, 15}, {5, 7, 8, 13, 16},
+                {2, 3, 5, 12, 14}, {3, 5, 10, 12, 13}, {6, 7, 10, 11, 12},
+                {5, 7, 9, 13, 16}, {6, 7, 10, 11, 14}, {5, 7, 10, 12, 13},
+                {1, 2, 5, 11, 15}, {1, 5, 6, 9, 16}, {5, 7, 8, 12, 13},
+                {4, 7, 8, 12, 15}, {2, 3, 5, 10, 15}, {2, 6, 8, 10, 16},
+                {3, 4, 10, 15, 16}, {1, 5, 6, 14, 16}, {2, 3, 5, 14, 15},
+                {2, 3, 7, 9, 16}, {2, 7, 9, 13, 14}, {3, 4, 6, 7, 15},
+                {4, 8, 10, 14, 16}, {3, 4, 7, 15, 16}, {2, 8, 10, 15, 16}}, "MaximalityCheck" -> False, opts],
+		True,
+			(Message[SimplicialComplex::RealProjectiveSpace5p]; $Failed)]
 
 
 SimplicialComplex["DunceHat", opts : OptionsPattern[]] :=

@@ -1,0 +1,6028 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 15.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    176287,       6020]
+NotebookOptionsPosition[    165347,       5782]
+NotebookOutlinePosition[    166146,       5808]
+CellTagsIndexPosition[    166065,       5803]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["SimplicialProduct", "ObjectName",
+ CellID->282450900,ExpressionUUID->"a7bd9c5f-4bdc-2f46-9552-0adc1895a759"],
+
+Cell[TextData[{
+ Cell["   ", "ModInfo",ExpressionUUID->"a58e4345-acc8-9b4d-a916-a9ac86878432"],
+ Cell[BoxData[
+  RowBox[{
+   ButtonBox["SimplicialProduct",
+    BaseStyle->"Link",
+    ButtonData->"paclet:TaggarSimplicialHomology/ref/SimplicialProduct"], "[", 
+   RowBox[{
+    RowBox[{
+     ButtonBox["SimplicialComplex",
+      BaseStyle->"Link",
+      ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"], "[",
+      "\[Ellipsis]", "]"}], ",", 
+    RowBox[{
+     ButtonBox["SimplicialComplex",
+      BaseStyle->"Link",
+      ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialComplex"], "[",
+      "\[Ellipsis]", "]"}], ",", " ", 
+    StyleBox["\[Ellipsis]", "TR"]}], "]"}]], "InlineFormula",ExpressionUUID->
+  "bc72c442-e89d-134f-82a4-16c3541a1a0f"],
+ "\[LineSeparator]returns the simplicial product of given simplicial \
+complexes."
+}], "Usage",
+ CellChangeTimes->{
+  3.994635051365017*^9, {3.994635313867571*^9, 3.9946353383828487`*^9}},
+ CellID->177475756,ExpressionUUID->"b8607933-b14c-6d43-b0f4-4691f9f64b4d"],
+
+Cell["XXXX", "Notes",
+ CellID->376554903,ExpressionUUID->"a5e26c58-6b74-a545-9ca9-80ed3cb5ccde"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "See Also",
+ Cell[BoxData[
+  TemplateBox[{"SeeAlso", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Insert links to any related reference (function) pages.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "c4797154-cece-9d4f-bfd7-8decba0e10e0"]
+}], "SeeAlsoSection",
+ CellID->7312350,ExpressionUUID->"15c396bb-a5af-194d-bcb2-e9e47e0180ab"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  TagBox[
+   FrameBox["\<\"XXXX\"\>"],
+   "FunctionPlaceholder"]], "InlineSeeAlsoFunction",
+  TaggingRules->{"PageType" -> "Function"},ExpressionUUID->
+  "b886dea2-4769-6d44-952f-73907f6f49c9"],
+ Cell[BoxData[
+  RowBox[{
+  Cell[TextData[StyleBox[
+   " \[FilledVerySmallSquare] ", "InlineSeparator"]],ExpressionUUID->
+    "f33ce3d3-6bc2-9b4b-a34c-a00bb37bd97e"], 
+   DynamicModuleBox[{$CellContext`nbobj$$ = NotebookObject[
+    "beec539e-d8c8-e045-99c4-533dd56c9925", 
+     "2d2d0e48-c29a-994a-8a58-46e5b8a83bf9"], $CellContext`cellobj$$ = 
+    CellObject[
+    "2cd9f4b6-7f52-5e40-bf07-8e9c0bde8963", 
+     "13c310eb-d605-0c4d-a722-400b1f73065f"]}, 
+    TemplateBox[{
+      GraphicsBox[{{
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         CircleBox[{0, 0}]}, {
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         LineBox[{{0, 0.62}, {0, -0.62}}]}, {
+         Thickness[0.06], 
+         StrokeForm[
+          Hue[0.4167, 0.406, 0.502]], 
+         LineBox[{{-0.62, 0}, {0.62, 0}}]}}, 
+       ImagePadding -> {{1., 1.}, {2.4, 1.}}, ImageSize -> 16, 
+       PlotRange -> {{-1.06, 1.06}, {-1.06, 1.06}}, 
+       BaselinePosition -> (Center -> 
+        Center)], $CellContext`nbobj$$, $CellContext`cellobj$$},
+     "InlineListingAddButton"],
+    Initialization:>($CellContext`nbobj$$ = 
+      EvaluationNotebook[]; $CellContext`cellobj$$ = EvaluationCell[])]}]], 
+  "InlineListingAddButton",ExpressionUUID->
+  "2cd9f4b6-7f52-5e40-bf07-8e9c0bde8963"]
+}], "SeeAlso",
+ CellID->219083757,ExpressionUUID->"253c6b92-3435-564d-8640-e20eaec46d00"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Tech Notes",
+ Cell[BoxData[
+  TemplateBox[{"TechNotes", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell["Insert links to related tech notes.", "MoreInfoText"], BaseStyle -> 
+       "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "bb406eed-4ffe-aa4a-b200-c3f70d21da6a"]
+}], "TechNotesSection",
+ CellID->88302231,ExpressionUUID->"fcae9edf-ee7d-354c-9bdc-6db8632f3b62"],
+
+Cell["XXXX", "Tutorials",
+ CellID->380338641,ExpressionUUID->"dad78aa2-49b2-4744-8309-286f61c66660"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Related Guides", "MoreAboutSection",
+ CellID->569845323,ExpressionUUID->"3cd4ac53-2333-e64d-a516-c58759e43c82"],
+
+Cell["XXXX", "MoreAbout",
+ CellID->4503790,ExpressionUUID->"d483e285-395d-0944-9b3f-b75424aa6f8e"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Related Links",
+ Cell[BoxData[
+  TemplateBox[{"RelatedLinks", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Insert links to any related page, including web pages.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "f30aa67e-c71d-414e-9632-ba8e75b9a656"]
+}], "RelatedLinksSection",
+ CellID->125237302,ExpressionUUID->"a836543b-8d47-484e-a187-12879effa6f6"],
+
+Cell["XXXX", "RelatedLinks",
+ CellID->482053475,ExpressionUUID->"58ecea60-c218-6d49-a3b1-0dcf14bda8ef"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Examples Initialization",
+ Cell[BoxData[
+  TemplateBox[{"ExamplesInitialization", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Input that is to be evaluated before any examples are run, e.g. \
+Needs[\[Ellipsis]].", "MoreInfoText"], BaseStyle -> "IFrameBox"]], 
+     "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "2e0a8ddb-ae17-7e45-951c-1e601961a95d"]
+}], "ExamplesInitializationSection",
+ CellID->673313191,ExpressionUUID->"34714a0e-264a-6542-a747-cbb8faf88b8d"],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<Taggar`SimplicialHomology`\>\"", 
+  "]"}]], "ExampleInitialization",
+ CellID->13549262,ExpressionUUID->"1e78d932-be1e-a84e-a7b0-0cb17c5ea443"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[GridBox[{
+    {
+     StyleBox[
+      RowBox[{"Basic", " ", "Examples"}], "PrimaryExamplesSection"], 
+     ButtonBox[
+      RowBox[{
+       RowBox[{"More", " ", "Examples"}], " ", "\[RightTriangle]"}],
+      BaseStyle->"ExtendedExamplesLink",
+      ButtonData:>"ExtendedExamples"]}
+   }],
+  $Line = 0; Null]], "PrimaryExamplesSection",
+ CellID->592322939,ExpressionUUID->"8a111440-9575-974b-b005-af02e8100374"],
+
+Cell["Construct the cylinder:", "ExampleText",
+ CellChangeTimes->{{3.9946353469103966`*^9, 3.9946353556165543`*^9}},
+ CellID->42885028,ExpressionUUID->"2d1493e4-65f0-5f4b-9b48-f42ac5d2f47e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialProduct", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"SimplicialComplex", "[", "\"\<Line\>\"", "]"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.9946353562165146`*^9, 3.9946353686342354`*^9}},
+ CellLabel->"In[31]:=",
+ CellID->186986287,ExpressionUUID->"258797a7-2c51-124c-8760-b4a3229acb83"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{1.0378007153496172`, 0.}, {0., 
+              0.14608727921595493`}, {0.45621129322867904`, 
+              0.9990875457830335}, {1.6209259853554359`, 
+              0.9994085430635858}, {1.0397110921186221`, 
+              0.5709156448936997}, {2.0783764205799935`, 
+              0.1458462180399664}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {2, 3}, {2,
+                   5}, {3, 4}, {3, 5}, {4, 5}, {4, 6}, {5, 6}}, 
+                  0.023244246005478253`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.023244246005478253`], 
+                DiskBox[2, 0.023244246005478253`], 
+                DiskBox[3, 0.023244246005478253`], 
+                DiskBox[4, 0.023244246005478253`], 
+                DiskBox[5, 0.023244246005478253`], 
+                DiskBox[6, 0.023244246005478253`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["6", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{1.0378007153496172`, 0.}, {0., 
+              0.14608727921595493`}, {0.45621129322867904`, 
+              0.9990875457830335}, {1.6209259853554359`, 
+              0.9994085430635858}, {1.0397110921186221`, 
+              0.5709156448936997}, {2.0783764205799935`, 
+              0.1458462180399664}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {2, 3}, {2,
+                   5}, {3, 4}, {3, 5}, {4, 5}, {4, 6}, {5, 6}}, 
+                  0.023244246005478253`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.023244246005478253`], 
+                DiskBox[2, 0.023244246005478253`], 
+                DiskBox[3, 0.023244246005478253`], 
+                DiskBox[4, 0.023244246005478253`], 
+                DiskBox[5, 0.023244246005478253`], 
+                DiskBox[6, 0.023244246005478253`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["6", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"FVector: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  RowBox[{"{", 
+                    RowBox[{"1", ",", "6", ",", "12", ",", "6"}], "}"}], 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"\[Chi]: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"ConnectedQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|"Facets" -> {{
+       Point[{1, 1}], 
+       Point[{1, 2}], 
+       Point[{2, 2}]}, {
+       Point[{1, 1}], 
+       Point[{2, 1}], 
+       Point[{2, 2}]}, {
+       Point[{1, 1}], 
+       Point[{1, 2}], 
+       Point[{3, 2}]}, {
+       Point[{1, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 2}]}, {
+       Point[{2, 1}], 
+       Point[{2, 2}], 
+       Point[{3, 2}]}, {
+       Point[{2, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 2}]}}, "UUID" -> 
+    19602640287612009347802262463645846402206844014071966501041431027086734125\
+10|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.9946353692796535`*^9},
+ CellLabel->"Out[31]=",
+ CellID->160781978,ExpressionUUID->"7f6301bd-8179-6745-942f-c26bf462daf0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"HomologyGroup", "[", "%", "]"}]], "Input",
+ CellChangeTimes->{{3.99463537161924*^9, 3.9946353755824947`*^9}},
+ CellLabel->"In[32]:=",
+ CellID->695483443,ExpressionUUID->"c35ceb40-180b-e646-94c6-888e95aefd86"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}], ",", 
+   RowBox[{"1", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}], ",", 
+   RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.9946353767048607`*^9},
+ CellLabel->"Out[32]=",
+ CellID->475501617,ExpressionUUID->"e8d0b0c2-bce2-0c45-91ab-3bd7d2ad6629"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\t", "ExampleDelimiter",ExpressionUUID->
+   "1dc80801-6a1d-e74d-a285-afdd154c465b"],
+  $Line = 0; Null]], "ExampleDelimiter",
+ CellID->299392623,ExpressionUUID->"47f7d465-45c1-e049-8dc8-3a534cef75f9"],
+
+Cell["Construct the torus:", "ExampleText",
+ CellChangeTimes->{{3.9946354005479794`*^9, 3.9946354041898956`*^9}},
+ CellID->110653921,ExpressionUUID->"70e98b4e-6e9a-9445-85f1-775e488a1539"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialProduct", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}]}], 
+  "\[IndentingNewLine]", "]"}]], "Input",
+ CellChangeTimes->{{3.994635405003355*^9, 3.9946354191662846`*^9}},
+ CellLabel->"In[33]:=",
+ CellID->169986275,ExpressionUUID->"8b4c5aae-6d5c-9a4a-bfcb-540dce361d72"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{1.2964793829781134`, 1.051602236389809}, {
+              1.9207131596284381`, 1.10424534288716}, {1.2949524908285446`, 
+              0.}, {0.5940866084428005, 0.1656164685352558}, {
+              2.5923158990072297`, 0.9094590868977729}, {1.9977550721204471`, 
+              0.16517981022229988`}, {0.6704203010665223, 
+              1.1044243819514579`}, {0., 0.9096905538001199}, {
+              1.2952774589336484`, 0.5834996516318934}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7}, {1,
+                   8}, {1, 9}, {2, 3}, {2, 5}, {2, 6}, {2, 7}, {2, 9}, {3, 
+                  4}, {3, 6}, {3, 7}, {3, 9}, {4, 6}, {4, 7}, {4, 8}, {4, 
+                  9}, {5, 6}, {5, 9}, {6, 9}, {7, 8}, {7, 9}, {8, 9}}, 
+                  0.027242743610080014`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.027242743610080014`], 
+                DiskBox[2, 0.027242743610080014`], 
+                DiskBox[3, 0.027242743610080014`], 
+                DiskBox[4, 0.027242743610080014`], 
+                DiskBox[5, 0.027242743610080014`], 
+                DiskBox[6, 0.027242743610080014`], 
+                DiskBox[7, 0.027242743610080014`], 
+                DiskBox[8, 0.027242743610080014`], 
+                DiskBox[9, 0.027242743610080014`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["9", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{1.2964793829781134`, 1.051602236389809}, {
+              1.9207131596284381`, 1.10424534288716}, {1.2949524908285446`, 
+              0.}, {0.5940866084428005, 0.1656164685352558}, {
+              2.5923158990072297`, 0.9094590868977729}, {1.9977550721204471`, 
+              0.16517981022229988`}, {0.6704203010665223, 
+              1.1044243819514579`}, {0., 0.9096905538001199}, {
+              1.2952774589336484`, 0.5834996516318934}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7}, {1,
+                   8}, {1, 9}, {2, 3}, {2, 5}, {2, 6}, {2, 7}, {2, 9}, {3, 
+                  4}, {3, 6}, {3, 7}, {3, 9}, {4, 6}, {4, 7}, {4, 8}, {4, 
+                  9}, {5, 6}, {5, 9}, {6, 9}, {7, 8}, {7, 9}, {8, 9}}, 
+                  0.027242743610080014`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.027242743610080014`], 
+                DiskBox[2, 0.027242743610080014`], 
+                DiskBox[3, 0.027242743610080014`], 
+                DiskBox[4, 0.027242743610080014`], 
+                DiskBox[5, 0.027242743610080014`], 
+                DiskBox[6, 0.027242743610080014`], 
+                DiskBox[7, 0.027242743610080014`], 
+                DiskBox[8, 0.027242743610080014`], 
+                DiskBox[9, 0.027242743610080014`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["9", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"FVector: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  RowBox[{"{", 
+                    RowBox[{"1", ",", "9", ",", "27", ",", "18"}], "}"}], 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"\[Chi]: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"ConnectedQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|"Facets" -> {{
+       Point[{1, 1}], 
+       Point[{1, 2}], 
+       Point[{2, 2}]}, {
+       Point[{1, 1}], 
+       Point[{2, 1}], 
+       Point[{2, 2}]}, {
+       Point[{1, 1}], 
+       Point[{1, 3}], 
+       Point[{2, 3}]}, {
+       Point[{1, 1}], 
+       Point[{2, 1}], 
+       Point[{2, 3}]}, {
+       Point[{1, 2}], 
+       Point[{1, 3}], 
+       Point[{2, 3}]}, {
+       Point[{1, 2}], 
+       Point[{2, 2}], 
+       Point[{2, 3}]}, {
+       Point[{1, 1}], 
+       Point[{1, 2}], 
+       Point[{3, 2}]}, {
+       Point[{1, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 2}]}, {
+       Point[{1, 1}], 
+       Point[{1, 3}], 
+       Point[{3, 3}]}, {
+       Point[{1, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 3}]}, {
+       Point[{1, 2}], 
+       Point[{1, 3}], 
+       Point[{3, 3}]}, {
+       Point[{1, 2}], 
+       Point[{3, 2}], 
+       Point[{3, 3}]}, {
+       Point[{2, 1}], 
+       Point[{2, 2}], 
+       Point[{3, 2}]}, {
+       Point[{2, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 2}]}, {
+       Point[{2, 1}], 
+       Point[{2, 3}], 
+       Point[{3, 3}]}, {
+       Point[{2, 1}], 
+       Point[{3, 1}], 
+       Point[{3, 3}]}, {
+       Point[{2, 2}], 
+       Point[{2, 3}], 
+       Point[{3, 3}]}, {
+       Point[{2, 2}], 
+       Point[{3, 2}], 
+       Point[{3, 3}]}}, "UUID" -> 
+    12290444677033555982600551638726205253007593988031828026490323240716417592\
+980|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.994635421619377*^9},
+ CellLabel->"Out[33]=",
+ CellID->87047060,ExpressionUUID->"9d3da63c-c90b-4a43-bbcd-4cdf017f5e85"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"HomologyGroup", "[", "%", "]"}]], "Input",
+ CellChangeTimes->{{3.9946354231003876`*^9, 3.99463542611397*^9}},
+ CellLabel->"In[34]:=",
+ CellID->193716885,ExpressionUUID->"726ff6b5-7326-5d4f-bbdb-e77488ddd738"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}], ",", 
+   RowBox[{"1", "\[Rule]", 
+    TemplateBox[{
+      TemplateBox[{}, "Integers"], "2"},
+     "Superscript"]}], ",", 
+   RowBox[{"2", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.994635426726799*^9},
+ CellLabel->"Out[34]=",
+ CellID->288250187,ExpressionUUID->"460717aa-4d72-6c45-a5dc-bccf84257a9a"]
+}, Open  ]],
+
+Cell["\<\
+This is indeed the Torus, however \"Torus\" returns the minimal triangulation:\
+\>", "ExampleText",
+ CellChangeTimes->{{3.994635429689377*^9, 3.9946354504942856`*^9}},
+ CellID->32916369,ExpressionUUID->"0dd3f9ce-7468-2243-8ee7-5a873eab556d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialComplex", "[", "\"\<Torus\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.9946354516558723`*^9, 3.9946354550775585`*^9}},
+ CellLabel->"In[35]:=",
+ CellID->33894764,ExpressionUUID->"a3737125-a3d1-9f41-b05d-6e74d28d9e91"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{-0.7818314824680302, 
+              0.6234898018587343}, {-7.044813998280222*^-16, 1.}, {
+              0.7818314824680294, 0.6234898018587326}, {
+              0.9749279121818237, -0.2225209339563155}, {
+              0.43388373911755884`, -0.9009688679024196}, \
+{-0.43388373911755757`, -0.9009688679024187}, {-0.9749279121818235, \
+-0.22252093395631342`}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7}, {2,
+                   3}, {2, 4}, {2, 5}, {2, 6}, {2, 7}, {3, 4}, {3, 5}, {3, 
+                  6}, {3, 7}, {4, 5}, {4, 6}, {4, 7}, {5, 6}, {5, 7}, {6, 7}},
+                   0.02220329551621769]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.02220329551621769], 
+                DiskBox[2, 0.02220329551621769], 
+                DiskBox[3, 0.02220329551621769], 
+                DiskBox[4, 0.02220329551621769], 
+                DiskBox[5, 0.02220329551621769], 
+                DiskBox[6, 0.02220329551621769], 
+                DiskBox[7, 0.02220329551621769]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["7", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{-0.7818314824680302, 
+              0.6234898018587343}, {-7.044813998280222*^-16, 1.}, {
+              0.7818314824680294, 0.6234898018587326}, {
+              0.9749279121818237, -0.2225209339563155}, {
+              0.43388373911755884`, -0.9009688679024196}, \
+{-0.43388373911755757`, -0.9009688679024187}, {-0.9749279121818235, \
+-0.22252093395631342`}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 
+                 ArrowBox[{{1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 6}, {1, 7}, {2,
+                   3}, {2, 4}, {2, 5}, {2, 6}, {2, 7}, {3, 4}, {3, 5}, {3, 
+                  6}, {3, 7}, {4, 5}, {4, 6}, {4, 7}, {5, 6}, {5, 7}, {6, 7}},
+                   0.02220329551621769]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.02220329551621769], 
+                DiskBox[2, 0.02220329551621769], 
+                DiskBox[3, 0.02220329551621769], 
+                DiskBox[4, 0.02220329551621769], 
+                DiskBox[5, 0.02220329551621769], 
+                DiskBox[6, 0.02220329551621769], 
+                DiskBox[7, 0.02220329551621769]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["2", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["7", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"FVector: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  RowBox[{"{", 
+                    RowBox[{"1", ",", "7", ",", "21", ",", "14"}], "}"}], 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"\[Chi]: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"ConnectedQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|
+   "Facets" -> {{1, 2, 3}, {1, 2, 6}, {1, 3, 7}, {1, 4, 5}, {1, 4, 6}, {1, 5, 
+     7}, {2, 3, 5}, {2, 4, 5}, {2, 4, 7}, {2, 6, 7}, {3, 4, 6}, {3, 4, 7}, {3,
+      5, 6}, {5, 6, 7}}, "UUID" -> 
+    22410193625875926187388711929200104311621187436336691326310514576445034356\
+457|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.994635455641138*^9},
+ CellLabel->"Out[35]=",
+ CellID->1093025,ExpressionUUID->"54df373b-1a3b-af48-8e3e-de901344260a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"HomologyGroup", "[", "%", "]"}]], "Input",
+ CellChangeTimes->{{3.9946354573367577`*^9, 3.994635462266218*^9}},
+ CellLabel->"In[36]:=",
+ CellID->747781908,ExpressionUUID->"c7e5cd2e-0590-e34e-940c-970c9620dbc1"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}], ",", 
+   RowBox[{"1", "\[Rule]", 
+    TemplateBox[{
+      TemplateBox[{}, "Integers"], "2"},
+     "Superscript"]}], ",", 
+   RowBox[{"2", "\[Rule]", 
+    TemplateBox[{},
+     "Integers"]}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.994635462766693*^9},
+ CellLabel->"Out[36]=",
+ CellID->312238679,ExpressionUUID->"9c8dd1b3-d5ad-b74b-98a1-f983b474556b"]
+}, Open  ]],
+
+Cell["Construct a higher-dimensional torus:", "ExampleText",
+ CellChangeTimes->{{3.9946355298951817`*^9, 3.9946355384168167`*^9}},
+ CellID->61264151,ExpressionUUID->"c24eb543-a278-2846-8754-f4c69821fc40"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialProduct", "@@", 
+  RowBox[{"Table", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"i", ",", "3"}], "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.994635539123747*^9, 3.994635566506426*^9}},
+ CellLabel->"In[39]:=",
+ CellID->633594705,ExpressionUUID->"bf91d608-8c67-0b41-a6c3-d85e1bf28ea5"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Facets: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["162", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|"Facets" -> {{
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}}, "UUID" -> 
+    79713478256341110349788735270315283759989997864744556892528969892188001052\
+255|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{{3.994635556483179*^9, 3.994635567054426*^9}},
+ CellLabel->"Out[39]=",
+ CellID->20442592,ExpressionUUID->"328aeab7-4ac7-4045-acb6-ac139f07ab74"]
+}, Open  ]],
+
+Cell["Its Betti numbers:", "ExampleText",
+ CellChangeTimes->{{3.9946355733866863`*^9, 3.994635582314865*^9}},
+ CellID->224865488,ExpressionUUID->"ef431e47-587a-8345-a6a7-24cbcd3136c0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BettiNumber", "[", "%", "]"}]], "Input",
+ CellChangeTimes->{{3.994635583552292*^9, 3.9946355858101425`*^9}},
+ CellLabel->"In[40]:=",
+ CellID->585698023,ExpressionUUID->"78b6d21b-4161-3e46-be1b-bae2e97190dc"],
+
+Cell[BoxData[
+ RowBox[{"\[LeftAssociation]", 
+  RowBox[{
+   RowBox[{"0", "\[Rule]", "1"}], ",", 
+   RowBox[{"1", "\[Rule]", "3"}], ",", 
+   RowBox[{"2", "\[Rule]", "3"}], ",", 
+   RowBox[{"3", "\[Rule]", "1"}]}], "\[RightAssociation]"}]], "Output",
+ CellChangeTimes->{3.994635586470396*^9},
+ CellLabel->"Out[40]=",
+ CellID->31168818,ExpressionUUID->"f1210724-1dca-9343-945c-3aef12e71ddb"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "More Examples",
+ Cell[BoxData[
+  TemplateBox[{"MoreExamples", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell["Extended examples in standardized sections.", "MoreInfoText"], 
+       BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "d6746dc0-c0fc-b142-8c72-076559e46728"]
+}], "ExtendedExamplesSection",
+ CellTags->"ExtendedExamples",
+ CellID->341721267,ExpressionUUID->"300511a8-bccc-9646-8711-1ce4c29db4aa"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Scope", "ExampleSection",ExpressionUUID->
+   "f82c7e84-27cc-4841-b2d1-1b11846f3399"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->505370122,ExpressionUUID->"79a67f06-63a0-af49-aa4d-a02f30e47953"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Generalizations & Extensions", "ExampleSection",ExpressionUUID->
+   "2301ef4c-c3b6-0549-a0be-0c0d25058276"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->447049633,ExpressionUUID->"0906d4a2-f578-9448-8b91-b876a9b5d6cf"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Options", "ExampleSection",ExpressionUUID->
+   "7f0d0dbc-ea7a-8a40-8e8a-2b958a8b8ec8"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->528921665,ExpressionUUID->"1cc08431-86bc-0b4a-83a5-8de966746e21"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "XXXX", "ExampleSubsection",ExpressionUUID->
+   "9b78afbc-d0c9-5b47-950a-2b31ed4fad3a"],
+  $Line = 0; Null]], "ExampleSubsection",
+ CellID->148911549,ExpressionUUID->"07afad08-6a1d-044c-93f1-31a6a4e7f435"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "XXXX", "ExampleSubsection",ExpressionUUID->
+   "2804c924-b7a6-554e-ad5d-8bf4ea7682f2"],
+  $Line = 0; Null]], "ExampleSubsection",
+ CellID->803477748,ExpressionUUID->"934285ff-a5b6-b14b-9b19-2606cf1f437b"]
+}, Open  ]],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Applications", "ExampleSection",ExpressionUUID->
+   "7ad37b8d-efd6-4c40-9f21-aae353678359"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->479076098,ExpressionUUID->"45b27295-83e2-1e46-b267-efcc01958e95"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Properties & Relations", "ExampleSection",ExpressionUUID->
+   "400ec849-b646-8c41-adc7-5a6021669033"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->109846227,ExpressionUUID->"97cf9ddb-d460-7c4e-b57a-7d3514a6f0ed"],
+
+Cell[TextData[{
+ Cell[BoxData[
+  ButtonBox["SimplicialProduct",
+   BaseStyle->"Link",
+   ButtonData->"paclet:Taggar/SimplicialHomology/ref/SimplicialProduct"]], 
+  "InlineFormula",ExpressionUUID->"c51570bb-0788-3a45-ad64-167a6e1bbebd"],
+ " is associative:"
+}], "ExampleText",
+ CellChangeTimes->{{3.9946356028252563`*^9, 3.994635612448225*^9}},
+ CellID->204214462,ExpressionUUID->"97abb554-0211-2645-b6cf-71a007039cd6"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"s1", "=", 
+  RowBox[{"SimplicialComplex", "[", "\"\<Circle\>\"", "]"}]}]], "Input",
+ CellChangeTimes->{{3.9946356474332848`*^9, 3.9946356525190067`*^9}},
+ CellLabel->"In[41]:=",
+ CellID->469440830,ExpressionUUID->"9e4186a0-a769-8c4c-bfc5-eebf1dd0f370"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{-0.8660254037844384, \
+-0.49999999999999933`}, {1.8369701987210297`*^-16, 1.}, {
+              0.8660254037844389, -0.5000000000000012}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 ArrowBox[{{1, 2}, {1, 3}, {2, 3}}, 0.020399597244776385`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.020399597244776385`], 
+                DiskBox[2, 0.020399597244776385`], 
+                DiskBox[3, 0.020399597244776385`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[
+             
+             GraphicsComplexBox[{{-0.8660254037844384, \
+-0.49999999999999933`}, {1.8369701987210297`*^-16, 1.}, {
+              0.8660254037844389, -0.5000000000000012}}, {{
+                Directive[
+                 Opacity[0.7], 
+                 Hue[0.6, 0.7, 0.7], 
+                 CapForm["Round"]], 
+                Arrowheads[0.], {
+                 ArrowBox[{{1, 2}, {1, 3}, {2, 3}}, 0.020399597244776385`]}}, {
+                Directive[
+                 Hue[0.6, 0.5, 1.], 
+                 EdgeForm[
+                  Directive[
+                   GrayLevel[0], 
+                   Opacity[0.7]]]], 
+                DiskBox[1, 0.020399597244776385`], 
+                DiskBox[2, 0.020399597244776385`], 
+                DiskBox[3, 0.020399597244776385`]}}], {
+             ImageSize -> {30, 25}, FormatType -> TraditionalForm, FrameTicks -> 
+              None}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"FVector: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  RowBox[{"{", 
+                    RowBox[{"1", ",", "3", ",", "3"}], "}"}], 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"\[Chi]: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["1", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"ConnectedQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|
+   "Facets" -> {{1, 2}, {1, 3}, {2, 3}}, "UUID" -> 
+    50822588809077196048615389314730341186879168469178788067149230098301766243\
+160|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.9946356530197105`*^9},
+ CellLabel->"Out[41]=",
+ CellID->198916706,ExpressionUUID->"dee72d47-4554-3846-89ca-ecbf5e6363a0"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialProduct", "[", 
+  RowBox[{
+   RowBox[{"SimplicialProduct", "[", 
+    RowBox[{"s1", ",", "s1"}], "]"}], ",", "s1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.99463564097307*^9, 3.9946356694547806`*^9}},
+ CellLabel->"In[42]:=",
+ CellID->361520234,ExpressionUUID->"56339cb3-eea3-d74c-93f6-b39d9ec90e85"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Facets: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["162", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|"Facets" -> {{
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}}, "UUID" -> 
+    79713478256341110349788735270315283759989997864744556892528969892188001052\
+255|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.9946356773302097`*^9},
+ CellLabel->"Out[42]=",
+ CellID->308677783,ExpressionUUID->"c2ee7bd2-ff55-b649-ba4f-ef74580999a3"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialProduct", "[", 
+  RowBox[{"s1", ",", "s1", ",", "s1"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9946356819834785`*^9, 3.994635694701845*^9}},
+ CellLabel->"In[43]:=",
+ CellID->4372184,ExpressionUUID->"93fbf5ac-8b79-0d4c-8633-9d89c370d041"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["SimplicialComplex",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"]], 
+              ButtonFunction :> (Typeset`open$$ = True), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}], True -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              ButtonFunction :> (Typeset`open$$ = False), Appearance -> None, 
+              BaseStyle -> {}, Evaluator -> Automatic, Method -> 
+              "Preemptive"], Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            Graphics3DBox[{
+              Opacity[0.6], 
+              TagBox[
+               
+               DynamicModuleBox[{
+                Typeset`mesh = {
+                  MeshRegion, {
+                   PlotTheme -> None, 
+                    Method -> {
+                    "EliminateUnusedCoordinates" -> True, 
+                    "DeleteDuplicateCoordinates" -> Automatic, 
+                    "DeleteDuplicateCells" -> Automatic, "VertexAlias" -> 
+                    Identity, "CheckOrientation" -> Automatic, 
+                    "CoplanarityTolerance" -> Automatic, "CheckIntersections" -> 
+                    Automatic, "BoundaryNesting" -> Automatic, 
+                    "SeparateBoundaries" -> Automatic, "TJunction" -> 
+                    Automatic, "PropagateMarkers" -> True, "ZeroTest" -> 
+                    Automatic}}}}, 
+                TagBox[
+                 
+                 GraphicsComplex3DBox[{{0., 0., 0.}, {2., 0., 0.}, {2., 2., 
+                  0.}, {0., 2., 0.}, {1., 1., 2.}}, {{}, {
+                    TagBox[
+                    TetrahedronBox[{{1, 2, 3, 5}, {1, 3, 4, 5}}], 
+                    Annotation[#, "Geometry"]& ]}}], 
+                 MouseAppearanceTag["LinkHand"]], AllowKernelInitialization -> 
+                False], "MeshRegion"]}, Boxed -> False, 
+             ImageSize -> {30, 25}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"Dimension: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["3", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Vertices: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["27", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Facets: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["162", "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"PureQ: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox["True", "SummaryItem"]}]}}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, AutoDelete -> 
+             False, GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{2}}, "Rows" -> {{Automatic}}},
+              BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}]}}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          AutoDelete -> False, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+          BaselinePosition -> {1, 1}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  Taggar`SimplicialHomology`Private`SimplicialComplexObject[<|"Facets" -> {{
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{1, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{1, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{1, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{1, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 1}], 
+       Point[{
+         Point[{3, 1}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{2, 1}], 3}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 1}], 2}], 
+       Point[{
+         Point[{3, 1}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{2, 3}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 2}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 1}], 
+       Point[{
+         Point[{3, 2}], 1}], 
+       Point[{
+         Point[{3, 3}], 1}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{2, 2}], 3}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 3}], 
+       Point[{
+         Point[{3, 3}], 3}]}, {
+       Point[{
+         Point[{2, 2}], 2}], 
+       Point[{
+         Point[{3, 2}], 2}], 
+       Point[{
+         Point[{3, 3}], 2}], 
+       Point[{
+         Point[{3, 3}], 3}]}}, "UUID" -> 
+    79713478256341110349788735270315283759989997864744556892528969892188001052\
+255|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.9946356955969906`*^9},
+ CellLabel->"Out[43]=",
+ CellID->636983211,ExpressionUUID->"a4adae73-e03b-e545-b638-1b11cdf0f9b7"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"SimplicialIsomorphicQ", "[", 
+  RowBox[{"%", ",", "%%"}], "]"}]], "Input",
+ CellChangeTimes->{{3.9946356971190987`*^9, 3.994635700802046*^9}},
+ CellLabel->"In[44]:=",
+ CellID->659898839,ExpressionUUID->"5415c8ac-30c0-644d-9354-9820757ca23f"],
+
+Cell[BoxData["True"], "Output",
+ CellChangeTimes->{3.994635701725502*^9},
+ CellLabel->"Out[44]=",
+ CellID->404669,ExpressionUUID->"e649d120-370b-314d-86b2-f8730185d236"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "\t", "ExampleDelimiter",ExpressionUUID->
+   "76853ea4-4117-bd4e-89da-bac290934d48"],
+  $Line = 0; Null]], "ExampleDelimiter",
+ CellID->63724428,ExpressionUUID->"61222b6f-c1ae-5d4a-bb93-fa91606f0513"],
+
+Cell["\<\
+The Euler characteristic is multiplicative under simplicial products:\
+\>", "ExampleText",
+ CellChangeTimes->{{3.994635731236082*^9, 3.9946357668737164`*^9}, 
+   3.994635797071308*^9},
+ CellID->72454429,ExpressionUUID->"edb0fe2e-d51a-7945-86a3-26a34639a5a9"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"e", "=", 
+   RowBox[{"SimplicialComplex", "[", "\"\<Sphere\>\"", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"f", "=", 
+   RowBox[{"SimplicialComplex", "[", 
+    RowBox[{"{", 
+     RowBox[{"\"\<Simplex\>\"", ",", "2"}], "}"}], "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.9946358078693047`*^9, 3.9946358422319736`*^9}, {
+  3.9946360869163513`*^9, 3.9946361613851013`*^9}},
+ CellLabel->"In[86]:=",
+ CellID->357562727,ExpressionUUID->"3ccaeb34-6457-8147-9329-b791687e0985"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SimplicialProduct", "[", 
+   RowBox[{"e", ",", "f"}], "]"}], "[", "\"\<EulerCharacteristic\>\"", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.994635846550705*^9, 3.9946358572524395`*^9}},
+ CellLabel->"In[90]:=",
+ CellID->146014144,ExpressionUUID->"62b77137-b46b-f749-b1fd-4b9f7463477c"],
+
+Cell[BoxData["2"], "Output",
+ CellChangeTimes->{
+  3.9946358576906776`*^9, {3.994636042475239*^9, 3.9946360468298435`*^9}, {
+   3.994636108980215*^9, 3.994636129659487*^9}, 3.9946361648679447`*^9},
+ CellLabel->"Out[90]=",
+ CellID->400745447,ExpressionUUID->"1c35edcd-caeb-024e-afe1-d2100ddd3fb6"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"e", "[", "\"\<EulerCharacteristic\>\"", "]"}], " ", 
+  RowBox[{"f", "[", "\"\<EulerCharacteristic\>\"", "]"}]}]], "Input",
+ CellChangeTimes->{{3.994635868875223*^9, 3.9946358746633224`*^9}, {
+   3.994636071661005*^9, 3.9946360791347237`*^9}, 3.9946361193659515`*^9, 
+   3.9946361661680183`*^9},
+ CellLabel->"In[91]:=",
+ CellID->689741924,ExpressionUUID->"1b884c31-f802-6f47-a9bc-0c4eb43fe937"],
+
+Cell[BoxData["2"], "Output",
+ CellChangeTimes->{
+  3.9946358750078087`*^9, {3.9946360429606876`*^9, 3.9946360474727173`*^9}, 
+   3.9946360797760696`*^9, {3.994636112630497*^9, 3.9946361674697113`*^9}},
+ CellLabel->"Out[91]=",
+ CellID->266631764,ExpressionUUID->"109d8281-e4d6-c943-8777-d15f3bd8ebb1"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Possible Issues", "ExampleSection",ExpressionUUID->
+   "1a63dc3b-c8bf-4448-9951-a1d6c345610f"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->303182109,ExpressionUUID->"9f424ee7-109c-2141-bfc0-b6528d088623"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Interactive Examples", "ExampleSection",ExpressionUUID->
+   "ee82eced-66f8-c84c-88e8-5f736afe673f"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->90143190,ExpressionUUID->"c43251a4-d83b-2145-8852-4a5cc1da4966"],
+
+Cell[BoxData[
+ InterpretationBox[Cell[
+  "Neat Examples", "ExampleSection",ExpressionUUID->
+   "d96a9a7e-e054-2245-a679-9612ee12d7ef"],
+  $Line = 0; Null]], "ExampleSection",
+ CellID->40571084,ExpressionUUID->"029124a8-d3dd-054a-a581-955ea015640f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Metadata", "MetadataSection",
+ CellID->116789090,ExpressionUUID->"1517a5fe-f749-f842-8b05-d7c529944bc7"],
+
+Cell[TextData[{
+ "New in: ",
+ Cell["XX", "HistoryData",
+  CellTags->"New",ExpressionUUID->"0518e9bf-1f81-7642-b1b0-1d59ca6ecd47"],
+ " | Modified in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Modified",ExpressionUUID->"943caa7b-57aa-1946-a977-838bf31f57bb"],
+ " | Obsolete in: ",
+ Cell[" ", "HistoryData",
+  CellTags->"Obsolete",ExpressionUUID->"9703e2e6-4f1e-c645-852c-74dee3168074"]
+}], "History",
+ CellID->145038884,ExpressionUUID->"d449da3a-275b-1f40-a9a5-65a2bbaf419b"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[{
+ "Categorization",
+ Cell[BoxData[
+  TemplateBox[{"Metadata", 
+    Cell[
+     BoxData[
+      FrameBox[
+       Cell[
+       "Metadata such as page URI, context, and type of documentation page.", 
+        "MoreInfoText"], BaseStyle -> "IFrameBox"]], "MoreInfoTextOuter"]},
+   "MoreInfoOpenerButtonTemplate"]],ExpressionUUID->
+  "6086f608-d9b5-2544-8380-139768842bf9"]
+}], "CategorizationSection",
+ CellID->172779780,ExpressionUUID->"227edc46-9f6d-cc45-9d78-249cebbcba1b"],
+
+Cell["Symbol", "Categorization",
+ CellLabel->"Entity Type",
+ CellID->498194860,ExpressionUUID->"90c06460-6304-1c4d-86cb-5ff4f71e2585"],
+
+Cell["Taggar/SimplicialHomology", "Categorization",
+ CellLabel->"Paclet Name",
+ CellID->198214709,ExpressionUUID->"93a15846-25f3-e54b-bec2-31dc565198a5"],
+
+Cell["Taggar`SimplicialHomology`", "Categorization",
+ CellLabel->"Context",
+ CellID->410576248,ExpressionUUID->"6b109504-8575-a84b-8acd-7cba11a6f19f"],
+
+Cell["Taggar/SimplicialHomology/ref/SimplicialProduct", "Categorization",
+ CellLabel->"URI",
+ CellID->15354914,ExpressionUUID->"2df86819-7d97-0247-bfbc-7faa27d82ffd"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "KeywordsSection",
+ CellID->171092243,ExpressionUUID->"98549bfe-5565-9944-a51a-10a0b255b5f1"],
+
+Cell["XXXX", "Keywords",
+ CellID->185568327,ExpressionUUID->"874aa9f1-a533-7c41-9568-c178752571bb"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Syntax Templates", "TemplatesSection",
+ CellID->335080488,ExpressionUUID->"e01d616f-643a-ff43-88fa-2bc44b6e5b44"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Additional Function Template",
+ CellID->222456973,ExpressionUUID->"b41b7df9-f8f5-6349-8ece-fe5eed5ea530"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Arguments Pattern",
+ CellID->135316517,ExpressionUUID->"0fc34e29-2732-f847-9e10-5223b1453a82"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Local Variables",
+ CellID->167509369,ExpressionUUID->"d236a436-207c-9043-a1a0-612f3d7f3649"],
+
+Cell[BoxData[""], "Template",
+ CellLabel->"Color Equal Signs",
+ CellID->118472836,ExpressionUUID->"d03940b4-a072-be49-b451-b83b365a1256"]
+}, Closed]]
+}, Open  ]]
+},
+WindowSize->{1024.5, 507.75},
+WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+TaggingRules-><|"Paclet" -> "Taggar/SimplicialHomology"|>,
+CellContext->"Global`",
+FrontEndVersion->"15.0 for Microsoft Windows (64-bit) (May 19, 2026)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "FunctionPageStylesExt.nb", 
+  CharacterEncoding -> "UTF-8"],
+ExpressionUUID->"beec539e-d8c8-e045-99c4-533dd56c9925"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "ExtendedExamples"->{
+  Cell[75218, 2433, 487, 13, 56, "ExtendedExamplesSection",ExpressionUUID->"300511a8-bccc-9646-8711-1ce4c29db4aa",
+   CellTags->"ExtendedExamples",
+   CellID->341721267]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"ExtendedExamples", 165870, 5796}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 114, 1, 72, "ObjectName",ExpressionUUID->"a7bd9c5f-4bdc-2f46-9552-0adc1895a759",
+ CellID->282450900],
+Cell[693, 25, 1040, 25, 76, "Usage",ExpressionUUID->"b8607933-b14c-6d43-b0f4-4691f9f64b4d",
+ CellID->177475756],
+Cell[1736, 52, 96, 1, 26, "Notes",ExpressionUUID->"a5e26c58-6b74-a545-9ca9-80ed3cb5ccde",
+ CellID->376554903]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1869, 58, 456, 13, 38, "SeeAlsoSection",ExpressionUUID->"15c396bb-a5af-194d-bcb2-e9e47e0180ab",
+ CellID->7312350],
+Cell[2328, 73, 1653, 42, 21, "SeeAlso",ExpressionUUID->"253c6b92-3435-564d-8640-e20eaec46d00",
+ CellID->219083757]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4018, 120, 434, 12, 39, "TechNotesSection",ExpressionUUID->"fcae9edf-ee7d-354c-9bdc-6db8632f3b62",
+ CellID->88302231],
+Cell[4455, 134, 100, 1, 17, "Tutorials",ExpressionUUID->"dad78aa2-49b2-4744-8309-286f61c66660",
+ CellID->380338641]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4592, 140, 117, 1, 37, "MoreAboutSection",ExpressionUUID->"3cd4ac53-2333-e64d-a516-c58759e43c82",
+ CellID->569845323],
+Cell[4712, 143, 98, 1, 17, "MoreAbout",ExpressionUUID->"d483e285-395d-0944-9b3f-b75424aa6f8e",
+ CellID->4503790]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4847, 149, 472, 13, 38, "RelatedLinksSection",ExpressionUUID->"a836543b-8d47-484e-a187-12879effa6f6",
+ CellID->125237302],
+Cell[5322, 164, 103, 1, 17, "RelatedLinks",ExpressionUUID->"58ecea60-c218-6d49-a3b1-0dcf14bda8ef",
+ CellID->482053475]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5462, 170, 530, 14, 68, "ExamplesInitializationSection",ExpressionUUID->"34714a0e-264a-6542-a747-cbb8faf88b8d",
+ CellID->673313191],
+Cell[5995, 186, 184, 3, 45, "ExampleInitialization",ExpressionUUID->"1e78d932-be1e-a84e-a7b0-0cb17c5ea443",
+ CellID->13549262]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6216, 194, 442, 12, 69, "PrimaryExamplesSection",ExpressionUUID->"8a111440-9575-974b-b005-af02e8100374",
+ CellID->592322939],
+Cell[6661, 208, 190, 2, 23, "ExampleText",ExpressionUUID->"2d1493e4-65f0-5f4b-9b48-f42ac5d2f47e",
+ CellID->42885028],
+Cell[CellGroupData[{
+Cell[6876, 214, 452, 9, 77, "Input",ExpressionUUID->"258797a7-2c51-124c-8760-b4a3229acb83",
+ CellID->186986287],
+Cell[7331, 225, 8039, 184, 51, "Output",ExpressionUUID->"7f6301bd-8179-6745-942f-c26bf462daf0",
+ CellID->160781978]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15407, 414, 232, 4, 25, "Input",ExpressionUUID->"c35ceb40-180b-e646-94c6-888e95aefd86",
+ CellID->695483443],
+Cell[15642, 420, 419, 12, 24, "Output",ExpressionUUID->"e8d0b0c2-bce2-0c45-91ab-3bd7d2ad6629",
+ CellID->475501617]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16098, 437, 242, 5, 16, "ExampleDelimiter",ExpressionUUID->"47f7d465-45c1-e049-8dc8-3a534cef75f9",
+ CellID->299392623],
+Cell[16343, 444, 188, 2, 23, "ExampleText",ExpressionUUID->"70e98b4e-6e9a-9445-85f1-775e488a1539",
+ CellID->110653921],
+Cell[CellGroupData[{
+Cell[16556, 450, 452, 9, 77, "Input",ExpressionUUID->"8b4c5aae-6d5c-9a4a-bfcb-540dce361d72",
+ CellID->169986275],
+Cell[17011, 461, 9796, 232, 51, "Output",ExpressionUUID->"9d3da63c-c90b-4a43-bbcd-4cdf017f5e85",
+ CellID->87047060]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26844, 698, 232, 4, 25, "Input",ExpressionUUID->"726ff6b5-7326-5d4f-bbdb-e77488ddd738",
+ CellID->193716885],
+Cell[27079, 704, 493, 15, 25, "Output",ExpressionUUID->"460717aa-4d72-6c45-a5dc-bccf84257a9a",
+ CellID->288250187]
+}, Open  ]],
+Cell[27587, 722, 251, 4, 23, "ExampleText",ExpressionUUID->"0dd3f9ce-7468-2243-8ee7-5a873eab556d",
+ CellID->32916369],
+Cell[CellGroupData[{
+Cell[27863, 730, 250, 4, 25, "Input",ExpressionUUID->"a3737125-a3d1-9f41-b05d-6e74d28d9e91",
+ CellID->33894764],
+Cell[28116, 736, 8149, 175, 51, "Output",ExpressionUUID->"54df373b-1a3b-af48-8e3e-de901344260a",
+ CellID->1093025]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36302, 916, 233, 4, 25, "Input",ExpressionUUID->"c7e5cd2e-0590-e34e-940c-970c9620dbc1",
+ CellID->747781908],
+Cell[36538, 922, 493, 15, 25, "Output",ExpressionUUID->"9c8dd1b3-d5ad-b74b-98a1-f983b474556b",
+ CellID->312238679]
+}, Open  ]],
+Cell[37046, 940, 204, 2, 23, "ExampleText",ExpressionUUID->"c24eb543-a278-2846-8754-f4c69821fc40",
+ CellID->61264151],
+Cell[CellGroupData[{
+Cell[37275, 946, 420, 9, 42, "Input",ExpressionUUID->"bf91d608-8c67-0b41-a6c3-d85e1bf28ea5",
+ CellID->633594705],
+Cell[37698, 957, 36613, 1445, 51, "Output",ExpressionUUID->"328aeab7-4ac7-4045-acb6-ac139f07ab74",
+ CellID->20442592]
+}, Open  ]],
+Cell[74326, 2405, 184, 2, 23, "ExampleText",ExpressionUUID->"ef431e47-587a-8345-a6a7-24cbcd3136c0",
+ CellID->224865488],
+Cell[CellGroupData[{
+Cell[74535, 2411, 231, 4, 25, "Input",ExpressionUUID->"78b6d21b-4161-3e46-be1b-bae2e97190dc",
+ CellID->585698023],
+Cell[74769, 2417, 388, 9, 24, "Output",ExpressionUUID->"f1210724-1dca-9343-945c-3aef12e71ddb",
+ CellID->31168818]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[75218, 2433, 487, 13, 56, "ExtendedExamplesSection",ExpressionUUID->"300511a8-bccc-9646-8711-1ce4c29db4aa",
+ CellTags->"ExtendedExamples",
+ CellID->341721267],
+Cell[75708, 2448, 241, 5, 32, "ExampleSection",ExpressionUUID->"79a67f06-63a0-af49-aa4d-a02f30e47953",
+ CellID->505370122],
+Cell[75952, 2455, 264, 5, 20, "ExampleSection",ExpressionUUID->"0906d4a2-f578-9448-8b91-b876a9b5d6cf",
+ CellID->447049633],
+Cell[CellGroupData[{
+Cell[76241, 2464, 243, 5, 20, "ExampleSection",ExpressionUUID->"1cc08431-86bc-0b4a-83a5-8de966746e21",
+ CellID->528921665],
+Cell[76487, 2471, 246, 5, 23, "ExampleSubsection",ExpressionUUID->"07afad08-6a1d-044c-93f1-31a6a4e7f435",
+ CellID->148911549],
+Cell[76736, 2478, 246, 5, 19, "ExampleSubsection",ExpressionUUID->"934285ff-a5b6-b14b-9b19-2606cf1f437b",
+ CellID->803477748]
+}, Open  ]],
+Cell[76997, 2486, 248, 5, 32, "ExampleSection",ExpressionUUID->"45b27295-83e2-1e46-b267-efcc01958e95",
+ CellID->479076098],
+Cell[CellGroupData[{
+Cell[77270, 2495, 258, 5, 20, "ExampleSection",ExpressionUUID->"97cf9ddb-d460-7c4e-b57a-7d3514a6f0ed",
+ CellID->109846227],
+Cell[77531, 2502, 418, 9, 23, "ExampleText",ExpressionUUID->"97abb554-0211-2645-b6cf-71a007039cd6",
+ CellID->204214462],
+Cell[CellGroupData[{
+Cell[77974, 2515, 276, 5, 25, "Input",ExpressionUUID->"9e4186a0-a769-8c4c-bfc5-eebf1dd0f370",
+ CellID->469440830],
+Cell[78253, 2522, 6733, 149, 51, "Output",ExpressionUUID->"dee72d47-4554-3846-89ca-ecbf5e6363a0",
+ CellID->198916706]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[85023, 2676, 332, 7, 25, "Input",ExpressionUUID->"56339cb3-eea3-d74c-93f6-b39d9ec90e85",
+ CellID->361520234],
+Cell[85358, 2685, 36592, 1445, 51, "Output",ExpressionUUID->"c2ee7bd2-ff55-b649-ba4f-ef74580999a3",
+ CellID->308677783]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[121987, 4135, 271, 5, 25, "Input",ExpressionUUID->"93fbf5ac-8b79-0d4c-8633-9d89c370d041",
+ CellID->4372184],
+Cell[122261, 4142, 36592, 1445, 51, "Output",ExpressionUUID->"a4adae73-e03b-e545-b638-1b11cdf0f9b7",
+ CellID->636983211]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[158890, 5592, 265, 5, 25, "Input",ExpressionUUID->"5415c8ac-30c0-644d-9354-9820757ca23f",
+ CellID->659898839],
+Cell[159158, 5599, 169, 3, 24, "Output",ExpressionUUID->"e649d120-370b-314d-86b2-f8730185d236",
+ CellID->404669]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[159364, 5607, 241, 5, 16, "ExampleDelimiter",ExpressionUUID->"61222b6f-c1ae-5d4a-bb93-fa91606f0513",
+ CellID->63724428],
+Cell[159608, 5614, 268, 5, 23, "ExampleText",ExpressionUUID->"edb0fe2e-d51a-7945-86a3-26a34639a5a9",
+ CellID->72454429],
+Cell[159879, 5621, 510, 12, 42, "Input",ExpressionUUID->"3ccaeb34-6457-8147-9329-b791687e0985",
+ CellID->357562727],
+Cell[CellGroupData[{
+Cell[160414, 5637, 318, 7, 25, "Input",ExpressionUUID->"62b77137-b46b-f749-b1fd-4b9f7463477c",
+ CellID->146014144],
+Cell[160735, 5646, 296, 5, 24, "Output",ExpressionUUID->"1c35edcd-caeb-024e-afe1-d2100ddd3fb6",
+ CellID->400745447]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[161068, 5656, 428, 8, 25, "Input",ExpressionUUID->"1b884c31-f802-6f47-a9bc-0c4eb43fe937",
+ CellID->689741924],
+Cell[161499, 5666, 300, 5, 24, "Output",ExpressionUUID->"109d8281-e4d6-c943-8777-d15f3bd8ebb1",
+ CellID->266631764]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[161838, 5676, 251, 5, 32, "ExampleSection",ExpressionUUID->"9f424ee7-109c-2141-bfc0-b6528d088623",
+ CellID->303182109],
+Cell[162092, 5683, 255, 5, 20, "ExampleSection",ExpressionUUID->"c43251a4-d83b-2145-8852-4a5cc1da4966",
+ CellID->90143190],
+Cell[162350, 5690, 248, 5, 20, "ExampleSection",ExpressionUUID->"029124a8-d3dd-054a-a581-955ea015640f",
+ CellID->40571084]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[162635, 5700, 110, 1, 71, "MetadataSection",ExpressionUUID->"1517a5fe-f749-f842-8b05-d7c529944bc7",
+ CellID->116789090],
+Cell[162748, 5703, 473, 11, 25, "History",ExpressionUUID->"d449da3a-275b-1f40-a9a5-65a2bbaf419b",
+ CellID->145038884],
+Cell[CellGroupData[{
+Cell[163246, 5718, 484, 13, 20, "CategorizationSection",ExpressionUUID->"227edc46-9f6d-cc45-9d78-249cebbcba1b",
+ CellID->172779780],
+Cell[163733, 5733, 134, 2, 34, "Categorization",ExpressionUUID->"90c06460-6304-1c4d-86cb-5ff4f71e2585",
+ CellID->498194860],
+Cell[163870, 5737, 153, 2, 34, "Categorization",ExpressionUUID->"93a15846-25f3-e54b-bec2-31dc565198a5",
+ CellID->198214709],
+Cell[164026, 5741, 150, 2, 34, "Categorization",ExpressionUUID->"6b109504-8575-a84b-8acd-7cba11a6f19f",
+ CellID->410576248],
+Cell[164179, 5745, 166, 2, 34, "Categorization",ExpressionUUID->"2df86819-7d97-0247-bfbc-7faa27d82ffd",
+ CellID->15354914]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[164382, 5752, 110, 1, 20, "KeywordsSection",ExpressionUUID->"98549bfe-5565-9944-a51a-10a0b255b5f1",
+ CellID->171092243],
+Cell[164495, 5755, 99, 1, 70, "Keywords",ExpressionUUID->"874aa9f1-a533-7c41-9568-c178752571bb",
+ CellID->185568327]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[164631, 5761, 119, 1, 20, "TemplatesSection",ExpressionUUID->"e01d616f-643a-ff43-88fa-2bc44b6e5b44",
+ CellID->335080488],
+Cell[164753, 5764, 148, 2, 70, "Template",ExpressionUUID->"b41b7df9-f8f5-6349-8ece-fe5eed5ea530",
+ CellID->222456973],
+Cell[164904, 5768, 137, 2, 70, "Template",ExpressionUUID->"0fc34e29-2732-f847-9e10-5223b1453a82",
+ CellID->135316517],
+Cell[165044, 5772, 135, 2, 70, "Template",ExpressionUUID->"d236a436-207c-9043-a1a0-612f3d7f3649",
+ CellID->167509369],
+Cell[165182, 5776, 137, 2, 70, "Template",ExpressionUUID->"d03940b4-a072-be49-b451-b83b365a1256",
+ CellID->118472836]
+}, Closed]]
+}, Open  ]]
+}
+]
+*)
+

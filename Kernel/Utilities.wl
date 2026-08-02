@@ -48,10 +48,10 @@ Boundary[s : _List] :=
 
 
 ClearAll[EuChar];
-EuChar[sc : _SimplicialComplexObject] :=
-	Total[
-		MapIndexed[
-			(-1)^(First[#2]-1) #1 &, sc["FVector"]]]
+EuChar[sc_SimplicialComplexObject] :=
+	Total @ MapIndexed[
+		(-1)^(First[#2] - 1) #1 &,
+		Rest @ sc["FVector"]]
 
 
 (* ::Subsection:: *)
@@ -69,6 +69,37 @@ SimplexInQ[sc_, sim_] :=
 		   part of the (k-1)-dimensional simplices of sc *)
 		Lookup[sc["Simplices"], Length @ DeleteDuplicates @ sim - 1, {}],
 		sim]
+
+
+SimplexProduct[s1_List, s2_List] :=
+    (Point /@ #) & /@ LatticePaths[s1, s2]
+
+
+(* ::Text:: *)
+(*Lattice paths:*)
+
+
+LatticePaths[t1_, t2_, length_ : Automatic] :=
+	Which[
+		length == Automatic,
+			Which[
+				Length[t1] == 0 \[Or] Length[t2] == 0, {{}},
+				Length[t1] == 1, {Thread[{ConstantArray[First @ t1, Length @ t2], t2}]},
+				Length[t2] == 1, {Thread[{t1, ConstantArray[First[t2], Length[t1]]}]},
+				True,
+					Join[Append[#, {Last @ t1, Last @ t2}] & /@ LatticePaths[Most @ t1, t2],
+					     Append[#, {Last @ t1, Last @ t2}] & /@ LatticePaths[t1, Most @ t2]]],
+		length > Length @ t1 + Length @ t2 - 1, {},
+		Length[t1] == 0 \[Or] Length[t2] == 0,
+			If[length == 0, {{}}, {}],
+		Length[t1] == 1,
+			If[length == Length @ t2, {Thread[{ConstantArray[First[t1], Length[t2]], t2}]}, {}],
+		Length[t2] == 1,
+			If[length == Length @ t1, {Thread[{t1, ConstantArray[First[t2], Length[t1]]}]}, {}],
+		True,
+			Join[Append[#, {Last[t1], Last[t2]}] & /@ LatticePaths[Most[t1], t2, length - 1],
+			     Append[#, {Last[t1], Last[t2]}] & /@ LatticePaths[t1, Most[t2], length - 1],
+			     Append[#, {Last[t1], Last[t2]}] & /@ LatticePaths[Most[t1], Most[t2], length - 1]]]
 
 
 (* ::Subsection:: *)

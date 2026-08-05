@@ -260,8 +260,7 @@ SimplicialCone::usage =
 	"SimplicialCone[sc] returns the cone of the simplicial complex sc.";
 SimplicialCone[sc_?SimplicialComplexQ] :=
 	SimplicialJoin[
-		sc, SimplicialComplex["Point"],
-		"MaximalityCheck" -> False]
+		sc, SimplicialComplex["Point"]]
 
 
 (* ::Text:: *)
@@ -273,8 +272,7 @@ SimplicialSuspension::usage =
 	"SimplicialSuspension[sc] returns the suspension of the simplicial complex sc.";
 SimplicialSuspension[sc_?SimplicialComplexQ] :=
 	SimplicialJoin[
-		sc, SimplicialComplex[{"Circle", 0}],
-		"MaximalityCheck" -> False]
+		sc, SimplicialComplex[{"Circle", 0}]]
 
 
 (* ::Text:: *)

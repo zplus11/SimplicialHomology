@@ -22,7 +22,7 @@ BettiNumber[sc] computes all betti numbers of sc.
 BettiNumber[sc, sub, n] computes the nth betti number of sc relative to sub.
 BettiNumber[sc, sub] computes all betti numbers of sc relative to sub.";
 General::NonPrimeCoefficients =
-	"\"Coefficients\" specification `1` cannot be a composite integer.";
+	"\"Coefficients\" specification `1` must be a prime number.";
 General::InvalidSubcomplex =
 	"`1` is not a valid subcomplex.";
 Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};

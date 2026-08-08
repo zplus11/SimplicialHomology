@@ -1,5 +1,9 @@
 # Simplicial Homology
 
+[![GitHub release](https://img.shields.io/github/v/release/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/releases)
+[![License](https://img.shields.io/github/license/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/blob/main/LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21309175.svg)](https://doi.org/10.5281/zenodo.21309175)
+
 <img align="left" src="Media/headline.svg" width="100"> is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
 
 Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology groups, Euler characteristic and f-vectors, joins, cones, suspensions, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram Language.
@@ -92,12 +96,14 @@ For a full reference, visit the homepage at Wolfram paclet repository [here](htt
 # Future scope
 
 - simplicial maps
-- wedge, products, and more
+- wedge products
 - formalisation of chain complexes
 
 # Version log
 
-**Version 1.1.0,** *on 1 August, 2026* &mdash; Support for relative homology and stars & links
+**Version 1.1.1,** *on 8 August, 2026* &mdash; support for simplicial products and a bug fix
+
+**Version 1.1.0,** *on 1 August, 2026* &mdash; support for relative homology and stars & links
  
 **Version 1.0.0,** *on 10 July, 2026* &mdash; public release
 

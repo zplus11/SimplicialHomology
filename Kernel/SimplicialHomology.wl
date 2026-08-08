@@ -24,6 +24,8 @@ HomologyGroup;
 SimplicialAutomorphismGroup;
 SimplicialIsomorphicQ;
 
+ClearSimplicialCache;
+
 
 Begin["`Private`"];
 
@@ -38,6 +40,9 @@ Begin["`Private`"];
 
 If[\[Not] AssociationQ @ $SimplicialCache,
 	$SimplicialCache = <||>];
+
+
+ClearSimplicialCache[] := ($SimplicialCache = <||>)
 
 
 (* ::Text:: *)

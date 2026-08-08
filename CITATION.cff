@@ -1,0 +1,51 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  SimplicialHomology: implementation of abstract simplicial
+  complex in Mathematica
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - orcid: 'https://orcid.org/0009-0004-6105-603X'
+    given-names: Naman
+    family-names: Taggar
+    email: namtgr@gmail.com
+    affiliation: >-
+      Department of Mathematics, University of Delhi, Delhi
+      110007, India
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21309175
+repository-code: 'https://github.com/zplus11/SimplicialHomology/'
+url: >-
+  https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/
+abstract: >-
+  Computations in simplicial homology are crucial for
+  algebraic topology and computational geometry in general.
+  Though Several mature software systems provide facilities
+  for working with simplicial complexes, there is currently
+  limited support for such computations within the Wolfram
+  Language ecosystem. This paper presents
+  SimplicialHomology, an open-source Wolfram Language paclet
+  for abstract constructing simplicial complexes and
+  computing their homology groups over the integers,
+  rational numbers, and finite fields. Furthermore, the
+  package supports many other functionalities such as
+  calculating Betti numbers, automorphism groups, and other
+  constructions such as joins, stars, links, etc. Several
+  examples are presented to illustrate the package and its
+  performance.
+keywords:
+  - algebraic topology
+  - discrete topology
+  - simplicial homology
+  - simplicial complexes
+  - homology theory
+  - topology
+license: MIT
+version: 1.1.0
+date-released: '2026-08-01'

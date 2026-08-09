@@ -362,17 +362,20 @@ SubComplexQ[
 ClearAll[SimplicialAutomorphismGroup];
 SimplicialAutomorphismGroup::usage =
 	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
+ClearAll[SimplicialAutomorphismGroup];
+SimplicialAutomorphismGroup::usage =
+	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
 SimplicialAutomorphismGroup[sc_?SimplicialComplexQ] :=
 	Module[
-		{verts, v, gens},
-		verts = v /@ sc["Vertices"];
+		{G, n, gens, restricted},
 		
-		gens = With[
-			{img = PermutationReplace[verts, #]},
-			FindPermutation[verts, img]] & /@
-				GroupGenerators @ GraphAutomorphismGroup @ SimplicialIncidenceGraph[sc];
-				
-		PermutationGroup[gens]]
+		G = SimplicialIncidenceGraph[sc];
+		n = Length[sc["Vertices"]];
+		
+		gens = GroupGenerators @ GraphAutomorphismGroup[G];
+		restricted = gens /. Cycles[cyc_] :> Cycles[Select[cyc, First[#] <= n &]] /. Cycles[{}] :> Nothing;
+		
+		PermutationGroup[restricted]]
 
 
 (* ::Subsection:: *)

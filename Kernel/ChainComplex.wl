@@ -95,7 +95,7 @@ ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 			n |-> BoundaryMatrix[sc, n],
 			Range[1, sc["Dimension"]]];
 		
-		ChainComplex[data, "DifferentialsCheck" -> False, opts]]
+		ChainComplex[data, opts, "DifferentialsCheck" -> False]]
 
 
 (* ::Section:: *)

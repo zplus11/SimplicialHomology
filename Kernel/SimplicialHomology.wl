@@ -24,6 +24,8 @@ HomologyGroup;
 SimplicialAutomorphismGroup;
 SimplicialIsomorphicQ;
 
+ChainComplex;
+
 
 Begin["`Private`"];
 
@@ -70,6 +72,7 @@ CacheSet[sc_, key_, value_] := (
 Get /@ {
 	"Taggar`SimplicialHomology`SimplicialComplex`",
 	"Taggar`SimplicialHomology`Examples`",
+	"Taggar`SimplicialHomology`ChainComplex`",
 	"Taggar`SimplicialHomology`Homology`",
 	"Taggar`SimplicialHomology`Utilities`"
 }

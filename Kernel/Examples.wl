@@ -12,7 +12,7 @@ Begin["Taggar`SimplicialHomology`Private`"];
 
 
 SimplicialComplex[{"Simplex", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
-	SimplicialComplex[{Range[n + 1]}, "MaximalityCheck" -> False, opts]
+	SimplicialComplex[{Range[n + 1]}, opts, "MaximalityCheck" -> False]
 SimplicialComplex["Point", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 0}, opts]
 SimplicialComplex["Line", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 1}, opts]
 SimplicialComplex["Triangle", opts : OptionsPattern[]] := SimplicialComplex[{"Simplex", 2}, opts]
@@ -20,7 +20,7 @@ SimplicialComplex["Tetrahedron", opts : OptionsPattern[]] := SimplicialComplex[{
 
 
 SimplicialComplex[{"Circle", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
-	SimplicialComplex[Subsets[Range[n + 2], {n + 1}], "MaximalityCheck" -> False, opts]
+	SimplicialComplex[Subsets[Range[n + 2], {n + 1}], opts, "MaximalityCheck" -> False]
 SimplicialComplex["Circle", opts : OptionsPattern[]] := SimplicialComplex[{"Circle", 1}, opts]
 SimplicialComplex["Sphere", opts : OptionsPattern[]] := SimplicialComplex[{"Circle", 2}, opts]
 
@@ -28,7 +28,7 @@ SimplicialComplex["Sphere", opts : OptionsPattern[]] := SimplicialComplex[{"Circ
 SimplicialComplex[{"CircleWedge", n_Integer?Positive}, opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		Flatten[Table[{{1, 2 i}, {2 i, 2 i + 1}, {2 i + 1, 1}}, {i, 1, n}], 1],
-			"MaximalityCheck" -> False, opts]
+			opts, "MaximalityCheck" -> False]
 
 
 (* ::Text:: *)
@@ -39,15 +39,15 @@ SimplicialComplex["Torus", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{1,2,3}, {1,2,6}, {1,3,7}, {1,4,5}, {1,4,6},
 		{1,5,7}, {2,3,5}, {2,4,5}, {2,4,7}, {2,6,7},
-		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}, "MaximalityCheck" -> False, opts]
+		{3,4,6}, {3,4,7}, {3,5,6}, {5,6,7}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex[{"Torus", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
 	Which[
-		n == 0, SimplicialComplex["Point", "MaximalityCheck" -> False, opts],
-		n == 1, SimplicialComplex["Circle", "MaximalityCheck" -> False, opts],
-		n == 2, SimplicialComplex["Torus", "MaximalityCheck" -> False, opts],
-		True, SimplicialProduct @@ Table[SimplicialComplex["Circle", "MaximalityCheck" -> False, opts],
+		n == 0, SimplicialComplex["Point", opts, "MaximalityCheck" -> False],
+		n == 1, SimplicialComplex["Circle", opts, "MaximalityCheck" -> False],
+		n == 2, SimplicialComplex["Torus", opts, "MaximalityCheck" -> False],
+		True, SimplicialProduct @@ Table[SimplicialComplex["Circle", opts, "MaximalityCheck" -> False],
 			{i, n}]]
 
 
@@ -56,13 +56,13 @@ SimplicialComplex["KleinBottle", opts : OptionsPattern[]] :=
 		{{1,2,5}, {1,2,7}, {1,3,5}, {1,3,6}, {1,6,7},
 		{2,3,4}, {2,3,7}, {2,4,6}, {2,5,8}, {2,6,8},
 		{3,4,8}, {3,5,7}, {3,6,8}, {4,5,7}, {4,5,8},
-		{4,6,7}}, "MaximalityCheck" -> False, opts]
+		{4,6,7}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex["MobiusStrip", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{1, 2, 4}, {2, 3, 4}, {3, 4, 5},
-		{1, 3, 5}, {1, 2, 5}}, "MaximalityCheck" -> False, opts]
+		{1, 3, 5}, {1, 2, 5}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex::MooreSpaceq =
@@ -76,7 +76,7 @@ SimplicialComplex[{"MooreSpace", q_Integer?Positive}, opts : OptionsPattern[]] :
 			Return[$Failed]];
 		
 		If[q == 2,
-			Return[SimplicialComplex["RealProjectivePlane", "MaximalityCheck" -> False, opts]]];
+			Return[SimplicialComplex["RealProjectivePlane", opts, "MaximalityCheck" -> False]]];
 		
 		Do[
 			Ai = Subscript["A", i];
@@ -97,13 +97,13 @@ SimplicialComplex[{"MooreSpace", q_Integer?Positive}, opts : OptionsPattern[]] :
 			AppendTo[facets, {Subscript["A", 0], Ai, Aiplus}],
 			{i, 1, q - 2}];
 		
-		SimplicialComplex[facets, "MaximalityCheck" -> False, opts]];
+		SimplicialComplex[facets, opts, "MaximalityCheck" -> False]];
 
 
 SimplicialComplex["RealProjectivePlane", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{1,2,3}, {1,2,6}, {1,3,4}, {1,4,5}, {1,5,6},
-		{2,3,5}, {2,4,5}, {2,4,6}, {3,4,6}, {3,5,6}}, "MaximalityCheck" -> False, opts]
+		{2,3,5}, {2,4,5}, {2,4,6}, {3,4,6}, {3,5,6}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex["ComplexProjectivePlane", opts : OptionsPattern[]] :=
@@ -116,7 +116,7 @@ SimplicialComplex["ComplexProjectivePlane", opts : OptionsPattern[]] :=
 		{3,4,5,6,7}, {3,4,5,6,9}, {3,4,5,7,10}, {3,4,5,9,10},
 		{3,4,6,7,8}, {3,4,6,8,9}, {3,4,7,8,10}, {3,5,6,9,10},
 		{3,5,7,8,10}, {3,6,7,8,9}, {4,5,6,8,9}, {4,5,7,9,10},
-		{4,6,7,8,10}, {5,6,8,9,10}, {5,7,8,9,10}, {6,7,8,9,10}}, "MaximalityCheck" -> False, opts]
+		{4,6,7,8,10}, {5,6,8,9,10}, {5,7,8,9,10}, {6,7,8,9,10}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex["QuaternionicProjectivePlane", opts : OptionsPattern[]] :=
@@ -162,9 +162,9 @@ SimplicialComplex::RealProjectiveSpace5p =
 	"The real projective space for n >=5 is not yet defined.";
 SimplicialComplex[{"RealProjectiveSpace", n_Integer?NonNegative}, opts : OptionsPattern[]] :=
 	Which[
-		n == 0, SimplicialComplex[{"Simplex", 0}, "MaximalityCheck" -> False, opts],
-		n == 1, SimplicialComplex[{"Circle", 1}, "MaximalityCheck" -> False, opts],
-		n == 2, SimplicialComplex["RealProjectivePlane", "MaximalityCheck" -> False, opts],
+		n == 0, SimplicialComplex[{"Simplex", 0}, opts, "MaximalityCheck" -> False],
+		n == 1, SimplicialComplex[{"Circle", 1}, opts, "MaximalityCheck" -> False],
+		n == 2, SimplicialComplex["RealProjectivePlane", opts, "MaximalityCheck" -> False],
 		n == 3, SimplicialComplex[
 			{{1, 2, 3, 7}, {1, 4, 7, 9}, {2, 3, 4, 8}, {2, 5, 8, 10},
              {3, 6, 7, 10}, {1, 2, 3, 11}, {1, 4, 7, 10}, {2, 3, 4, 11},
@@ -175,7 +175,7 @@ SimplicialComplex[{"RealProjectiveSpace", n_Integer?NonNegative}, opts : Options
              {4, 5, 6, 11}, {1, 3, 5, 10}, {1, 5, 6, 11}, {2, 4, 8, 10},
              {3, 4, 8, 9}, {4, 5, 7, 9}, {1, 3, 5, 11}, {1, 5, 8, 10},
              {2, 5, 7, 8}, {3, 5, 9, 10}, {4, 6, 7, 10}, {1, 3, 7, 10},
-             {1, 6, 8, 9}, {2, 5, 7, 9}, {3, 6, 7, 8}, {5, 6, 7, 8}}, "MaximalityCheck" -> False, opts],
+             {1, 6, 8, 9}, {2, 5, 7, 9}, {3, 6, 7, 8}, {5, 6, 7, 8}}, opts, "MaximalityCheck" -> False],
 		n == 4, SimplicialComplex[
 			{{1, 3, 8, 12, 13}, {2, 7, 8, 13, 16}, {4, 8, 9, 12, 14},
              {2, 6, 10, 12, 16}, {5, 7, 9, 10, 13}, {1, 2, 7, 8, 15},
@@ -226,7 +226,7 @@ SimplicialComplex[{"RealProjectiveSpace", n_Integer?NonNegative}, opts : Options
                 {4, 7, 8, 12, 15}, {2, 3, 5, 10, 15}, {2, 6, 8, 10, 16},
                 {3, 4, 10, 15, 16}, {1, 5, 6, 14, 16}, {2, 3, 5, 14, 15},
                 {2, 3, 7, 9, 16}, {2, 7, 9, 13, 14}, {3, 4, 6, 7, 15},
-                {4, 8, 10, 14, 16}, {3, 4, 7, 15, 16}, {2, 8, 10, 15, 16}}, "MaximalityCheck" -> False, opts],
+                {4, 8, 10, 14, 16}, {3, 4, 7, 15, 16}, {2, 8, 10, 15, 16}}, opts, "MaximalityCheck" -> False],
 		True,
 			(Message[SimplicialComplex::RealProjectiveSpace5p]; $Failed)]
 
@@ -235,7 +235,7 @@ SimplicialComplex["DunceHat", opts : OptionsPattern[]] :=
 	SimplicialComplex[
 		{{2,3,5}, {2,3,8}, {2,3,9}, {2,4,5}, {2,4,6}, {2,4,7},
 		{2,6,7}, {2,8,9}, {3,4,6}, {3,4,8}, {3,4,9}, {3,5,6},
-		{4,5,9}, {4,7,8}, {5,6,7}, {5,7,9}, {7,8,9}}, "MaximalityCheck" -> False, opts]
+		{4,5,9}, {4,7,8}, {5,6,7}, {5,7,9}, {7,8,9}}, opts, "MaximalityCheck" -> False]
 
 
 (* same homology as S3 *)
@@ -260,7 +260,7 @@ SimplicialComplex["PoincareHomologyThreeSphere", opts : OptionsPattern[]] :=
 		{7,13,14,16}, {8,9,11,15}, {8,9,12,16}, {8,9,15,16}, {8,10,15,16},
 		{9,13,15,16}, {10,11,12,13}, {10,11,12,17}, {10,11,16,17}, {10,12,15,17},
 		{10,15,16,17}, {11,12,14,17}, {11,14,16,17}, {12,14,15,17}, {13,14,15,16},
-		{14,15,16,17}}, "MaximalityCheck" -> False, opts]
+		{14,15,16,17}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex["RudinBall", opts : OptionsPattern[]] :=
@@ -275,7 +275,7 @@ SimplicialComplex["RudinBall", opts : OptionsPattern[]] :=
 		{5,8,12,13}, {5,9,10,11}, {5,9,11,15}, {5,9,12,13},
 		{6,10,11,12}, {6,10,12,14}, {7,11,12,13}, {7,11,13,15},
 		{8,10,12,13}, {8,10,12,14}, {9,10,11,13}, {9,11,13,15},
-		{10,11,12,13}}, "MaximalityCheck" -> False, opts]
+		{10,11,12,13}}, opts, "MaximalityCheck" -> False]
 
 
 SimplicialComplex["ZieglerBall", opts : OptionsPattern[]] :=
@@ -284,7 +284,7 @@ SimplicialComplex["ZieglerBall", opts : OptionsPattern[]] :=
 		{2,3,4,5}, {2,3,5,10}, {2,3,6,7}, {2,3,7,10}, {2,4,5,8},
 		{2,5,6,8}, {2,5,6,9}, {2,5,9,10}, {2,6,7,10}, {2,6,9,10},
 		{3,4,5,9}, {3,4,7,8}, {3,4,7,9}, {4,5,8,9}, {4,7,8,9},
-		{5,6,8,9}}, "MaximalityCheck" -> False, opts]
+		{5,6,8,9}}, opts, "MaximalityCheck" -> False]
 
 
 (* ::Section:: *)

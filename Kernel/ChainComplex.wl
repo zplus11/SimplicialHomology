@@ -36,7 +36,8 @@ ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 
 
 ChainComplex::usage =
-	"Usage string tbd";
+	"ChainComplex[assoc] represents a chain complex defined by assoc of its differential matrices.
+ChainComplex[sc] constructs the chain complex associated with the simplicial complex sc.";
 
 
 ChainComplex::InvalidOptionValue =

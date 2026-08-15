@@ -24,7 +24,7 @@ HomologyGroup;
 SimplicialAutomorphismGroup;
 SimplicialIsomorphicQ;
 
-ClearSimplicialCache;
+ChainComplex;
 
 
 Begin["`Private`"];
@@ -40,9 +40,6 @@ Begin["`Private`"];
 
 If[\[Not] AssociationQ @ $SimplicialCache,
 	$SimplicialCache = <||>];
-
-
-ClearSimplicialCache[] := ($SimplicialCache = <||>)
 
 
 (* ::Text:: *)
@@ -75,6 +72,7 @@ CacheSet[sc_, key_, value_] := (
 Get /@ {
 	"Taggar`SimplicialHomology`SimplicialComplex`",
 	"Taggar`SimplicialHomology`Examples`",
+	"Taggar`SimplicialHomology`ChainComplex`",
 	"Taggar`SimplicialHomology`Homology`",
 	"Taggar`SimplicialHomology`Utilities`"
 }

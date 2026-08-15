@@ -71,13 +71,9 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 				Message[ChainComplex::InvalidOptionValue, "DifferentialsCheck", dcheck];
 				Return[$Failed]];
 			
-<<<<<<< HEAD
-			diffs = Sort @ Map[SparseArray, data];
-=======
 			diffs = KeySort @ Map[
 				mat |-> If[mat === {}, {}, SparseArray[mat]], 
 					data];
->>>>>>> 36224f1 (Fix differential composition check for prime coefficients)
 			If[MatchQ[coeffs, _Integer],
 				diffs = Map[Mod[#, coeffs] &, diffs]];
 			

@@ -18,7 +18,7 @@ Begin["Taggar`SimplicialHomology`Private`"];
 ClearAll[ChainComplex, ChainComplexObject, ChainComplexQ];
 ChainComplexQ[ChainComplexObject[
     KeyValuePattern[{
-        "Differentials" -> <| (_Integer?NonNegative -> _SparseArray) ... |>,
+        "Differentials" -> <| (_Integer?NonNegative -> _SparseArray | {}) ... |>,
         "Coefficients" -> Integers | Rationals | _Integer?PrimeQ }]
 ]] := True
 ChainComplexQ[_] := False
@@ -32,12 +32,18 @@ ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 	cc[[1, "Differentials"]]
 
 
+ChainComplexObject /: cc_ChainComplexObject["Coefficients"] :=
+	cc[[1, "Coefficients"]]
+
+
 (* ::Subsection:: *)
 (*Input methods:*)
 
 
 ChainComplex::usage =
 	"Usage string tbd";
+
+
 ChainComplex::InvalidCoefficients =
 	"The coefficients specification `1` is invalid.";
 ChainComplex::InvalidOptionValue =
@@ -49,7 +55,7 @@ ChainComplex::NonZeroComposition =
 Options[ChainComplex] = {"Coefficients" -> Integers, "DifferentialsCheck" -> True};
 
 
-ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ)) ... |>,
+ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {})) ... |>,
 	opts : OptionsPattern[]] :=
 		Module[
 			{coeffs = OptionValue["Coefficients"],
@@ -65,7 +71,13 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ)) ..
 				Message[ChainComplex::InvalidOptionValue, "DifferentialsCheck", dcheck];
 				Return[$Failed]];
 			
+<<<<<<< HEAD
 			diffs = Sort @ Map[SparseArray, data];
+=======
+			diffs = KeySort @ Map[
+				mat |-> If[mat === {}, {}, SparseArray[mat]], 
+					data];
+>>>>>>> 36224f1 (Fix differential composition check for prime coefficients)
 			If[MatchQ[coeffs, _Integer],
 				diffs = Map[Mod[#, coeffs] &, diffs]];
 			
@@ -73,14 +85,14 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ)) ..
 				If[dcheck,
 					Do[
 						If[KeyExistsQ[diffs, n + 1],
-							If[Dimensions[diffs[n]][[2]] =!=
+							If[Dimensions[diffs[n]][[2]] !=
 								Dimensions[diffs[n + 1]][[1]],
 								Message[ChainComplex::IncompatibleDifferentials, n, n + 1];
 								Throw[$Failed]];
 							
 							If[If[MatchQ[coeffs, _Integer],
 									Mod[diffs[n] . diffs[n + 1], coeffs],
-									diffs[n] . diffs[n + 1]] =!=
+									diffs[n] . diffs[n + 1]] !=
 								SparseArray[{}, {Dimensions[diffs[n]][[1]],
 									Dimensions[diffs[n + 1]][[2]]}],
 								Message[ChainComplex::NonZeroComposition, n, n + 1];
@@ -89,7 +101,22 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ)) ..
 				
 				Throw @ ChainComplexObject[
 					<|"Differentials" -> diffs,
-						"Coefficients" -> coeffs |>]]
+						"Coefficients" -> coeffs |>]]]
+
+
+(* ::Text:: *)
+(*Way of constructing a chain complex from the given simplicial complex:*)
+
+
+ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+	Module[
+		{data},
+		
+		data = AssociationMap[
+			n |-> BoundaryMatrix[sc, n],
+			Range[1, sc["Dimension"]]];
+		
+		ChainComplex[data, opts]]
 
 
 (* ::Section:: *)

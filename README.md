@@ -1,7 +1,7 @@
 # Simplicial Homology
 
 [![GitHub release](https://img.shields.io/github/v/release/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/releases)
-[![License](https://img.shields.io/github/license/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/blob/main/LICENSE)
+[![License](https://img.shields.io/github/license/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/blob/master/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21309175.svg)](https://doi.org/10.5281/zenodo.21309175)
 
 <img align="left" src="Media/headline.svg" width="100"> is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).

@@ -123,17 +123,21 @@ ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 ChainComplexObject /:
 	MakeBoxes[cc_ChainComplexObject?ChainComplexQ, form_] :=
 		Module[
-			{diffs = cc["Differentials"], dims},
+			{diffs = cc["Differentials"], dims, icon},
+			
+			icon = If[diffs == <||>,
+				Graphics @ Rectangle[],
+				ArrayPlot[
+					First[Values[diffs]],
+					ImageSize -> {30, 25}]];
 			
 			dims = Association @ KeyValueMap[
 				#1 -> Dimensions[#2] &, diffs];
 			
 			BoxForm`ArrangeSummaryBox[
 				"ChainComplex", cc,
-				ArrayPlot[
-					First[Values[diffs]],
-					ImageSize -> {30, 25}],
-				{BoxForm`SummaryItem[{"Dimension: ", Max[Keys[dims]]}], (* main *)
+				icon,
+				{BoxForm`SummaryItem[{"Dimension: ", If[dims === <||>, 0, Max[Keys[dims]]]}], (* main *)
 				 BoxForm`SummaryItem[{"Coefficients: ", Integers}]},
 				{BoxForm`SummaryItem[{"Chain Group Dimensions: \n", (* + *)
 					Column @ ReplaceAll[dims, Association -> List]}],

@@ -45,22 +45,34 @@ ChainComplex::IncompatibleDifferentials =
 	"The differentials \[PartialD]_`1` and \[PartialD]_`2` are not composable.";
 ChainComplex::NonZeroComposition =
 	"The dot product \[PartialD]_`1` \[CenterDot] \[PartialD]_`2` is not zero.";
-Options[ChainComplex] = {"DifferentialsCheck" -> True};
+Options[ChainComplex] = {"DifferentialsCheck" -> True, "Dimensions" -> All, "Dual" -> False};
 
 
 ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {})) ... |>,
 	opts : OptionsPattern[]] :=
 		Module[
 			{dcheck = OptionValue["DifferentialsCheck"],
-			 diffs},
+			 diffs,
+			 dual = OptionValue["Dual"]},
 			
 			If[\[Not] BooleanQ[dcheck],
 				Message[ChainComplex::InvalidOptionValue, "DifferentialsCheck", dcheck];
 				Return[$Failed]];
 			
+			If[\[Not] BooleanQ[dual],
+				Message[ChainComplex::InvalidOptionValue, "Dual", dual];
+				Return[$Failed]];
+			
 			diffs = KeySort @ Map[
 				mat |-> If[mat === {}, {}, SparseArray[mat]], 
 					data];
+			
+			If[dual, If[KeyExistsQ[diffs, 0],
+				Message[ChainComplex::InvalidDualDifferential];
+				Return[$Failed]];
+				
+				diffs = Association @ KeyValueMap[
+					(#1 - 1) -> Transpose[#2] &, diffs]];
 			
 			Catch[
 				If[dcheck,
@@ -79,8 +91,7 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 						{n, Keys @ diffs}]];
 				
 				Throw @ ChainComplexObject[
-					<|"Differentials" -> diffs,
-						"Coefficients" -> coeffs |>]]]
+					<|"Differentials" -> diffs|>]]]
 
 
 (* ::Text:: *)
@@ -89,13 +100,43 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 
 ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 	Module[
-		{data},
+		{data, dims = OptionValue["Dimensions"]},
+		
+		dims = If[dims === All,
+			Range[1, sc["Dimension"]], dims];
+		
+		If[\[Not] VectorQ[dims, IntegerQ] \[Or] AnyTrue[dims, # < 1 \[Or] # > sc["Dimension"] &],
+			Message[ChainComplex::InvalidOptionValue, "Dimensions", dims];
+			Return[$Failed]];
 		
 		data = AssociationMap[
-			n |-> BoundaryMatrix[sc, n],
-			Range[1, sc["Dimension"]]];
+			n |-> BoundaryMatrix[sc, n], dims];
 		
 		ChainComplex[data, opts, "DifferentialsCheck" -> False]]
+
+
+(* ::Subsection:: *)
+(*Formatting:*)
+
+
+ChainComplexObject /:
+	MakeBoxes[cc_ChainComplexObject?ChainComplexQ, form_] :=
+		Module[
+			{diffs = cc["Differentials"], dims},
+			
+			dims = Association @ KeyValueMap[
+				#1 -> Dimensions[#2] &, diffs];
+			
+			BoxForm`ArrangeSummaryBox[
+				"ChainComplex", cc,
+				ArrayPlot[
+					First[Values[diffs]],
+					ImageSize -> {30, 25}],
+				{BoxForm`SummaryItem[{"Dimension: ", Max[Keys[dims]]}], (* main *)
+				 BoxForm`SummaryItem[{"Coefficients: ", Integers}]},
+				{BoxForm`SummaryItem[{"Chain Group Dimensions: \n", (* + *)
+					Column @ ReplaceAll[dims, Association -> List]}],
+				 Nothing}, form, "Interpretable" -> Automatic]]
 
 
 (* ::Section:: *)

@@ -47,11 +47,12 @@ Boundary[s : _List] :=
 		{i, Length[s]}]
 
 
-ClearAll[EuChar];
 EuChar[sc_SimplicialComplexObject] :=
-	Total @ MapIndexed[
-		(-1)^(First[#2] - 1) #1 &,
-		Rest @ sc["FVector"]]
+	If[sc["FVector"] === {},
+		0,
+		Total @ MapIndexed[
+			(-1)^(First[#2] - 1) #1 &,
+			Rest @ sc["FVector"]]]
 
 
 (* ::Subsection:: *)

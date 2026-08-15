@@ -66,25 +66,30 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ)) ..
 				Return[$Failed]];
 			
 			diffs = Sort @ Map[SparseArray, data];
+			If[MatchQ[coeffs, _Integer],
+				diffs = Map[Mod[#, coeffs] &, diffs]];
 			
-			Catch[If[dcheck,
-				Do[
-					If[KeyExistsQ[diffs, n + 1],
-						If[Dimensions[diffs[n]] [[2]] =!=
-							Dimensions[diffs[n + 1]] [[1]],
-							Message[ChainComplex::IncompatibleDifferentials, n, n + 1];
-							Throw[$Failed]];
-						
-						If[diffs[n] . diffs[n + 1] =!=
-							SparseArray[{}, {Dimensions[diffs[n]][[1]],
-							Dimensions[diffs[n + 1]][[2]]}],
-							Message[ChainComplex::NonZeroComposition, n, n + 1];
-							Throw[$Failed]]],
-					{n, Keys @ diffs}]];
-			
-			Throw @ ChainComplexObject[
-				<|"Differentials" -> Map[SparseArray, Sort @ data],
-					"Coefficients" -> coeffs |>]]]
+			Catch[
+				If[dcheck,
+					Do[
+						If[KeyExistsQ[diffs, n + 1],
+							If[Dimensions[diffs[n]][[2]] =!=
+								Dimensions[diffs[n + 1]][[1]],
+								Message[ChainComplex::IncompatibleDifferentials, n, n + 1];
+								Throw[$Failed]];
+							
+							If[If[MatchQ[coeffs, _Integer],
+									Mod[diffs[n] . diffs[n + 1], coeffs],
+									diffs[n] . diffs[n + 1]] =!=
+								SparseArray[{}, {Dimensions[diffs[n]][[1]],
+									Dimensions[diffs[n + 1]][[2]]}],
+								Message[ChainComplex::NonZeroComposition, n, n + 1];
+								Throw[$Failed]]],
+						{n, Keys @ diffs}]];
+				
+				Throw @ ChainComplexObject[
+					<|"Differentials" -> diffs,
+						"Coefficients" -> coeffs |>]]
 
 
 (* ::Section:: *)

@@ -31,6 +31,10 @@ ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 	cc[[1, "Differentials"]]
 
 
+ChainComplexObject /: cc_ChainComplexObject[{"Differential", n_}] :=
+	If[KeyExistsQ[cc["Differentials"], n], cc["Differentials"][n], {}]
+
+
 (* ::Subsection:: *)
 (*Input methods:*)
 
@@ -64,10 +68,12 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 				Message[ChainComplex::InvalidOptionValue, "Dual", dual];
 				Return[$Failed]];
 			
+			(* convert all matrices to sparsearrays if not already *)
 			diffs = KeySort @ Map[
 				mat |-> If[mat === {}, {}, SparseArray[mat]], 
 					data];
 			
+			(* provision for dual *)
 			If[dual, If[KeyExistsQ[diffs, 0],
 				Message[ChainComplex::InvalidDualDifferential];
 				Return[$Failed]];
@@ -75,6 +81,7 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 				diffs = Association @ KeyValueMap[
 					(#1 - 1) -> Transpose[#2] &, diffs]];
 			
+			(* check compatibility of dimensions and d^2 = 0 *)
 			Catch[
 				If[dcheck,
 					Do[
@@ -91,6 +98,7 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 								Throw[$Failed]]],
 						{n, Keys @ diffs}]];
 				
+				(* finally: *)
 				Throw @ ChainComplexObject[
 					<|"Differentials" -> diffs|>]]]
 

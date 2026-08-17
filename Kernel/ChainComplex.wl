@@ -18,7 +18,8 @@ Begin["Taggar`SimplicialHomology`Private`"];
 ClearAll[ChainComplex, ChainComplexObject, ChainComplexQ];
 ChainComplexQ[ChainComplexObject[
 	KeyValuePattern[{
-		"Differentials" -> <| (_Integer?NonNegative -> _SparseArray | {}) ... |>}]
+		"Differentials" -> <| (_Integer?NonNegative -> _SparseArray | {} | _?MatrixQ) ... |>,
+		"UUID" -> _}]
 ]] := True
 ChainComplexQ[_] := False
 
@@ -33,6 +34,10 @@ ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 
 ChainComplexObject /: cc_ChainComplexObject[{"Differential", n_Integer?NonNegative}] :=
 	If[KeyExistsQ[cc["Differentials"], n], cc["Differentials"][n], {}]
+
+
+ChainComplexObject /: cc_ChainComplexObject["Dimension"] :=
+	Max[0, Keys[cc["Differentials"]]]
 
 
 (* ::Subsection:: *)
@@ -69,7 +74,7 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 				Return[$Failed]];
 			
 			diffs = KeySort @ Map[
-				mat |-> If[mat === {}, {}, SparseArray[mat]], 
+				mat |-> If[Times @@ Dimensions[mat] == 0, mat, SparseArray[mat]], 
 					data];
 			
 			If[dual, If[KeyExistsQ[diffs, 0],
@@ -96,7 +101,8 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 						{n, Keys @ diffs}]];
 				
 				Throw @ ChainComplexObject[
-					<|"Differentials" -> diffs|>]]]
+					<|"Differentials" -> diffs,
+					"UUID" -> Hash[diffs, "SHA256"]|>]]]
 
 
 (* ::Text:: *)
@@ -110,7 +116,7 @@ ChainComplex[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPatt
 		dims = If[dims === All,
 			Range[1, sc["Dimension"]], dims];
 		
-		If[\[Not] VectorQ[dims, IntegerQ] \[Or] AnyTrue[dims, # < 1 \[Or] # > sc["Dimension"] &],
+		If[\[Not] VectorQ[dims, IntegerQ],
 			Message[ChainComplex::InvalidOptionValue, "Dimensions", dims];
 			Return[$Failed]];
 		

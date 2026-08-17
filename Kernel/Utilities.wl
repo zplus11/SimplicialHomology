@@ -103,6 +103,21 @@ LatticePaths[t1_, t2_, length_ : Automatic] :=
 			     Append[#, {Last[t1], Last[t2]}] & /@ LatticePaths[Most[t1], Most[t2], length - 1]]]
 
 
+ClearAll[ChainGroupDimension];
+ChainGroupDimension[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer] :=
+	Length @ Complement[Simplices[sc, k], Simplices[sub, k]]
+ChainGroupDimension[sc_?SimplicialComplexQ, k_Integer] :=
+	ChainGroupDimension[sc, SimplicialComplex[], k]
+ChainGroupDimension[cc_?ChainComplexQ, k_Integer] :=
+	Module[
+		{diffs = cc["Differentials"], mat},
+		
+		If[k < 0 || ! KeyExistsQ[diffs, k],
+			0,
+			mat = diffs[k];
+			If[mat === {}, 0, Dimensions[mat][[2]]]]]
+
+
 (* ::Subsection:: *)
 (*Boundary matrices*)
 
@@ -114,6 +129,8 @@ BoundaryMatrix[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positi
 	Module[
 		
 		{rows, cols, lookup, rules},
+		
+		If[k > sc["Dimension"], Return[{}]]; (* easy exit *)
 		
 		(* the basis for C_k(sc, sub) and C_{k-1}(sc, sub) *)
 		cols = Complement[Simplices[sc, k], Simplices[sub, k]];
@@ -139,45 +156,14 @@ BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?NonNegative] :=
 	BoundaryMatrix[sc, SimplicialComplex[], k]
 
 
-BoundaryMatrix[cc_?ChainComplexQ, k_Integer?NonNegative] :=
-	cc[{"Differential", k}]
-
-
-ClearAll[BoundaryRank];
-BoundaryRank::coeffs = "Invalid coefficients `1`";
-BoundaryRank[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_, coeffs_] :=
-	Module[
-		{cached, rank, mat},
-		
-		cached = CacheGet[sc, {"BoundaryRank", SimplicialComplexUUID @ sub, k, coeffs}];
-		If[cached =!= Missing["NotCached"], Return[cached]];
-		
-		mat = BoundaryMatrix[sc, sub, k];
-		
-		rank = If[Times @@ Dimensions[mat] == 0, 0,
-			Switch[coeffs,
-				Integers | Rationals, MatrixRank[mat],
-			
-				_Integer, MatrixRank[mat, Modulus -> coeffs],
-			
-				_,
-					Message[BoundaryRank::coeffs, coeffs];
-					Return[$Failed]]];
-		
-		CacheSet[sc, {"BoundaryRank", SimplicialComplexUUID @ sub, k, coeffs}, rank]]
-BoundaryRank[sc_?SimplicialComplexQ, k_, coeffs_] :=
-	BoundaryRank[sc, SimplicialComplex[], k, coeffs]
-
-
 BoundaryRank[cc_?ChainComplexQ, k_, coeffs_] :=
 	Module[
 		{cached, rank, mat},
 		
-		(* no subcomplex in the key *)
 		cached = CacheGet[cc, {"BoundaryRank", k, coeffs}];
 		If[cached =!= Missing["NotCached"], Return[cached]];
 		
-		mat = BoundaryMatrix[cc, k];
+		mat = cc[{"Differential", k}];
 		
 		rank = If[Times @@ Dimensions[mat] == 0, 0,
 			Switch[coeffs,
@@ -231,20 +217,6 @@ FormatGroup[free_, torsion_List, coeffs_] :=
 			True, CirclePlus @@ DeleteCases[parts, Nothing]]]
 
 
-getSmith[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_] :=
-	Module[
-		{cached, res},
-		
-		(* Smith decomposition of k + 1th boundary matrix *)
-		cached = CacheGet[sc, {"Smith", SimplicialComplexUUID @ sub, k}];
-		
-		If[cached =!= Missing["NotCached"],
-			Return[cached]];
-		
-		res = SmithReduce[BoundaryMatrix[sc, sub, k]];
-		CacheSet[sc, {"Smith", SimplicialComplexUUID @ sub, k}, res]]
-
-
 getSmith[cc_?ChainComplexQ, k_] :=
 	Module[
 		{cached, res},
@@ -255,8 +227,21 @@ getSmith[cc_?ChainComplexQ, k_] :=
 		If[cached =!= Missing["NotCached"],
 			Return[cached]];
 		
-		res = SmithReduce[BoundaryMatrix[cc, k]];
+		res = SmithReduce[cc[{"Differential", k}]];
 		CacheSet[cc, {"Smith", k}, res]]
+
+
+ClearAll[ComputeAlgebraicHomology];
+ComputeAlgebraicHomology[
+	dimCk_, rankOut_, rankIn_, smithDiag_, coeffs_, k_Integer, reduced_ : False
+] :=
+	Module[
+		{free, torsion},
+		
+		free = Max[0, dimCk - rankOut - rankIn - Boole[TrueQ[reduced] \[And] (k == 0)]];
+		torsion = Switch[coeffs, Integers, DeleteCases[smithDiag, 0 | 1], _, {}];
+		
+		FormatGroup[free, torsion, coeffs]]
 
 
 (* ::Subsection:: *)

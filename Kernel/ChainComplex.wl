@@ -63,7 +63,8 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 		Module[
 			{dcheck = OptionValue["DifferentialsCheck"],
 			 diffs,
-			 dual = OptionValue["Dual"]},
+			 dual = OptionValue["Dual"],
+			 dims = OptionValue["Dimensions"]},
 			
 			If[\[Not] BooleanQ[dcheck],
 				Message[ChainComplex::InvalidOptionValue, "DifferentialsCheck", dcheck];
@@ -72,17 +73,29 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 			If[\[Not] BooleanQ[dual],
 				Message[ChainComplex::InvalidOptionValue, "Dual", dual];
 				Return[$Failed]];
-			
-			diffs = KeySort @ Map[
+				
+			If[\[Not] (dims === All \[Or] VectorQ[dims, IntegerQ]),
+				Message[ChainComplex::InvalidOptionValue, "Dimensions", dims];
+					Return[$Failed]];
+	
+			(* convert all matrices to sparsearrays if not already *)
+			diffs = Map[
 				mat |-> If[Times @@ Dimensions[mat] == 0, mat, SparseArray[mat]], 
 					data];
 			
-			If[dual, If[KeyExistsQ[diffs, 0],
-				Message[ChainComplex::InvalidDualDifferential];
-				Return[$Failed]];
-				
+			If[dims =!= All,
+				diffs = KeySelect[diffs, MemberQ[dims, #] &]];
+			
+			(* provision for dual *)
+			If[dual,
+				If[KeyExistsQ[diffs, 0],
+					Message[ChainComplex::InvalidDualDifferential];
+					Return[$Failed]];
 				diffs = Association @ KeyValueMap[
-					(#1 - 1) -> Transpose[#2] &, diffs]];
+					(Max[Keys[diffs]] - #1 + 1) -> Transpose[#2] &,
+					diffs]];
+			
+			diffs = KeySort @ diffs;
 			
 			Catch[
 				If[dcheck,

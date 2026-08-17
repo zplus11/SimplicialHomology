@@ -20,6 +20,9 @@ authors:
 identifiers:
   - type: doi
     value: 10.5281/zenodo.21309175
+  - type: other
+    value: 'arXiv:2608.14240'
+    description: arXiv preprint
 repository-code: 'https://github.com/zplus11/SimplicialHomology/'
 url: >-
   https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/

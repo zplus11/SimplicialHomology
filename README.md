@@ -99,6 +99,22 @@ For a full reference, visit the homepage at Wolfram paclet repository [here](htt
 - wedge products
 - formalisation of chain complexes
 
+# Citation
+
+If you use this package for research or otherwise, please cite it as follows:
+
+```
+@misc{taggar2026sh,
+      title={SimplicialHomology: implementation of abstract simplicial complex in Mathematica}, 
+      author={Naman Taggar},
+      year={2026},
+      eprint={2608.14240},
+      archivePrefix={arXiv},
+      primaryClass={math.AT},
+      url={https://arxiv.org/abs/2608.14240}, 
+}
+```
+
 # Version log
 
 **Version 1.1.1,** *on 8 August, 2026* &mdash; support for simplicial products and a bug fix

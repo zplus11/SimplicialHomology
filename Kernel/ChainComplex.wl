@@ -31,7 +31,7 @@ ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 	cc[[1, "Differentials"]]
 
 
-ChainComplexObject /: cc_ChainComplexObject[{"Differential", n_}] :=
+ChainComplexObject /: cc_ChainComplexObject[{"Differential", n_Integer?NonNegative}] :=
 	If[KeyExistsQ[cc["Differentials"], n], cc["Differentials"][n], {}]
 
 
@@ -104,10 +104,10 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 
 
 (* ::Text:: *)
-(*Way of constructing a chain complex from the given simplicial complex:*)
+(*Way of constructing a chain complex from given sc relative to sub:*)
 
 
-ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+ChainComplex[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 	Module[
 		{data, dims = OptionValue["Dimensions"]},
 		
@@ -119,9 +119,17 @@ ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 			Return[$Failed]];
 		
 		data = AssociationMap[
-			n |-> BoundaryMatrix[sc, n], dims];
+			n |-> BoundaryMatrix[sc, sub, n], dims];
 		
 		ChainComplex[data, opts, "DifferentialsCheck" -> False]]
+
+
+(* ::Text:: *)
+(*Absolute chain complex of sc:*)
+
+
+ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+	ChainComplex[sc, SimplicialComplex[], opts]
 
 
 (* ::Subsection:: *)

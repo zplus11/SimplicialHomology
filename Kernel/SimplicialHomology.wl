@@ -40,7 +40,6 @@ Begin["`Private`"];
 
 If[\[Not] AssociationQ @ $SimplicialCache,
 	$SimplicialCache = <||>];
-$SimplicialCache = <||>;
 
 
 (* ::Text:: *)

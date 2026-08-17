@@ -139,9 +139,13 @@ BoundaryMatrix[sc_?SimplicialComplexQ, k_Integer?NonNegative] :=
 	BoundaryMatrix[sc, SimplicialComplex[], k]
 
 
+BoundaryMatrix[cc_?ChainComplexQ, k_Integer?NonNegative] :=
+	cc[{"Differential", k}]
+
+
 ClearAll[BoundaryRank];
 BoundaryRank::coeffs = "Invalid coefficients `1`";
-BoundaryRank[sc_, sub_, k_, coeffs_] :=
+BoundaryRank[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_, coeffs_] :=
 	Module[
 		{cached, rank, mat},
 		
@@ -161,8 +165,29 @@ BoundaryRank[sc_, sub_, k_, coeffs_] :=
 					Return[$Failed]]];
 		
 		CacheSet[sc, {"BoundaryRank", SimplicialComplexUUID @ sub, k, coeffs}, rank]]
-BoundaryRank[sc_, k_, coeffs_] :=
+BoundaryRank[sc_?SimplicialComplexQ, k_, coeffs_] :=
 	BoundaryRank[sc, SimplicialComplex[], k, coeffs]
+
+
+BoundaryRank[cc_?ChainComplexQ, k_, coeffs_] :=
+	Module[
+		{cached, rank, mat},
+		
+		(* no subcomplex in the key *)
+		cached = CacheGet[cc, {"BoundaryRank", k, coeffs}];
+		If[cached =!= Missing["NotCached"], Return[cached]];
+		
+		mat = BoundaryMatrix[cc, k];
+		
+		rank = If[Times @@ Dimensions[mat] == 0, 0,
+			Switch[coeffs,
+				Integers | Rationals, MatrixRank[mat],
+				_Integer, MatrixRank[mat, Modulus -> coeffs],
+				_,
+					Message[BoundaryRank::coeffs, coeffs];
+					Return[$Failed]]];
+		
+		CacheSet[cc, {"BoundaryRank", k, coeffs}, rank]]
 
 
 (* ::Subsection:: *)
@@ -206,7 +231,7 @@ FormatGroup[free_, torsion_List, coeffs_] :=
 			True, CirclePlus @@ DeleteCases[parts, Nothing]]]
 
 
-getSmith[sc_, sub_, k_] :=
+getSmith[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_] :=
 	Module[
 		{cached, res},
 		
@@ -218,6 +243,20 @@ getSmith[sc_, sub_, k_] :=
 		
 		res = SmithReduce[BoundaryMatrix[sc, sub, k]];
 		CacheSet[sc, {"Smith", SimplicialComplexUUID @ sub, k}, res]]
+
+
+getSmith[cc_?ChainComplexQ, k_] :=
+	Module[
+		{cached, res},
+		
+		(* Smith decomposition of k + 1th boundary matrix *)
+		cached = CacheGet[cc, {"Smith", k}];
+		
+		If[cached =!= Missing["NotCached"],
+			Return[cached]];
+		
+		res = SmithReduce[BoundaryMatrix[cc, k]];
+		CacheSet[cc, {"Smith", k}, res]]
 
 
 (* ::Subsection:: *)

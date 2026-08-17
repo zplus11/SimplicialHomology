@@ -18,7 +18,8 @@ Begin["Taggar`SimplicialHomology`Private`"];
 ClearAll[ChainComplex, ChainComplexObject, ChainComplexQ];
 ChainComplexQ[ChainComplexObject[
 	KeyValuePattern[{
-		"Differentials" -> <| (_Integer?NonNegative -> _SparseArray | {}) ... |>}]
+		"Differentials" -> <| (_Integer?NonNegative -> _SparseArray | {} | _?MatrixQ) ... |>,
+		"UUID" -> _}]
 ]] := True
 ChainComplexQ[_] := False
 
@@ -29,6 +30,14 @@ ChainComplexQ[_] := False
 
 ChainComplexObject /: cc_ChainComplexObject["Differentials"] :=
 	cc[[1, "Differentials"]]
+
+
+ChainComplexObject /: cc_ChainComplexObject[{"Differential", n_Integer?NonNegative}] :=
+	If[KeyExistsQ[cc["Differentials"], n], cc["Differentials"][n], {}]
+
+
+ChainComplexObject /: cc_ChainComplexObject["Dimension"] :=
+	Max[0, Keys[cc["Differentials"]]]
 
 
 (* ::Subsection:: *)
@@ -54,7 +63,8 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 		Module[
 			{dcheck = OptionValue["DifferentialsCheck"],
 			 diffs,
-			 dual = OptionValue["Dual"]},
+			 dual = OptionValue["Dual"],
+			 dims = OptionValue["Dimensions"]},
 			
 			If[\[Not] BooleanQ[dcheck],
 				Message[ChainComplex::InvalidOptionValue, "DifferentialsCheck", dcheck];
@@ -63,17 +73,29 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 			If[\[Not] BooleanQ[dual],
 				Message[ChainComplex::InvalidOptionValue, "Dual", dual];
 				Return[$Failed]];
-			
-			diffs = KeySort @ Map[
-				mat |-> If[mat === {}, {}, SparseArray[mat]], 
+				
+			If[\[Not] (dims === All \[Or] VectorQ[dims, IntegerQ]),
+				Message[ChainComplex::InvalidOptionValue, "Dimensions", dims];
+					Return[$Failed]];
+	
+			(* convert all matrices to sparsearrays if not already *)
+			diffs = Map[
+				mat |-> If[Times @@ Dimensions[mat] == 0, mat, SparseArray[mat]], 
 					data];
 			
-			If[dual, If[KeyExistsQ[diffs, 0],
-				Message[ChainComplex::InvalidDualDifferential];
-				Return[$Failed]];
-				
+			If[dims =!= All,
+				diffs = KeySelect[diffs, MemberQ[dims, #] &]];
+			
+			(* provision for dual *)
+			If[dual,
+				If[KeyExistsQ[diffs, 0],
+					Message[ChainComplex::InvalidDualDifferential];
+					Return[$Failed]];
 				diffs = Association @ KeyValueMap[
-					(#1 - 1) -> Transpose[#2] &, diffs]];
+					(Max[Keys[diffs]] - #1 + 1) -> Transpose[#2] &,
+					diffs]];
+			
+			diffs = KeySort @ diffs;
 			
 			Catch[
 				If[dcheck,
@@ -92,28 +114,37 @@ ChainComplex[data : <| (_Integer?NonNegative -> (_?SparseArrayQ | _?MatrixQ | {}
 						{n, Keys @ diffs}]];
 				
 				Throw @ ChainComplexObject[
-					<|"Differentials" -> diffs|>]]]
+					<|"Differentials" -> diffs,
+					"UUID" -> Hash[diffs, "SHA256"]|>]]]
 
 
 (* ::Text:: *)
-(*Way of constructing a chain complex from the given simplicial complex:*)
+(*Way of constructing a chain complex from given sc relative to sub:*)
 
 
-ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+ChainComplex[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] :=
 	Module[
 		{data, dims = OptionValue["Dimensions"]},
 		
 		dims = If[dims === All,
 			Range[1, sc["Dimension"]], dims];
 		
-		If[\[Not] VectorQ[dims, IntegerQ] \[Or] AnyTrue[dims, # < 1 \[Or] # > sc["Dimension"] &],
+		If[\[Not] VectorQ[dims, IntegerQ],
 			Message[ChainComplex::InvalidOptionValue, "Dimensions", dims];
 			Return[$Failed]];
 		
 		data = AssociationMap[
-			n |-> BoundaryMatrix[sc, n], dims];
+			n |-> BoundaryMatrix[sc, sub, n], dims];
 		
 		ChainComplex[data, opts, "DifferentialsCheck" -> False]]
+
+
+(* ::Text:: *)
+(*Absolute chain complex of sc:*)
+
+
+ChainComplex[sc_?SimplicialComplexQ, opts : OptionsPattern[]] :=
+	ChainComplex[sc, SimplicialComplex[], opts]
 
 
 (* ::Subsection:: *)

@@ -21,8 +21,8 @@ BettiNumber::usage =
 BettiNumber[sc] computes all betti numbers of sc.
 BettiNumber[sc, sub, n] computes the nth betti number of sc relative to sub.
 BettiNumber[sc, sub] computes all betti numbers of sc relative to sub.";
-General::NonPrimeCoefficients =
-	"\"Coefficients\" specification `1` must be a prime number.";
+General::InvalidOptionValue =
+	"The option value `2` for `1` is invalid. Reason: `3`.";
 General::InvalidSubcomplex =
 	"`1` is not a valid subcomplex.";
 Options[BettiNumber] = {"Reduced" -> False, "Coefficients" -> Integers};
@@ -41,16 +41,19 @@ BettiNumber[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, k : _Integer, opts : Opt
 
 BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
 	Module[
-		{b0, coeffs = OptionValue["Coefficients"]},
+		{b0, coeffs = OptionValue["Coefficients"], cc},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
-			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			Message[BettiNumber::InvalidOptionValue, "Coefficients", coeffs,
+				"expected Integers, Rationals, or a prime number"]; Return[$Failed]];
 		
 		If[\[Not] SubComplexQ[sc, sub],
 			Message[BettiNumber::InvalidSubcomplex, sub]; Return[$Failed]];
 		
+		cc = ChainComplex[sc, sub];
+		
 		b0 = Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
-			BoundaryRank[sc, sub, 1, coeffs];
+			BoundaryRank[cc, 1, coeffs];
 		
 		If[TrueQ @ OptionValue["Reduced"] \[And] EmptyComplexQ[sub],
 			Max[0, b0 - 1], b0]]
@@ -64,19 +67,22 @@ BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPa
 BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k : _Integer?Positive, opts : OptionsPattern[]] /;
 	k <= Dimension[sc] :=
 	Module[
-		{coeffs = OptionValue["Coefficients"], size},
+		{coeffs = OptionValue["Coefficients"], size, cc},
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
-			Message[BettiNumber::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			Message[BettiNumber::NonPrimeCoefficients, "Coefficients", coeffs,
+				"expected Integers, Rationals, or a prime number"]; Return[$Failed]];
 		
 		If[\[Not] SubComplexQ[sc, sub],
 			Message[BettiNumber::InvalidSubcomplex, sub]; Return[$Failed]];
 		
+		cc = ChainComplex[sc, sub];
+		
 		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
 			
 		If[k == Dimension[sc],
-			size - BoundaryRank[sc, sub, k, coeffs],
-			size - BoundaryRank[sc, sub, k, coeffs] - BoundaryRank[sc, sub, k+1, coeffs]]]
+			size - BoundaryRank[cc, k, coeffs],
+			size - BoundaryRank[cc, k, coeffs] - BoundaryRank[cc, k+1, coeffs]]]
 (* beyond dimension *)
 BettiNumber[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k : _Integer, opts : OptionsPattern[]] := 0
 
@@ -111,74 +117,124 @@ HomologyGroup::usage =
 HomologyGroup[sc] computes all homology groups of sc.
 HomologyGroup[sc, sub, n] computes the nth homology group of sc relative to sub.
 HomologyGroup[sc, sub] computes all homology groups of sc relative to sub.";
-Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers};
+Options[HomologyGroup] = {"Reduced" -> False, "Coefficients" -> Integers, "CoHomology" -> False};
 
 
 (* ::Text:: *)
-(*Likewise as for betti numbers we follow the same scheme, first off special case the empty complex:*)
+(*Homology group of a chain complex:*)
 
 
-HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, n : _Integer, opts : OptionsPattern[]] := 0
-
-
-(* ::Text:: *)
-(*0th homology group:*)
-
-
-HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0, opts : OptionsPattern[]] :=
+HomologyGroup[cc_?ChainComplexQ, dims : { _Integer?NonNegative ... }, opts : OptionsPattern[]] :=
 	Module[
-		{o, coeffs = OptionValue["Coefficients"], grp},
+		{coeffs, red, co, dimCk, rankOut, rankIn,
+			matK, matKp1, smithDiag = {}},
+		
+		coeffs = OptionValue["Coefficients"];
+		red = OptionValue["Reduced"];
+		co = OptionValue["CoHomology"];
 		
 		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
-			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+			Message[General::InvalidOptionValue, "Coefficients", coeffs,
+				"expected Integers, Rationals, or a prime number"]; Return[$Failed]];
 		
-		If[\[Not] SubComplexQ[sc, sub],
-			Message[HomologyGroup::InvalidSubcomplex, sub]; Return[$Failed]];
-			
-		o = Max[0,
-			Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]] -
-				BoundaryRank[sc, sub, 1, coeffs] - Boole[
-					TrueQ[OptionValue["Reduced"]] \[And] EmptyComplexQ[sub]]];
+		If[\[Not] BooleanQ[red],
+			Message[General::InvalidOptionValue, "Reduced", red,
+				"expected boolean value"]; Return[$Failed]];
 		
-		Switch[coeffs,
-			Integers | Rationals, FormatGroup[o, {}, coeffs],
-			_Integer?PrimeQ, FormatGroup[o, {}, coeffs]]]
+		If[\[Not] BooleanQ[co],
+			Message[General::InvalidOptionValue, "CoHomology", co,
+				"expected boolean value"]; Return[$Failed]];
+		
+		Association @ Table[
+			matK = cc[{"Differential", k}];
+			dimCk = ChainGroupDimension[cc, k];
+		
+			rankOut = BoundaryRank[cc, k, coeffs];
+			rankIn  = BoundaryRank[cc, k + 1, coeffs];
+		
+			If[co,
+				(* for cohomology *)
+				If[coeffs === Integers && k > 0,
+					matK = cc[{"Differential", k}];
+					If[Times @@ Dimensions[matK] > 0,
+						smithDiag = Diagonal @ getSmith[cc, k]]],
+				(* for homology *)
+				If[coeffs === Integers,
+					matKp1 = cc[{"Differential", k + 1}];
+					If[Times @@ Dimensions[matKp1] > 0,
+						smithDiag = Diagonal @ getSmith[cc, k + 1]]]];
+		
+			k -> ComputeAlgebraicHomology[dimCk, rankOut, rankIn,
+				smithDiag, coeffs, k, red],
+			{k, dims}]]
+
+
+HomologyGroup[cc_?ChainComplexQ, k_Integer?NonNegative, opts : OptionsPattern[]] :=
+	HomologyGroup[cc, {k}, opts][k]
+
+
+HomologyGroup[cc_?ChainComplexQ, opts : OptionsPattern[]] :=
+	HomologyGroup[cc, Range[0, cc["Dimension"]], opts]
+
+
+(* ::Text:: *)
+(*Now, likewise as for betti numbers we follow the same scheme, first off special case the empty complex:*)
+
+
+HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, k_Integer?NonNegative, opts : OptionsPattern[]] := 0
+
+
+(* ::Text:: *)
+(*Special case for 0th homology group:*)
+
+
+(* ::Text:: *)
+(*Due to representational reasons, 0th homology of chain complexes cannot yet be computed. So we fall back to computing it from scratch rather than (completely) routing through chain complexes:*)
+
+
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0 | {0}, opts : OptionsPattern[]] :=
+	Module[
+		{coeffs = OptionValue["Coefficients"],
+		 red = OptionValue["Reduced"],
+		 co = OptionValue["CoHomology"],
+		 cc, dimC0, rankIn},
+
+		If[!SubComplexQ[sc, sub],
+			Message[General::InvalidSubcomplex, sub]; Return[$Failed]];
+
+		cc = ChainComplex[sc, sub, "Dimensions" -> {1}];
+		dimC0 = Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]];
+		rankIn = BoundaryRank[cc, 1, coeffs];
+
+		ComputeAlgebraicHomology[
+			dimC0, 0, rankIn, {}, coeffs, 0, red]]
 
 
 (* ::Text:: *)
 (*General case:*)
 
 
-(* upto dimension *)
-HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] /;
-	k <= Dimension[sc] :=
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, dims : { _Integer?NonNegative ... }, opts : OptionsPattern[]] :=
 	Module[
-		{\[Delta]kp1, diag, torsion, free, out, size, coeffs = OptionValue["Coefficients"]},
-		
-		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
-			Message[HomologyGroup::NonPrimeCoefficients, coeffs]; Return[$Failed]];
+		{cc},
 		
 		If[\[Not] SubComplexQ[sc, sub],
-			Message[HomologyGroup::InvalidSubcomplex, sub]; Return[$Failed]];
+			Message[General::InvalidSubcomplex, sub]; Return[$Failed]];
 		
-		size = Length @ Complement[Simplices[sc, k], Simplices[sub, k]];
-		
-		\[Delta]kp1 = BoundaryMatrix[sc, sub, k + 1];
-		
-		free = size - BoundaryRank[sc, sub, k, coeffs] -
-			BoundaryRank[sc, sub, k+1, coeffs];
-		
-		Switch[coeffs,
-			Integers,
-				diag = If[Times @@ Dimensions[\[Delta]kp1] == 0, {},
-					DeleteCases[
-						Diagonal[getSmith[sc, sub, k + 1]], 0 | 1]];
-			
-				out = FormatGroup[free, diag, coeffs],			
-			Rationals, out = FormatGroup[free, {}, coeffs],
-			_Integer?PrimeQ, out = FormatGroup[free, {}, coeffs]]]
-(* beyond dimension *)
-HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, _Integer, opts : OptionsPattern[]] := 0
+		Association @ Table[
+			k -> Which[
+				k > sc["Dimension"], (* trivial case *)
+					0,
+				k == 0,  (* detour *)
+					HomologyGroup[sc, sub, 0, opts],
+				True, (* else *)
+					(* we only need the kth and k+1th differentials, this 'Dimensions': *)
+					cc = ChainComplex[sc, sub, "Dimensions" -> {k, k + 1}];
+					HomologyGroup[cc, k, opts]], {k, dims}]]
+
+
+HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] :=
+	HomologyGroup[sc, sub, {k}, opts][k]
 
 
 (* ::Text:: *)
@@ -187,8 +243,9 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, _Integer, opts : 
 
 HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
 HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
-	Association @ Table[
-		k -> HomologyGroup[sc, sub, k, opts], {k, 0, Dimension[sc]}]
+	If[sc["Dimension"] == 0,
+		<|0 -> HomologyGroup[sc, sub, Range[0, sc["Dimension"]], opts]|>,
+		HomologyGroup[sc, sub, Range[0, sc["Dimension"]], opts]]
 
 
 (* ::Text:: *)

@@ -243,7 +243,9 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positiv
 
 HomologyGroup[sc_?EmptyComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := <||> (* empty *)
 HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, opts : OptionsPattern[]] := (* non empty *)
-	HomologyGroup[sc, sub, Range[0, sc["Dimension"]], opts]
+	If[sc["Dimension"] == 0,
+		<|0 -> HomologyGroup[sc, sub, Range[0, sc["Dimension"]], opts]|>,
+		HomologyGroup[sc, sub, Range[0, sc["Dimension"]], opts]]
 
 
 (* ::Text:: *)

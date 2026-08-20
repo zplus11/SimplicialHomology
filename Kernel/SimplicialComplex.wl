@@ -144,6 +144,8 @@ SimplicialComplex[mesh] represents an abstract simplicial complex created from g
 SimplicialComplex[\"name\"] represents an abstract simplicial complex created from the given name specification.";
 SimplicialComplex::InvalidOptionValue =
 	"The option value \"`1`\" -> `2` is invalid.";
+SimplicialComplex::DuplicateVertices =
+	"The simplex `1` contains duplicate vertices.";
 Options[SimplicialComplex] =
 	{"MaximalityCheck" -> True};
 
@@ -153,24 +155,32 @@ SimplicialComplex[data : { (_List | _Simplex) ... }, opts : OptionsPattern[]] :=
 		{good = {}, maximal = Listify /@ data, mcheck, ordering, order, norm},
 		
 		mcheck = OptionValue["MaximalityCheck"];
-		If[\[Not] BooleanQ[mcheck],
-			Message[SimplicialComplex::InvalidOptionValue, "MaximalityCheck", mcheck];
-			Return[$Failed]];
 		
-		(* calculating maximals is easier when sorted by length *)
-		If[mcheck,
-			maximal = ReverseSortBy[maximal, Length]];
+		Catch[
+			If[\[Not] BooleanQ[mcheck],
+				Message[SimplicialComplex::InvalidOptionValue, "MaximalityCheck", mcheck];
+				Throw[$Failed]];
+		
+			Scan[Function[face,
+				If[\[Not] DuplicateFreeQ[face],
+					Message[SimplicialComplex::DuplicateVertices, face];
+					Throw[$Failed]]],
+				maximal];
+		
+			(* calculating maximals is easier when sorted by length *)
+			If[mcheck,
+				maximal = ReverseSortBy[maximal, Length]];
 			
-		Scan[Function[face,
-				If[\[Not] mcheck \[Or] \[Not] AnyTrue[good, SubsetQ[#, face] &],
-					AppendTo[good, face]]],
-			maximal];
+			Scan[Function[face,
+					If[\[Not] mcheck \[Or] \[Not] AnyTrue[good, SubsetQ[#, face] &],
+						AppendTo[good, face]]],
+				maximal];
 		
-		SimplicialComplexObject[
-			<|
-				"Facets" -> good,
-				"UUID" -> Hash[good, "SHA256"]
-			|>]]
+			Throw @ SimplicialComplexObject[
+				<|
+					"Facets" -> good,
+					"UUID" -> Hash[good, "SHA256"]
+				|>]]]
 
 
 (* ::Text:: *)

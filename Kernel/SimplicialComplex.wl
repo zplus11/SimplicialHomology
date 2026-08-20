@@ -372,9 +372,6 @@ SubComplexQ[
 ClearAll[SimplicialAutomorphismGroup];
 SimplicialAutomorphismGroup::usage =
 	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
-ClearAll[SimplicialAutomorphismGroup];
-SimplicialAutomorphismGroup::usage =
-	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
 SimplicialAutomorphismGroup[sc_?SimplicialComplexQ] :=
 	Module[
 		{G, n, gens, restricted},

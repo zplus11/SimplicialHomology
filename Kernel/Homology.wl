@@ -170,7 +170,9 @@ HomologyGroup[cc_?ChainComplexQ, dims : { _Integer?NonNegative ... }, opts : Opt
 
 
 HomologyGroup[cc_?ChainComplexQ, k_Integer?NonNegative, opts : OptionsPattern[]] :=
-	HomologyGroup[cc, {k}, opts][k]
+	With[
+		{out = HomologyGroup[cc, {k}, opts]},
+		If[AssociationQ @ out, out @ k, out]]
 
 
 HomologyGroup[cc_?ChainComplexQ, opts : OptionsPattern[]] :=
@@ -201,6 +203,18 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, 0 | {0}, opts : O
 
 		If[!SubComplexQ[sc, sub],
 			Message[General::InvalidSubcomplex, sub]; Return[$Failed]];
+		
+		If[MatchQ[coeffs, _Integer] \[And] \[Not] PrimeQ[coeffs],
+			Message[General::InvalidOptionValue, "Coefficients", coeffs,
+				"expected Integers, Rationals, or a prime number"]; Return[$Failed]];
+		
+		If[\[Not] BooleanQ[red],
+			Message[General::InvalidOptionValue, "Reduced", red,
+				"expected boolean value"]; Return[$Failed]];
+		
+		If[\[Not] BooleanQ[co],
+			Message[General::InvalidOptionValue, "CoHomology", co,
+				"expected boolean value"]; Return[$Failed]];
 
 		cc = ChainComplex[sc, sub, "Dimensions" -> {1}];
 		dimC0 = Length @ Complement[Simplices[sc, 0], Simplices[sub, 0]];
@@ -234,7 +248,9 @@ HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, dims : { _Integer
 
 
 HomologyGroup[sc_?SimplicialComplexQ, sub_?SimplicialComplexQ, k_Integer?Positive, opts : OptionsPattern[]] :=
-	HomologyGroup[sc, sub, {k}, opts][k]
+	With[
+		{out = HomologyGroup[sc, sub, {k}, opts]},
+		If[AssociationQ @ out, out @ k, out]]
 
 
 (* ::Text:: *)

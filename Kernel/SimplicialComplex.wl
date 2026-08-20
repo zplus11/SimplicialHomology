@@ -238,7 +238,7 @@ SimplicialComplexObject /:
 (*Join of given simplicial complexes:*)
 
 
-ClearAll[SimplicialComplexJoin];
+ClearAll[SimplicialJoin];
 SimplicialJoin::usage =
 	"SimplicialJoin[sc1, sc2, ...] constructs the join product of given simplicial complexes.";
 SimplicialJoin[sc_?SimplicialComplexQ] :=
@@ -369,9 +369,6 @@ SubComplexQ[
 (*Automorphism group*)
 
 
-ClearAll[SimplicialAutomorphismGroup];
-SimplicialAutomorphismGroup::usage =
-	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";
 ClearAll[SimplicialAutomorphismGroup];
 SimplicialAutomorphismGroup::usage =
 	"SimplicialAutomorphismGroup[sc] returns the automorphism group of the simplicial complex sc.";

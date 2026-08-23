@@ -4,9 +4,11 @@
 [![License](https://img.shields.io/github/license/zplus11/SimplicialHomology)](https://github.com/zplus11/SimplicialHomology/blob/master/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21309175.svg)](https://doi.org/10.5281/zenodo.21309175)
 
-<img align="left" src="Media/headline.svg" width="100"> is a Wolfram Language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
+<img align="left" src="Media/headline.svg" width="100"> SimplicialHomology is a Wolfram language paclet (package) for constructing, manipulating, and analysing abstract simplicial complexes. It provides tools for computing simplicial homology, performing common topological constructions, and studying combinatorial invariants of finite simplicial complexes. So far, Mathematica lacked in-built or third party support for simplicial homology or discrete topology in general. Primarily, that motivated the development of this package. I have largely taken both inspiration and reference from the implementation of simplicial complexes in sagemath (Python).
 
-Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology groups, Euler characteristic and f-vectors, joins, cones, suspensions, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram Language.
+Features include construction of simplicial complexes from facets or cells, computation of reduced and unreduced homology (or cohomology) groups over integers, rations, or finite rings, Euler characteristic and f-vectors, joins, cones, suspensions, stars, links, and access to a collection of standard and enumerated simplicial complexes for testing and experimentation. The paclet is designed for research, education, and computational topology workflows in the Wolfram language.
+
+On arXiv: https://arxiv.org/abs/2608.14240v1
 
 Wolfram paclet repository: https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/
 
@@ -52,7 +54,7 @@ In[5]:= BettiNumber[S1]
 Out[5]= <|0 -> 1, 1 -> 1|>
 ```
 
-Calculate cone, suspension, or join of spaces:
+Reduced homology, homology over other rings such as rationals or finite rings, and cohomology can also be computed using the package. Calculate cone, suspension, or join of spaces:
 
 ```mathematica
 In[6]:= SimplicialCone[torus]
@@ -97,7 +99,7 @@ For a full reference, visit the homepage at Wolfram paclet repository [here](htt
 
 - simplicial maps
 - wedge products
-- formalisation of chain complexes
+- barycentric subdivisions
 
 # Citation
 
@@ -117,17 +119,19 @@ If you use this package for research or otherwise, please cite it as follows:
 
 # Version log
 
-**Version 1.1.1,** *on 8 August, 2026* &mdash; support for simplicial products and a bug fix
+**Version 1.2.0,** *on 23 August, 2026* &mdash; chain complexes are now formalised as an object, cohomology is thus also implemented; a test-suite is added. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.1.1...v1.2.0)
 
-**Version 1.1.0,** *on 1 August, 2026* &mdash; support for relative homology and stars & links
+**Version 1.1.1,** *on 8 August, 2026* &mdash; support for simplicial products and a bug fix. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.1.0...v1.1.1)
+
+**Version 1.1.0,** *on 1 August, 2026* &mdash; support for relative homology and stars & links. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.0.0...v1.1.0)
  
-**Version 1.0.0,** *on 10 July, 2026* &mdash; public release
+**Version 1.0.0,** *on 10 July, 2026* &mdash; initial public release.
 
-**Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins
+**Version 0.0.1,** *on 08 July, 2026* &mdash; initial upload with homology, Betti numbers and joins.
 
 # Contributions
 
-are more than welcome. Open an issue to discuss!
+Please feel free to give your feedback on the package, or to contribute with an issue or a PR! The test files are in [Test/](Tests/) directory and may be run to ensure everything functions correctly.
 
 # References
 

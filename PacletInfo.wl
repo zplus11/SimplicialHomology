@@ -7,7 +7,7 @@ PacletObject[
     "Creator" -> "Naman T.",
     "License" -> "MIT",
     "PublisherID" -> "Taggar",
-    "Version" -> "1.1.1",
+    "Version" -> "1.2.0",
     "WolframVersion" -> "15+",
     "PrimaryContext" -> "Taggar`SimplicialHomology`",
     "DocumentationURL" -> "https://resources.wolframcloud.com/PacletRepository/resources",
@@ -18,6 +18,7 @@ PacletObject[
         "Context" -> {"Taggar`SimplicialHomology`"},
         "Symbols" -> {
           "Taggar`SimplicialHomology`BettiNumber",
+          "Taggar`SimplicialHomology`ChainComplex",
           "Taggar`SimplicialHomology`HomologyGroup",
           "Taggar`SimplicialHomology`SimplicialAutomorphismGroup",
           "Taggar`SimplicialHomology`SimplicialComplex",
@@ -35,6 +36,13 @@ PacletObject[
         "Documentation",
         "Root" -> "Documentation",
         "Language" -> "English"
+      },
+      {
+        "Asset",
+        "Root" -> "Assets",
+        "Assets" -> {
+          {"ComplexesUpto5Vertices", "ComplexesUpto5Vertices.wl"}
+        }
       }
     }
   |>

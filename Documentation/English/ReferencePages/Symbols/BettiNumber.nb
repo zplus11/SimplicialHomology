@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[    122788,       2665]
-NotebookOptionsPosition[    107363,       2329]
-NotebookOutlinePosition[    108159,       2355]
-CellTagsIndexPosition[    108078,       2350]
+NotebookDataLength[    123196,       2671]
+NotebookOptionsPosition[    107770,       2335]
+NotebookOutlinePosition[    108566,       2361]
+CellTagsIndexPosition[    108485,       2356]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -229,10 +229,10 @@ Cell[TextData[{
     "1b54d960-fa72-004e-9d09-d8fb5a298ea9"], 
    DynamicModuleBox[{$CellContext`nbobj$$ = NotebookObject[
     "ae4c33da-d69d-f542-941b-abe68b8a8107", 
-     "6e411c8e-d1d9-c540-acb3-666d1f09e588"], $CellContext`cellobj$$ = 
+     "ee233db6-0ad9-9240-a1a6-26b362bb7fe7"], $CellContext`cellobj$$ = 
     CellObject[
     "c1079023-d4f8-8140-9435-9be9974fe36f", 
-     "e27dae47-5540-f744-a476-ba00d6eec9c4"]}, 
+     "2c5c2ac3-9c09-424d-a89d-b2fb2e475bac"]}, 
     TemplateBox[{
       GraphicsBox[{{
          Thickness[0.06], 
@@ -1874,17 +1874,26 @@ Collect facets of all abstract simplicial complexes of upto 5 vertices:\
 
 Cell[CellGroupData[{
 
-Cell[BoxData[
- RowBox[{"Length", "@", "facets"}]], "Input",
- CellChangeTimes->{{3.9924843915829544`*^9, 3.992484393581806*^9}},
- CellLabel->"In[75]:=",
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"facets", "=", 
+   RowBox[{"Get", "@", 
+    RowBox[{
+     RowBox[{"PacletObject", "[", "\"\<Taggar/SimplicialHomology\>\"", "]"}], 
+     "[", 
+     RowBox[{"\"\<AssetLocation\>\"", ",", "\"\<ComplexesUpto5Vertices\>\""}],
+      "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"Length", "@", "facets"}]}], "Input",
+ CellChangeTimes->{{3.9924843915829544`*^9, 3.992484393581806*^9}, {
+  3.9964651500953693`*^9, 3.9964651505982647`*^9}},
+ CellLabel->"In[51]:=",
  CellID->43797575,ExpressionUUID->"c60e3139-5a0c-3e45-b4dc-6515cf81b6d0"],
 
 Cell[BoxData["180"], "Output",
  CellChangeTimes->{3.9924843938749046`*^9, 3.992512368712473*^9, 
-  3.9926672661767616`*^9},
- CellLabel->"Out[75]=",
- CellID->633625512,ExpressionUUID->"7ffc4cb9-5a0c-664a-a93f-53931d9c129c"]
+  3.9926672661767616`*^9, 3.996465151662531*^9},
+ CellLabel->"Out[52]=",
+ CellID->426148994,ExpressionUUID->"890f78eb-4188-5845-8c74-492ff0efcc2a"]
 }, Open  ]],
 
 Cell["Make simplicial complexes out of these:", "ExampleText",
@@ -1896,7 +1905,7 @@ Cell[BoxData[
   RowBox[{"complexes", "=", 
    RowBox[{"SimplicialComplex", "/@", "facets"}]}], ";"}]], "Input",
  CellChangeTimes->{{3.9924844030036983`*^9, 3.9924844109696217`*^9}},
- CellLabel->"In[76]:=",
+ CellLabel->"In[53]:=",
  CellID->266408836,ExpressionUUID->"c34c1a75-068a-8d43-ac02-e5fe9d62d085"],
 
 Cell["Calculate the number of spaces by number of holes:", "ExampleText",
@@ -1909,17 +1918,13 @@ Cell[CellGroupData[{
 Cell[BoxData[
  RowBox[{"Sort", "@", 
   RowBox[{"Counts", "[", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"BettiNumber", "[", 
-      RowBox[{"#", ",", 
-       RowBox[{"\"\<Reduced\>\"", "->", "True"}]}], "]"}], "&"}], "/@", 
-    "complexes"}], "]"}]}]], "Input",
+   RowBox[{"BettiNumber", "/@", "complexes"}], "]"}]}]], "Input",
  CellChangeTimes->{{3.9924844372193413`*^9, 3.992484463657213*^9}, {
   3.9925123736279163`*^9, 3.992512420972*^9}, {3.992512542992052*^9, 
   3.9925125460637913`*^9}, {3.992512601843733*^9, 3.9925126570898113`*^9}, {
-  3.9925126957819977`*^9, 3.9925127130145664`*^9}},
- CellLabel->"In[77]:=",
+  3.9925126957819977`*^9, 3.9925127130145664`*^9}, {3.996465162691658*^9, 
+  3.9964651638993454`*^9}, {3.996465196531103*^9, 3.996465196953615*^9}},
+ CellLabel->"In[58]:=",
  CellID->250260918,ExpressionUUID->"b2e381bc-33b5-e24d-af8f-4821e9ea2068"],
 
 Cell[BoxData[
@@ -1927,57 +1932,57 @@ Cell[BoxData[
   RowBox[{
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
-     RowBox[{"0", "\[Rule]", "4"}], "\[RightAssociation]"}], "\[Rule]", "1"}],
+     RowBox[{"0", "\[Rule]", "5"}], "\[RightAssociation]"}], "\[Rule]", "1"}],
     ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "3"}], ",", 
+      RowBox[{"0", "\[Rule]", "4"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"0", "\[Rule]", "3"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"0", "\[Rule]", "3"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -1985,33 +1990,33 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "5"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "6"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "5"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "3"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "3"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2019,14 +2024,14 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2034,21 +2039,21 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "4"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "1"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "3"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2056,7 +2061,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2064,7 +2069,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}], ",", 
@@ -2073,33 +2078,33 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "2"}], ",", 
+      RowBox[{"0", "\[Rule]", "3"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "2"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "2"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "4"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "2"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "2"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2107,7 +2112,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "2"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2115,71 +2120,71 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
-      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
-    "3"}], ",", 
-   RowBox[{
-    RowBox[{"\[LeftAssociation]", 
-     RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "3"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "3"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "3"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "3"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"0", "\[Rule]", "2"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "4"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "3"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "4"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "4"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "4"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
-      RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
-    "5"}], ",", 
-   RowBox[{
-    RowBox[{"\[LeftAssociation]", 
-     RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "5"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
+      RowBox[{"1", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
+    "5"}], ",", 
+   RowBox[{
+    RowBox[{"\[LeftAssociation]", 
+     RowBox[{
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "5"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2187,7 +2192,7 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2195,14 +2200,14 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "1"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "7"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}], ",", 
       RowBox[{"3", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
@@ -2210,35 +2215,36 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "3"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "12"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "0"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "19"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "2"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "24"}], ",", 
    RowBox[{
     RowBox[{"\[LeftAssociation]", 
      RowBox[{
-      RowBox[{"0", "\[Rule]", "0"}], ",", 
+      RowBox[{"0", "\[Rule]", "1"}], ",", 
       RowBox[{"1", "\[Rule]", "1"}], ",", 
       RowBox[{"2", "\[Rule]", "0"}]}], "\[RightAssociation]"}], "\[Rule]", 
     "27"}]}], "\[RightAssociation]"}]], "Output",
  CellChangeTimes->{{3.992512703753044*^9, 3.9925127133408127`*^9}, 
-   3.992667269499428*^9},
- CellLabel->"Out[77]=",
- CellID->551449072,ExpressionUUID->"c18d98d6-bf3c-254b-9b2b-38ce666850b3"]
+   3.992667269499428*^9, {3.996465155873968*^9, 3.996465166202034*^9}, 
+   3.996465199349964*^9},
+ CellLabel->"Out[58]=",
+ CellID->431917093,ExpressionUUID->"380d9ad6-c4df-f749-ac84-28e2c2b5d4bd"]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
@@ -2349,7 +2355,7 @@ CellTagsIndex->{
 *)
 (*CellTagsIndex
 CellTagsIndex->{
- {"ExtendedExamples", 107884, 2343}
+ {"ExtendedExamples", 108291, 2349}
  }
 *)
 (*NotebookFileOutline
@@ -2612,58 +2618,58 @@ Cell[91199, 1859, 247, 5, 20, "ExampleSection",ExpressionUUID->"67e5ad63-b162-51
 Cell[91449, 1866, 351, 6, 23, "ExampleText",ExpressionUUID->"d69e89c9-17ac-284f-a75f-16250ee53e24",
  CellID->631417840],
 Cell[CellGroupData[{
-Cell[91825, 1876, 225, 4, 25, "Input",ExpressionUUID->"c60e3139-5a0c-3e45-b4dc-6515cf81b6d0",
+Cell[91825, 1876, 570, 13, 60, "Input",ExpressionUUID->"c60e3139-5a0c-3e45-b4dc-6515cf81b6d0",
  CellID->43797575],
-Cell[92053, 1882, 222, 4, 24, "Output",ExpressionUUID->"7ffc4cb9-5a0c-664a-a93f-53931d9c129c",
- CellID->633625512]
+Cell[92398, 1891, 244, 4, 24, "Output",ExpressionUUID->"890f78eb-4188-5845-8c74-492ff0efcc2a",
+ CellID->426148994]
 }, Open  ]],
-Cell[92290, 1889, 205, 2, 23, "ExampleText",ExpressionUUID->"809a05fa-4942-e640-a81d-c22feb5b5d41",
+Cell[92657, 1898, 205, 2, 23, "ExampleText",ExpressionUUID->"809a05fa-4942-e640-a81d-c22feb5b5d41",
  CellID->138852093],
-Cell[92498, 1893, 290, 6, 25, "Input",ExpressionUUID->"c34c1a75-068a-8d43-ac02-e5fe9d62d085",
+Cell[92865, 1902, 290, 6, 25, "Input",ExpressionUUID->"c34c1a75-068a-8d43-ac02-e5fe9d62d085",
  CellID->266408836],
-Cell[92791, 1901, 267, 3, 23, "ExampleText",ExpressionUUID->"949a0358-c9d3-6a47-8b9e-44ea1be62465",
+Cell[93158, 1910, 267, 3, 23, "ExampleText",ExpressionUUID->"949a0358-c9d3-6a47-8b9e-44ea1be62465",
  CellID->247577826],
 Cell[CellGroupData[{
-Cell[93083, 1908, 624, 14, 25, "Input",ExpressionUUID->"b2e381bc-33b5-e24d-af8f-4821e9ea2068",
+Cell[93450, 1917, 592, 10, 25, "Input",ExpressionUUID->"b2e381bc-33b5-e24d-af8f-4821e9ea2068",
  CellID->250260918],
-Cell[93710, 1924, 10895, 316, 305, "Output",ExpressionUUID->"c18d98d6-bf3c-254b-9b2b-38ce666850b3",
- CellID->551449072]
+Cell[94045, 1929, 10967, 317, 305, "Output",ExpressionUUID->"380d9ad6-c4df-f749-ac84-28e2c2b5d4bd",
+ CellID->431917093]
 }, Open  ]]
 }, Open  ]]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[104666, 2247, 110, 1, 70, "MetadataSection",ExpressionUUID->"1024a889-2763-a74a-8569-b33ed20f437f",
+Cell[105073, 2253, 110, 1, 71, "MetadataSection",ExpressionUUID->"1024a889-2763-a74a-8569-b33ed20f437f",
  CellID->211665263],
-Cell[104779, 2250, 472, 11, 70, "History",ExpressionUUID->"cc8280fe-e7ff-6544-a609-2a11d6b8cad3",
+Cell[105186, 2256, 472, 11, 25, "History",ExpressionUUID->"cc8280fe-e7ff-6544-a609-2a11d6b8cad3",
  CellID->47153616],
 Cell[CellGroupData[{
-Cell[105276, 2265, 483, 13, 70, "CategorizationSection",ExpressionUUID->"4623cfc8-d13f-314f-968c-20e6f4b0caaa",
+Cell[105683, 2271, 483, 13, 20, "CategorizationSection",ExpressionUUID->"4623cfc8-d13f-314f-968c-20e6f4b0caaa",
  CellID->65267627],
-Cell[105762, 2280, 133, 2, 70, "Categorization",ExpressionUUID->"21ec4bfb-a153-f043-8cc4-2f095bc15567",
+Cell[106169, 2286, 133, 2, 70, "Categorization",ExpressionUUID->"21ec4bfb-a153-f043-8cc4-2f095bc15567",
  CellID->69603464],
-Cell[105898, 2284, 152, 2, 70, "Categorization",ExpressionUUID->"360449f6-3178-a049-ae5a-bb90ae3fcaf6",
+Cell[106305, 2290, 152, 2, 70, "Categorization",ExpressionUUID->"360449f6-3178-a049-ae5a-bb90ae3fcaf6",
  CellID->29554404],
-Cell[106053, 2288, 150, 2, 70, "Categorization",ExpressionUUID->"3d6399c6-65c3-3b4c-872e-ad75ef913745",
+Cell[106460, 2294, 150, 2, 70, "Categorization",ExpressionUUID->"3d6399c6-65c3-3b4c-872e-ad75ef913745",
  CellID->675927755],
-Cell[106206, 2292, 160, 2, 70, "Categorization",ExpressionUUID->"53fbcfa0-e1ff-4943-864f-ca519bf9c197",
+Cell[106613, 2298, 160, 2, 70, "Categorization",ExpressionUUID->"53fbcfa0-e1ff-4943-864f-ca519bf9c197",
  CellID->93881246]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[106403, 2299, 110, 1, 70, "KeywordsSection",ExpressionUUID->"dbb6774f-b02c-af42-bf6d-28e0efd2eeee",
+Cell[106810, 2305, 110, 1, 20, "KeywordsSection",ExpressionUUID->"dbb6774f-b02c-af42-bf6d-28e0efd2eeee",
  CellID->525322275],
-Cell[106516, 2302, 98, 1, 70, "Keywords",ExpressionUUID->"8081a259-8a20-4447-a92e-d3c1849106be",
+Cell[106923, 2308, 98, 1, 70, "Keywords",ExpressionUUID->"8081a259-8a20-4447-a92e-d3c1849106be",
  CellID->42205157]
 }, Closed]],
 Cell[CellGroupData[{
-Cell[106651, 2308, 118, 1, 70, "TemplatesSection",ExpressionUUID->"0a65eb98-8150-3c4d-885c-b6c55f069b7c",
+Cell[107058, 2314, 118, 1, 20, "TemplatesSection",ExpressionUUID->"0a65eb98-8150-3c4d-885c-b6c55f069b7c",
  CellID->88510739],
-Cell[106772, 2311, 147, 2, 70, "Template",ExpressionUUID->"7a3917fb-a850-ed4c-ae5d-fbc36c72ce62",
+Cell[107179, 2317, 147, 2, 70, "Template",ExpressionUUID->"7a3917fb-a850-ed4c-ae5d-fbc36c72ce62",
  CellID->48246364],
-Cell[106922, 2315, 137, 2, 70, "Template",ExpressionUUID->"ba79cb8e-3ea3-0946-99db-30757dfed56c",
+Cell[107329, 2321, 137, 2, 70, "Template",ExpressionUUID->"ba79cb8e-3ea3-0946-99db-30757dfed56c",
  CellID->372000496],
-Cell[107062, 2319, 134, 2, 70, "Template",ExpressionUUID->"539410a8-5ea3-2940-8c0e-7a526c7ef68f",
+Cell[107469, 2325, 134, 2, 70, "Template",ExpressionUUID->"539410a8-5ea3-2940-8c0e-7a526c7ef68f",
  CellID->16025342],
-Cell[107199, 2323, 136, 2, 70, "Template",ExpressionUUID->"aef83a19-71b1-d943-8f32-4483dd42d4d9",
+Cell[107606, 2329, 136, 2, 70, "Template",ExpressionUUID->"aef83a19-71b1-d943-8f32-4483dd42d4d9",
  CellID->13339658]
 }, Closed]]
 }, Open  ]]

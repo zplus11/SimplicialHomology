@@ -1,5 +1,5 @@
-PacletDirectoryLoad[ParentDirectory @ NotebookDirectory[]]
-Needs["Taggar`SimplicialHomology`"]
+PacletDirectoryLoad[DirectoryName[DirectoryName[$TestFileName]]];
+Needs["Taggar`SimplicialHomology`"];
 
 With[
 	{sc = SimplicialComplex[{{1, 2, 3}}]},

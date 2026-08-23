@@ -1,4 +1,5 @@
-Needs["Taggar`SimplicialHomology`"]
+PacletDirectoryLoad[DirectoryName[DirectoryName[$TestFileName]]];
+Needs["Taggar`SimplicialHomology`"];
 
 TestCreate[SimplicialComplex[]["Dimension"], -Infinity, TestID -> "EmptyDimension"]
 TestCreate[SimplicialComplex[{}]["Dimension"], -Infinity, TestID -> "EmptyDimension-2"]

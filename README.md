@@ -82,7 +82,7 @@ Verify that it is isomorphic to the alternating group of degree 5:
 
 ```mathematica
 In[11]:= ResourceFunction["FindGroupIsomorphism"][%, AlternatingGroup[5]]
-Out[11]= True
+Out[11]= {{1, 4, 14, 19, 27, 34, 42, 47, 57, 60, 12, 9, 50, 55, 37, 40, 20, 17, 35, 30, 23, 18, 54, 59, 5, 8, 28, 25, 46, 39, 32, 29, 45, 48, 10, 3, 58, 51, 16, 13, 43, 38, 22, 15, 33, 36, 53, 56, 7, 2, 52, 49, 31, 26, 44, 41, 24, 21, 11, 6}}
 ```
 
 Construct stars or links of simplices:

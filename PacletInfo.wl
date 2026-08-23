@@ -38,10 +38,6 @@ PacletObject[
         "Language" -> "English"
       },
       {
-        "Tests",
-        "Root" -> "Tests"
-      },
-      {
         "Asset",
         "Root" -> "Assets",
         "Assets" -> {

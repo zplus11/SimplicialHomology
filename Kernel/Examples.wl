@@ -287,6 +287,21 @@ SimplicialComplex["ZieglerBall", opts : OptionsPattern[]] :=
 		{5,6,8,9}}, opts, "MaximalityCheck" -> False]
 
 
+ClearAll[RandomSimplicialComplex];
+RandomSimplicialComplex::usage =
+	"RandomSimplicialComplex[n, d, p] generates a random d-dimensional simplicial complex on n vertices, where each d-simplex is included independently with probability p.";
+RandomSimplicialComplex[n_Integer?Positive, d_Integer?Positive, p_ : 1/2] /; NumericQ[p] :=
+	Module[
+		{verts = Range[n], facets, maybe},
+		
+		If[d + 1 > n, Return[SimplicialComplex[{Range[n - 1]}]]];
+		facets = Subsets[verts, {d}];
+		maybe = Subsets[verts, {d + 1}];
+		facets = Join[facets,
+			Select[maybe, RandomReal[] <= p &]];
+		SimplicialComplex[facets]]
+
+
 (* ::Section:: *)
 (*Package Footer*)
 

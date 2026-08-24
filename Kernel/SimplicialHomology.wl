@@ -11,20 +11,20 @@ BeginPackage["Taggar`SimplicialHomology`"];
 (*Declare your public symbols here:*)
 
 
+BettiNumber;
+ChainComplex;
+HomologyGroup;
+RandomSimplicialComplex;
+SimplicialAutomorphismGroup;
 SimplicialComplex;
-SubComplexQ;
-SimplicialJoin;
 SimplicialCone;
-SimplicialSuspension;
-SimplicialStar;
+SimplicialIsomorphicQ;
+SimplicialJoin;
 SimplicialLink;
 SimplicialProduct;
-BettiNumber;
-HomologyGroup;
-SimplicialAutomorphismGroup;
-SimplicialIsomorphicQ;
-
-ChainComplex;
+SimplicialStar;
+SimplicialSuspension;
+SubComplexQ;
 
 
 Begin["`Private`"];

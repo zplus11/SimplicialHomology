@@ -119,6 +119,8 @@ If you use this package for research or otherwise, please cite it as follows:
 
 # Version log
 
+**Version 1.2.1,** *on 26 August, 2026* &mdash; random simplicial complexes added in examples. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.2.0...v1.2.1)
+
 **Version 1.2.0,** *on 23 August, 2026* &mdash; chain complexes are now formalised as an object, cohomology is thus also implemented; a test-suite is added. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.1.1...v1.2.0)
 
 **Version 1.1.1,** *on 8 August, 2026* &mdash; support for simplicial products and a bug fix. [log](https://github.com/zplus11/SimplicialHomology/compare/v1.1.0...v1.1.1)

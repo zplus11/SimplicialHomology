@@ -27,21 +27,7 @@ repository-code: 'https://github.com/zplus11/SimplicialHomology/'
 url: >-
   https://resources.wolframcloud.com/PacletRepository/resources/Taggar/SimplicialHomology/
 abstract: >-
-  Computations in simplicial homology are crucial for
-  algebraic topology and computational geometry in general.
-  Though Several mature software systems provide facilities
-  for working with simplicial complexes, there is currently
-  limited support for such computations within the Wolfram
-  Language ecosystem. This paper presents
-  SimplicialHomology, an open-source Wolfram Language paclet
-  for abstract constructing simplicial complexes and
-  computing their homology groups over the integers,
-  rational numbers, and finite fields. Furthermore, the
-  package supports many other functionalities such as
-  calculating Betti numbers, automorphism groups, and other
-  constructions such as joins, stars, links, etc. Several
-  examples are presented to illustrate the package and its
-  performance.
+  Computations in simplicial homology are crucial for algebraic topology and computational geometry in general. Although several mature software systems provide facilities for working with simplicial complexes, there is currently limited support for such computations within the Wolfram language ecosystem. This paper presents SimplicialHomology, an open-source Wolfram language paclet for constructing abstract simplicial complexes and computing their homology groups (absolute, relative, or cohomology) over the integers, rational numbers, and finite fields. Furthermore, the package supports many other functionalities such as calculating Betti numbers, automorphism groups, and other constructions such as joins, stars, links, etc. Several examples are presented to illustrate the package and its performance.
 keywords:
   - algebraic topology
   - discrete topology
@@ -50,5 +36,5 @@ keywords:
   - homology theory
   - topology
 license: MIT
-version: 1.1.1
-date-released: '2026-08-08'
+version: 1.2.1
+date-released: '2026-08-26'
